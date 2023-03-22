@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
     <link rel="stylesheet" href="../../css/main/footer.css">
     <link rel="stylesheet" href="../../css/main/header.css">
     <link rel="stylesheet" href="../../css/main/main.css">
@@ -14,24 +17,27 @@
         <div class="headWrapper">
             <div class="navigation_wrap">
                 <div class="navigation_left">
-                    <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+                    <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
                 </div>
                 <div class="navigation_right">
                     <ul class="menu">
-                        <li><a href="../../html/board/problemList.html">오늘의 문제</a></li>
-                        <li><a href="javascript:void(0)">대회</a></li>
-                        <li><a href="javascript:void(0)">랭킹</a></li>
-                        <li><a href="javascript:void(0)">게시판</a></li>
+                        <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                        <li><a th:href="@{/board/contestList}">대회</a></li>
+                        <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                        <li><a th:href="@{/board/boardList}">게시판</a></li>
                     </ul>
                 </div>
                 <div class="login">
-                    <span class="loginYet">
-                        <a href="../../html/login/login.html" class="btn_login">로그인 / 회원가입</a>
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
                     </span>
-                    <span class="loginOk" style="display: none;">
-                        <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                        <a href="javascript:void(0)" class="loginOk_font">설정</a>
-                        <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+                    <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
                     </span>
                 </div>
             </div>
@@ -57,20 +63,17 @@
             <h5 class="quiz_subtitle">오늘의 문제를 풀고 랭킹을 올려봐요.</h5>
             <div class="quiz_content" style="height:auto !important">
                 <div class="card_content">
-                    <p class="card_title">
+
+                    <p class="card_title" >
                         <a href="javascript:void(0)">
-                            <span class="today_number">[문제번호]</span>
-                            <span class="today_title">오늘의 문제 제목</span>
+                            <span class="today_number">[4]</span>
+                            <span class="today_title">탐정놀이</span>
                         </a>
                         <a class="btn_quiz" href="javascript:void(0)">퀴즈풀기 &nbsp;></a>
                     </p>
                     <div class="card_desc">
                         <p>
-                            문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.
-                            문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.
-                            문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.
-                            문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.
-                            문제내용이 들어갈 자리.문제내용이 들어갈 자리.문제내용이 들어갈 자리.
+                            일상생활 속의 탐정은 정말 의뭉스러울 때가 많다. 자기행동에 대해서 이런 걸 하기 위해서다, 저런 이유 때문이다, 라는 설명 같은 게 거의 없다. 대부분 주변에서 알아서 맞춰줘야 하는데 그래서 같이 생활하다 보면 일종의 추리를 해야 하는 때가 여러 번이다. 나는 이걸 탐정놀이라고 부른다. 오늘 저녁 같은 경우만 해도 그렇다. 갑자기 비염이라도 재발했는지 코를 화장지로 틀어막은 기괴한 몰골로 서재방 곳곳을 돌아다녔다.
                         </p>
                     </div>
                 </div>
@@ -79,63 +82,26 @@
         <section class="today_board">
             <h4 class="board_title">게시판</h4>
                 <div class="board_list">
-                    <div class="board_content">
+                    <th:block th:each="board:${boards}">
+                    <div class="board_content" th:object="${board}">
                         <div class="board_content_title">
                             <span>
                                 <img src="../../img/main/customer-service.png">
-                                <span class="board_detail">허리 뼈 소리나게 돌리고난 후 다음날 너무 아파요. 어떤 치료를 받아야할까요?</span>
+                                <span class="board_detail" th:text="*{boardTitle}"></span>
                             </span>
                             <span class="arrow_down">
                                 <img class="btn_toggle"src="../../img/main/iconmonstr-caret-down-lined-48.png">
                             </span>
                         </div>
                         <div class="board_content_content" style="display: none;">
-                            <span>
-                                안녕하세요. 홍덕진 의사입니다. 허리 통증을 유발하는 기전은 흔히들 잘 알고 있는 디스크 (추간판 탈출증) 외에도 다양합니다. 
-                                물리적인 추간판 탈출이 아니더라도 면역 반응에 의한 염증이 발생할 수 있고, 추간판이 아닌 근육이나 인대의 문제일 수도 있습니다.
-                                교과서적으로는 소염제를 복용하거나 파스를 붙여서 염증 및 통증을 줄이고, 
-                                허리 근육 강화를 통해서 허리 구조물을 안정화 시키는 게 일반적으로 추천되는 방법입니다.
+                            <span th:text="*{boardContent}">
+
                             </span>
                         </div>
                     </div>
-                    <div class="board_content">
-                        <div class="board_content_title">
-                            <span>
-                                <img src="../../img/main/customer-service.png">
-                                <span class="board_detail">허리 뼈 소리나게 돌리고난 후 다음날 너무 아파요. 어떤 치료를 받아야할까요?</span>
-                            </span>
-                            <span class="arrow_down">
-                                <img class="btn_toggle"src="../../img/main/iconmonstr-caret-down-lined-48.png">
-                            </span>
-                        </div>
-                        <div class="board_content_content" style="display: none;">
-                            <span>
-                                안녕하세요. 홍덕진 의사입니다. 허리 통증을 유발하는 기전은 흔히들 잘 알고 있는 디스크 (추간판 탈출증) 외에도 다양합니다. 
-                                물리적인 추간판 탈출이 아니더라도 면역 반응에 의한 염증이 발생할 수 있고, 추간판이 아닌 근육이나 인대의 문제일 수도 있습니다.
-                                교과서적으로는 소염제를 복용하거나 파스를 붙여서 염증 및 통증을 줄이고, 
-                                허리 근육 강화를 통해서 허리 구조물을 안정화 시키는 게 일반적으로 추천되는 방법입니다.
-                            </span>
-                        </div>
-                    </div>
-                    <div class="board_content">
-                        <div class="board_content_title">
-                            <span>
-                                <img src="../../img/main/customer-service.png">
-                                <span class="board_detail">허리 뼈 소리나게 돌리고난 후 다음날 너무 아파요. 어떤 치료를 받아야할까요?</span>
-                            </span>
-                            <span class="arrow_down">
-                                <img class="btn_toggle"src="../../img/main/iconmonstr-caret-down-lined-48.png">
-                            </span>
-                        </div>
-                        <div class="board_content_content" style="display: none;">
-                            <span>
-                                안녕하세요. 홍덕진 의사입니다. 허리 통증을 유발하는 기전은 흔히들 잘 알고 있는 디스크 (추간판 탈출증) 외에도 다양합니다. 
-                                물리적인 추간판 탈출이 아니더라도 면역 반응에 의한 염증이 발생할 수 있고, 추간판이 아닌 근육이나 인대의 문제일 수도 있습니다.
-                                교과서적으로는 소염제를 복용하거나 파스를 붙여서 염증 및 통증을 줄이고, 
-                                허리 근육 강화를 통해서 허리 구조물을 안정화 시키는 게 일반적으로 추천되는 방법입니다.
-                            </span>
-                        </div>
-                    </div>
+                    </th:block>
+
+
                     
                 </div>
 
@@ -146,129 +112,59 @@
             </h4>
             <!--<div class="ranking_content" style="height:auto !important">-->
                 <div class="flex_box">
-                    <div class="borr">
+
+                    <div class="borr" >
                         <div class="school_type">
                             <span class="school_content">초등학교</span>
                         </div>
                         <div class="type_ranking">
-                            <ul>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/gold-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/silver-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/bronze-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">4</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">5</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">6</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">7</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">8</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">9</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
+
+                            <ul >
+                                <th:block th:each="rankingc:${rankingC}">
+
+                                    <li th:object="${rankingc}">
+                                        <div class="grade" th:if="*{userRanking} == 1">
+                                            <img src="../../img/main/gold-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                        <div class="grade" th:if="*{userRanking} == 2">
+                                            <img src="../../img/main/silver-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                        <div class="grade" th:if="*{userRanking} == 3">
+                                            <img src="../../img/main/bronze-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                    </li>
+                                </th:block>
+
                             </ul>
+
                         </div>
                     </div>
+
                     <div class="borr">
                         <div class="school_type">
                             <span class="school_content">중학교</span>
                         </div>
                         <div class="type_ranking">
                             <ul>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/gold-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/silver-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/bronze-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">4</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">5</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">6</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">7</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">8</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">9</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
+                                <th:block th:each="rankingj:${rankingJ}">
+                                    <li th:object="${rankingj}">
+                                        <div class="grade" th:if="*{userRanking} == 1">
+                                            <img src="../../img/main/gold-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                        <div class="grade" th:if="*{userRanking} == 2">
+                                            <img src="../../img/main/silver-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                        <div class="grade" th:if="*{userRanking} == 3">
+                                            <img src="../../img/main/bronze-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                    </li>
+                                </th:block>
                             </ul>
                         </div>
                     </div>
@@ -278,60 +174,22 @@
                         </div>
                         <div class="type_ranking">
                             <ul>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/gold-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/silver-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span><img src="../../img/main/bronze-medal.png"></span>
-                                        <span class="ranking_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">4</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">5</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">6</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">7</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">8</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="grade">
-                                        <span class="ranking_other">9</span>
-                                        <span class="ranking_span_name">가나다</span>
-                                    </div>
-                                </li>
+                                <th:block th:each="rankingk:${rankingK}">
+                                    <li th:object="${rankingk}">
+                                        <div class="grade" th:if="*{userRanking} == 1">
+                                            <img src="../../img/main/gold-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                        <div class="grade" th:if="*{userRanking} == 2">
+                                            <img src="../../img/main/silver-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                        <div class="grade" th:if="*{userRanking} == 3">
+                                            <img src="../../img/main/bronze-medal.png">
+                                            <span class="ranking_name" th:text="*{userNickname}"></span>
+                                        </div>
+                                    </li>
+                                </th:block>
                             </ul>
                         </div>
                     </div>
@@ -387,4 +245,21 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script src="../../js/main/banner.js"></script>
 <script src="../../js/main/board_arrow.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script th:inline="javascript">
+
+
+
+    $("a.btn_quiz").on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/problemList";
+    });
+
+
+
+
+</script>
 </html>

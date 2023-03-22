@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../css/board/boardDetail.css">
     <link rel="stylesheet" href="../../css/main/header.css">
     <link rel="stylesheet" href="../../css/main/footer.css">
+    <link rel="shortcut icon" href="#">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <!--<script>
         $(function(){
@@ -23,24 +24,27 @@
         <div class="headWrapper">
             <div class="navigation_wrap">
                 <div class="navigation_left">
-                    <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+                    <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
                 </div>
                 <div class="navigation_right">
                     <ul class="menu">
-                        <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                        <li><a href="javascript:void(0)">대회</a></li>
-                        <li><a href="javascript:void(0)">랭킹</a></li>
-                        <li><a href="javascript:void(0)">게시판</a></li>
+                        <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                        <li><a th:href="@{/board/contestList}">대회</a></li>
+                        <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                        <li><a th:href="@{/board/boardList}">게시판</a></li>
                     </ul>
                 </div>
                 <div class="login">
-                        <span class="loginYet">
-                            <a href="javascript:void(0)" class="btn_login"  style="display: none;">로그인 / 회원가입</a>
-                        </span>
-                    <span class="loginOk"">
-                    <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                    <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
-                    <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
+                    </span>
+                    <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
                     </span>
                 </div>
             </div>
@@ -76,120 +80,35 @@
                             </li>
                         </ul>
                     </div>
+
                     <div class="questionContainer">
                         <div class="questionAnswer">
-                            <article class="question">
+                            <article class="question" th:object="${board}">
                                 <div class="questionDetailContent">
                                     <div class="questionTitle">
                                         <h1 class="questionDetailTitle" data-v-19dc2878="" data-v-6d4e7017="">
-                                            <img  class="imgQ" src="../../img/board/Q.jpg">
-                                            조개류는 어째서 조리하면 입을 여나요?
+
+                                            <a class="boardDetail" th:text="*{boardTitle}"/>
+                                            <a class="boardNumber" th:text="*{boardNumber}" style="display: none"/>
                                         </h1>
                                         <div class="questionInfo">
-                                            <div class="userId">
-                                                빡공도희정
+                                            <div class="userId" th:text="*{userNickName}">
                                             </div>
-                                            <span class="questionTime">2022. 11. 16. 12:25</span>
+                                            <span class="questionTime" th:text="*{boardDate}"></span>
                                         </div>
                                     </div>
                                     <div class="questionContentContainer">
-                                        <p>조개 요리하려고 조갯살을 발라내려면 살아 있을 때 입을 꽉 다물고 있어서 열기가 힘든데요. 어째서 찌거나 구우면 조개 입이 저절로 열리게 되는건가요? </p>
+                                        <p th:text="*{boardContent}"></p>
                                     </div>
-                                    <div class="questionDetailOption">
-                                        <div class="questionInterests">
-                                            <button class="questionInterest">
-                                                <img src="../../img/board/interestColor.jpg">
-                                                관심질문
-                                                <span>0</span>
-                                            </button>
-                                            <button class="questionInterest">
-                                                <img src="../../img/board/good.jpg">
-                                                좋아요
-                                                <span>0</span>
-                                            </button>
-                                            <button class="questionInterest">
-                                                <img src="../../img/board/comment.jpg">
-                                                댓글
-                                                <span>0</span>
-                                            </button>
-                                        </div>
-                                        <div class="questionDetailOptionRight">
-                                            <button class="questionShare">
-                                                <img src="../../img/board/share.jpg">
-                                                공유하기
-                                            </button>
-                                            <button class="questionReport">
-                                                <img src="../../img/board/report.jpg">
-                                                신고
-                                            </button>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </article>
+
                             <section>
                                 <button class="btnAnswer">답변하기</button>
-                                <h4>총 1개의 답변이 있어요.</h4>
-                                <article>
-                                    <div class="questionDetailContent">
-                                        <div class="questionTitle">
-                                            <div class="questionInfo">
-                                                <div class="ansUserId">
-                                                    튼실한참새
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="questionContentContainer">
-                                            <p class="answerContent">조개 요리하려고 조갯살을 발라내려면 살아 있을 때 입을 꽉 다물고 있어서 열기가 힘든데요. 어째서 찌거나 구우면 조개 입이 저절로 열리게 되는건가요? </p>
-                                            <span class="answerTime">2022. 11. 16. 12:25</span>
-                                        </div>
-                                        <div class="questionDetailOption answerOption">
-                                            <div class="questionInterests">
-                                                <button class="questionInterest answerInterest">
-                                                    추천
-                                                    <span>0</span>
-                                                </button>
-                                                <button class="questionInterest answerInterest">
-                                                    비추천
-                                                    <span>0</span>
-                                                </button>
-                                                <button class="questionInterest">
-                                                    <img src="../../img/board/good.jpg">
-                                                    좋아요
-                                                    <span>0</span>
-                                                </button>
-                                                <button class="questionInterest">
-                                                    <img src="../../img/board/comment.jpg">
-                                                    댓글
-                                                    <span>0</span>
-                                                </button>
-                                            </div>
-                                            <div class="questionDetailOptionRight">
-                                                <button class="questionShare">
-                                                    <img src="../../img/board/share.jpg">
-                                                    공유하기
-                                                </button>
-                                                <button class="questionReport">
-                                                    <img src="../../img/board/report.jpg">
-                                                    신고
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-                                <div class="pagerBox">
-                                    <button class="pager prev">
-                                        <img src="../../img/board/prev.jpg">
-                                        <p>이전 질문</p>
-                                    </button>
-                                    <button class="pager middle">
-                                        <img src="../../img/board/list.jpg">
-                                        <p>질문 목록</p>
-                                    </button>
-                                    <button class="pager next">
-                                        <p>다음 질문</p>
-                                        <img src="../../img/board/next.jpg">
-                                    </button>
-                                </div>
+
+                                <div class="paging" style="text-align: center"></div>
+
                             </section>
                         </div>
                         <div class="writeContainer">
@@ -205,48 +124,236 @@
     </div>
 
     <!-- footer -->
-    <footer class="mainFooter">
-        <div class="footer_wrap">
-            <div class="footer_content">
-                <ul class="footer_list_top">
-                    <li class="list_style top_font">
-                        <span>(미정)소개</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>이용약관</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>개인정보처리방침</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>출제 문의</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>광고 문의</span>
-                    </li>
-                </ul>
-                <ul class="footer_list_middle">
-                    <li class="list_style">
-                        <span class="middle_font">팀명 : 핫식스</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트명 : 미정</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트 깃허브</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀장 : 고진혁</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
-                    </li>
-                </ul>
-                <div class="footer_bottom">
-                    @ 2022 Hot6. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
+<!--    <footer class="mainFooter">-->
+<!--        <div class="footer_wrap">-->
+<!--            <div class="footer_content">-->
+<!--                <ul class="footer_list_top">-->
+<!--                    <li class="list_style top_font">-->
+<!--                        <span>(미정)소개</span>-->
+<!--                    </li>-->
+<!--                    <li class="list_style top_font">-->
+<!--                        <span>이용약관</span>-->
+<!--                    </li>-->
+<!--                    <li class="list_style top_font">-->
+<!--                        <span>개인정보처리방침</span>-->
+<!--                    </li>-->
+<!--                    <li class="list_style top_font">-->
+<!--                        <span>출제 문의</span>-->
+<!--                    </li>-->
+<!--                    <li class="list_style top_font">-->
+<!--                        <span>광고 문의</span>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <ul class="footer_list_middle">-->
+<!--                    <li class="list_style">-->
+<!--                        <span class="middle_font">팀명 : 핫식스</span>-->
+<!--                    </li>-->
+<!--                    <li class="list_style">-->
+<!--                        <span class="middle_font">프로젝트명 : 미정</span>-->
+<!--                    </li>-->
+<!--                    <li class="list_style">-->
+<!--                        <span class="middle_font">프로젝트 깃허브</span>-->
+<!--                    </li>-->
+<!--                    <li class="list_style">-->
+<!--                        <span class="middle_font">팀장 : 고진혁</span>-->
+<!--                    </li>-->
+<!--                    <li class="list_style">-->
+<!--                        <span class="middle_font">팀원 : 김효범 도희정 황영택</span>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <div class="footer_bottom">-->
+<!--                    @ 2022 Hot6. All rights reserved.-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </footer>-->
+</body>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/reply.js"></script>
+<script th:inline="javascript">
+
+    const $delete = $("button.btnDelete");
+    const $update = $("button.btnUpdate");
+
+
+    $delete.on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/boardDelete?boardNumber=" + $("a.boardNumber").text();
+    });
+
+    $update.on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/boardUpdate?boardNumber=" + $("a.boardNumber").text();
+    });
+    let boardNumber = [[${board.boardNumber}]];
+    let queryString = [[${criteria.queryString}]];
+    let check = true;
+    globalThis.page = 1;
+
+    getList();
+
+    function goUpdate(){
+        location.href = "/board/update" + queryString + "&boardNumber=" + boardNumber;
+    }
+
+    $("a.list").on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/list" + queryString;
+    });
+
+    $("a.register").on("click", function(e){
+        e.preventDefault();
+        $(this).hide();
+        $("div.register-form").show();
+
+    });
+
+    $("a.cancel").on("click", function(e){
+        e.preventDefault();
+        $("div.register-form").hide();
+        $("a.register").show();
+    });
+
+    $("a.finish").on("click", function(e){
+        e.preventDefault();
+        let $replyWriter = $("input[name='replyWriter']");
+        let $replyContent = $("textarea[name='replyContent']");
+
+        replyService.add({
+            replyWriter: $replyWriter.val(),
+            replyContent: $replyContent.val(),
+            boardNumber: boardNumber
+        }, function(){
+            $("div.register-form").hide();
+            $("a.register").show();
+            $replyWriter.val("");
+            $replyContent.val("");
+            getList();
+        });
+    });
+
+    function getList(){
+        replyService.getList({
+            boardNumber: boardNumber,
+            page: globalThis.page
+        }, showList);
+    }
+
+    function showReplyPage(replyCount){
+        let endNumber = Math.ceil(globalThis.page / 10) * 10;
+        let startNumber = endNumber - 9;
+        let realEnd = Math.ceil(replyCount / 10);
+
+        if(endNumber > realEnd){
+            endNumber = realEnd == 0 ? '1' : realEnd;
+        }
+
+        let prev = startNumber > 1;
+        let next = endNumber < realEnd;
+
+        let text = "";
+
+        if(matchMedia("screen and (max-width: 918px)").matches){
+            if(globalThis.page > 1){
+                text += `<a class="changePage" href="` + (globalThis.page - 1) + `"><code><</code></a>`
+            }
+            text += `<code>` + globalThis.page + `</code>`
+            if(globalThis.page < realEnd){
+                text += `<a class="changePage" href="` + (globalThis.page + 1) + `"><code>></code></a>`
+            }
+        }else{
+            if(prev){
+                text += `<a class="changePage" href="` + (startNumber - 1) + `"><code>PREV</code></a>`
+            }
+            for (let i=startNumber; i<=endNumber; i++){
+                if(globalThis.page == i){
+                    text += `<code>` + i + `</code>`
+                    continue;
+                }
+                text += `<a class="changePage" href="` + i + `"><code>` + i + `</code></a>`
+            }
+            if(next){
+                text += `<a class="changePage" href="` + (endNumber + 1) + `"><code>NEXT</code></a>`
+            }
+        }
+
+
+
+        $("div.paging").html(text);
+    }
+
+    $("div.paging").on("click", "a.changePage", function(e){
+        e.preventDefault();
+        globalThis.page = $(this).attr("href");
+        getList();
+    });
+
+    function showList(replyDTO){
+        let text = "";
+        replyDTO.replies.forEach(reply => {
+            text += "<li style='display: block' data-reply-number='" + reply.replyNumber + "'>";
+            text += "<div style='display: flex; justify-content: space-between;'>";
+            text += "<strong style='display:block;'>" + reply.userNickname + "</strong>";
+            text += "<div>";
+            text += "<a class='modify-ready " + reply.replyNumber + "' style='cursor: pointer;'>수정</a>"
+            text += "<a class='modify " + reply.replyNumber + "' style='display: none; cursor: pointer;'>수정완료</a>"
+            text += "&nbsp;&nbsp;<a class='remove' href='" + reply.replyNumber + "'>삭제</a>"
+            text += "</div>";
+            text += "</div>";
+            text += "<div style='display: flex; justify-content: space-between'>";
+            text += "<p class='replyContent " + reply.replyNumber + "'>" + reply.replyContent + "</p>";
+            text += "<p style='text-align: right;'><strong class='date'>";
+            text += replyService.timeForToday(reply.replyRegisterDate == reply.replyUpdateDate ? reply.replyRegisterDate : reply.replyUpdateDate);
+            text += "</strong></p>";
+            text += "</div>";
+            text += "<div class='line'></div>";
+            text += "</li>";
+        });
+        $("ul.replies").html(text);
+        showReplyPage(replyDTO.replyCount);
+    }
+
+    $("ul.replies").on("click", "a.remove", function(e){
+        e.preventDefault();
+        let replyNumber = $(this).attr("href");
+        replyService.remove(replyNumber, function(){
+            getList();
+        });
+    });
+
+    $("ul.replies").on("click", "a.modify-ready", function(){
+        if(!check){
+            alert("수정중인 댓글이 있습니다.");
+            return;
+        }
+        check = false;
+        let replyNumber = this.classList[1];
+        $("p." + replyNumber).replaceWith("<textarea class='" + replyNumber + "'>" + $("p." + replyNumber).text() + "</textarea>");
+        $(this).next().next().replaceWith("<a class='modify-cancel'>취소</a>")
+        $(this).hide();
+        $(this).next().show();
+    });
+
+    $("ul.replies").on("click", "a.modify-cancel", function(){
+        getList();
+    });
+
+    $("ul.replies").on("click", "a.modify", function(){
+        let replyNumber = this.classList[1];
+        replyService.modify({
+            replyNumber: replyNumber,
+            replyContent: $("textarea." + replyNumber).val()
+        }, function(){
+            getList();
+            check = true;
+        });
+    });
+
+</script>
 </body>
 </html>

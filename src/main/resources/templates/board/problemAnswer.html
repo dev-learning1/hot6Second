@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height:100%">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,112 +10,130 @@
     <link rel="stylesheet" href="../../css/main/footer.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script>
-        $(function(){
+        $(function () {
             $("#header").load("../main/header.html");
             $("#footer").load("../main/footer.html");
         });
     </script>
 </head>
-<body  style="height: 100%;">
-    <!-- header 작성 -->
-    <header>
-        <div class="headWrapper">
-            <div class="navigation_wrap">
-                <div class="navigation_left">
-                    <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
-                </div>
-                <div class="navigation_right">
-                    <ul class="menu">
-                        <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                        <li><a href="javascript:void(0)">대회</a></li>
-                        <li><a href="javascript:void(0)">랭킹</a></li>
-                        <li><a href="javascript:void(0)">게시판</a></li>
-                    </ul>
-                </div>
-                <div class="login">
+<body style="height: 100%;">
+<!-- header 작성 -->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a href="javascript:void(0)">오늘의 문제</a></li>
+                    <li><a href="javascript:void(0)">대회</a></li>
+                    <li><a href="javascript:void(0)">랭킹</a></li>
+                    <li><a href="javascript:void(0)">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
                         <span class="loginYet">
-                            <a href="javascript:void(0)" class="btn_login"  style="display: none;">로그인 / 회원가입</a>
+                            <a href="javascript:void(0)" class="btn_login" style="display: none;">로그인 / 회원가입</a>
                         </span>
-                    <span class="loginOk"">
+                <span class="loginOk">
                     <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
                     <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
                     <a href="javascript:void(0)" class="btn_login">로그아웃</a>
                     </span>
-                </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
-    <div class="base" style="min-height: 100%; margin: -68px 0 -210px;">
-        <div class="container">
-            <div class="mainbox">
+<div class="base" style="min-height: 100%; margin: -68px 0 -210px;">
+    <div class="container">
+        <th:block th:each="todayQuiz:${todayQuizList}">
+            <div class="mainbox" th:object="${todayQuiz}" style="margin-bottom: 12px;">
                 <div class="mainboxHeader box">
                     <div>
                         <!-- 대회일때는 span태그안에 글자가 "대회"가 되도록 변경 -->
                         <!-- a태그에 링크도 대회목록 url로 변경 -->
-                        <a class="category" href="#">
-                            <span>오늘의 문제</span>
+                        <a class="category">
+                            <span>대회</span>
                         </a>
                     </div>
-                    <h2 class="title">제 572회 추리퀴즈 - [ 나지막한 콧노래 ]</h2>
+                    <h2 class="title" th:text="*{quizTitle}">메모하는 남자</h2>
                     <div class="questionInfo">
-                        <span class="questionTime">2022.02.03</span>
-                        <div class="questionFile">
-                            첨부파일
-                            <a href="#"></a>
-                        </div>
+                        <span class="questionTime" th:text="*{quizRegisterDate}">2022.02.03</span>
+                        <!--                        <div class="questionFile">-->
+                        <!--                            첨부파일-->
+                        <!--                            <a href="#"></a>-->
+                        <!--                        </div>-->
                     </div>
                     <hr>
                 </div>
                 <div class="mainboxBody box">
-                    <p>서점</p>
-                    <p>지하철 플랫폼에서는 열차가 진입할 때 들려주는 멜로디가 있는데, 상행선의 경우는 종소리로 연주되는 멜로디가, 하행선의 경우는 트럼펫으로 연주되는 또 다른 멜로디가 들린다. 나는 문제에 대한 힌트로 이 멜로디를 나지막한 콧노래 소리로 반복하고 있었다. 그래서 이 멜로디 힌트를 알아챈 탐정은 내가 상행선 전철을 타고 서점에 갔을 것으로 판단하고 정답을 낼 수 있었다.</p>
+                    <p th:text="*{quizOne}">④ 친구A</p>
+                    <p th:text="*{quizCommentary}">세시 십칠분, 즉 시계화면의 3, 1, 7을 거꾸로 하면 영어단어 ‘LIE’와 같은 모습이 된다.
+                        소설 속 주인공이 죽어가는 순간에도 온 힘을 다해 시간 설정 버튼을 눌러 숫자를 조작했던 건 숫자로 이 단어를 만들기 위해서였다.
+                        그리고 용의자 중에서 ‘LIE’(거짓말)를 구체적으로 연상시키는 사람은 ‘④ 친구A’뿐이다.
+                        사기꾼인 점도 그렇지만, 그의 습관인 셋째 손가락 위로 둘째 손가락을 꼬는 습관은 미국에서 거짓말을 뜻하는 행동이다.
+                        물론 행운을 비는 의미도 있지만, 사기꾼에게 어울리는 건 역시 거짓말 쪽이다.</p>
                 </div>
+            </div>
+    </div>
+</div>
+<footer class="mainFooter" style="height: auto;">
+    <div class="footer_wrap">
+        <div class="footer_content">
+            <ul class="footer_list_top">
+                <li class="list_style top_font">
+                    <span>(미정)소개</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>이용약관</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>개인정보처리방침</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>출제 문의</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>광고 문의</span>
+                </li>
+            </ul>
+            <ul class="footer_list_middle">
+                <li class="list_style">
+                    <span class="middle_font">팀명 : 핫식스</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트명 : 미정</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트 깃허브</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀장 : 고진혁</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
+                </li>
+            </ul>
+            <div class="footer_bottom">
+                @ 2022 Hot6. All rights reserved.
             </div>
         </div>
     </div>
-    <footer class="mainFooter" style="height: auto;">
-        <div class="footer_wrap">
-            <div class="footer_content">
-                <ul class="footer_list_top">
-                    <li class="list_style top_font">
-                        <span>(미정)소개</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>이용약관</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>개인정보처리방침</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>출제 문의</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>광고 문의</span>
-                    </li>
-                </ul>
-                <ul class="footer_list_middle">
-                    <li class="list_style">
-                        <span class="middle_font">팀명 : 핫식스</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트명 : 미정</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트 깃허브</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀장 : 고진혁</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
-                    </li>
-                </ul>
-                <div class="footer_bottom">
-                    @ 2022 Hot6. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
+</footer>
 </body>
+<script th:inline="javascript">
+    let queryString = [[${criteria.queryString}]];
+
+    $("a.category").on("click", function (e) {
+        e.preventDefault();
+        location.href = "/board/contestList" + queryString;
+    });
+
+    // $("button.btnAnswer").on("click", function(e){
+    //     e.preventDefault();
+    //     location.href = "/board/problemDetailOk" + "&quizList=" + $();
+    // });
+</script>
 </html>

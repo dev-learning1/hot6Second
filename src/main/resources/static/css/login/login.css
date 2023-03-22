@@ -25,11 +25,11 @@
         border-radius: 0.25rem;
     }
 
-  
-.main {
-    margin-left: 3.25rem;
-    margin-right: 3.25rem;
-}
+
+    .main {
+        margin-left: 3.25rem;
+        margin-right: 3.25rem;
+    }
 
     .mainLeft{
         display: flex;
@@ -57,7 +57,7 @@
 }
 body {
     font-family: "Pretendard","Roboto",Helvetica,Arial,sans-serif;
-    
+
 
 }
 
@@ -135,7 +135,7 @@ svg {
 }
 
 .mainScreen {
-    
+
     width: 100%;
     border-style: none;
     border-radius: 0 8px 8px 0;
@@ -207,7 +207,7 @@ svg {
     --tw-bg-opacity: 1;
     background-color: #FFE812;
     font-family: 'Pretendard-Regular';
-    
+
 }
 .icon{
     margin-right: 13px;
@@ -227,7 +227,7 @@ svg{
     display: inline;
 }
 
-#btnnaver{
+#studentJoin{
     border-color: transparent;
     --tw-bg-opacity: 1;
     background-color: #2e58f3;
@@ -264,12 +264,13 @@ a {
 #apple{
     width: 24px;
     height: 24px;
-    
+
 }
 
-#btnapple{
+#organJoin{
     background-color: #2e58f3;
     color: white;
     margin-bottom: 2%;
     font-family: 'Pretendard-Regular';
+    border: none;
 }

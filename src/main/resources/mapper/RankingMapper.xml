@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hot6.web.spring.mapper.RankingMapper">
+
+    <!--    <select id="select" resultType="rankingVO"></select>-->
+
+    <!--    <select id="selectAll" resultType="rankingDTO">-->
+    <!--        SELECT ROWNUM USER_RANKING, USER_NAME, USER_NUMBER, USER_GRADE, USER_POINT,-->
+    <!--        USER_CORRECT_COUNT, USER_WRONG_COUNT, USER_POINT-->
+    <!--        FROM (SELECT * FROM TBL_USER ORDER BY USER_CORRECT_COUNT DESC, USER_POINT DESC)-->
+    <!--    </select>-->
+
+    <select id="selectAll" resultType="rankingDTO">
+        SELECT ROWNUM USER_RANKING, USER_NAME, USER_NUMBER, USER_GRADE, USER_POINT, USER_NICKNAME,
+        USER_CORRECT_COUNT, USER_WRONG_COUNT, USER_POINT
+        FROM (SELECT * FROM TBL_USER ORDER BY USER_CORRECT_COUNT DESC, USER_POINT DESC)
+    </select>
+
+
+
+    <select id="selectAllBy" parameterType="String" resultType="rankingDTO">
+    SELECT ROWNUM USER_RANKING, USER_NAME, USER_NUMBER, USER_NICKNAME, USER_GRADE, USER_POINT,
+    USER_CORRECT_COUNT, USER_WRONG_COUNT FROM (SELECT * FROM TBL_USER WHERE USER_GRADE = #{userGrade}
+    ORDER BY USER_CORRECT_COUNT DESC, USER_POINT DESC)
+</select>
+
+
+    <!--    SELECT ROWNUM USER_RANKING, USER_NAME, USER_NUMBER, USER_GRADE, USER_POINT,-->
+    <!--    USER_CORRECT_COUNT, USER_WRONG_COUNT, USER_POINT, USER_CORRECT_PERCENT-->
+    <!--    FROM (SELECT * FROM TBL_USER WHERE USER_GRADE = #{userGrade}-->
+    <!--    ORDER BY USER_CORRECT_COUNT DESC, USER_POINT DESC)-->
+
+
+    <select id="selectAllByC" resultType="rankingDTO">
+        SELECT ROWNUM USER_RANKING, USER_EMAIL, USER_NUMBER, USER_POINT, USER_CORRECT_COUNT FROM (SELECT * FROM TBL_USER
+        WHERE USER_GRADE = '초'
+        ORDER BY USER_CORRECT_COUNT DESC, USER_POINT DESC)
+        <![CDATA[
+        WHERE ROWNUM < 11
+        ]]>
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

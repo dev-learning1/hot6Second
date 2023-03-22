@@ -1,28 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hot6.web.spring.mapper.UserMapper">
-    <insert id="insert">
-        <selectKey keyProperty="userNumber" order="BEFORE" resultType="long"></selectKey>
+    <insert id="insertUser">
+        insert into TBL_USER(USER_NUMBER, USER_EMAIL, USER_PASSWORD, USER_NAME, USER_PHONENUM, USER_BIRTH, USER_NICKNAME, USER_TYPE, USER_GRADE)
+        VALUES(SEQ_USER.NEXTVAL, #{userEmail}, #{userPassword}, #{userName}, #{userPhonenum}, #{userBirth}, #{userNickname}, '01', #{userGrade})
     </insert>
 
-    <update id="update"></update>
+    <insert id="insertCompany">
+        insert into TBL_USER(USER_NUMBER, USER_EMAIL, USER_PASSWORD, USER_NAME, USER_PHONENUM, USER_NICKNAME, USER_TYPE)
+        VALUES(SEQ_USER.NEXTVAL, #{userEmail}, #{userPassword}, #{userName}, #{userPhonenum}, #{userNickname}, '02')
+    </insert>
 
-    <delete id="delete"></delete>
+    <select id="selectUser" resultType="_int">
+        SELECT COUNT(USER_PASSWORD)
+        FROM TBL_USER
+        WHERE USER_PASSWORD = #{userPassword} and USER_EMAIL = #{userEmail}
+    </select>
 
-    <select id="select" resultType="userVO"></select>
+    <select id="selectUserNumber" resultType="_long">
+        SELECT USER_NUMBER
+        FROM TBL_USER
+        WHERE USER_EMAIL = #{userEmail}
+    </select>
 
-    <select id="selectAll" resultType="userVO"></select>
+    <update id="updateUser">
+        UPDATE TBL_USER
+        SET USER_NICKNAME = #{userNickname}, USER_SCHOOL = #{userSchool}, USER_MSG = #{userMsg}, USER_PHONENUM = #{userPhonenum}
+        WHERE USER_EMAIL = #{userEmail}
+    </update>
 
-    <select id="getTotal" resultType="_int"></select>
+    <select id="getInfo" resultType="UserVO">
+        SELECT *
+        FROM TBL_USER
+        WHERE USER_EMAIL = #{userEmail}
+    </select>
+
+    <select id="getUserInfos" resultType="UserVO">
+        SELECT *
+        FROM TBL_USER
+        WHERE USER_NUMBER = #{userNumber}
+    </select>
+
+    <!-- 어드민 페이지 유저 전체 조회 -->
+    <select id="selectAllUser" resultType="userVO">
+        SELECT USER_NUMBER, USER_EMAIL, USER_NAME, USER_BIRTH, USER_SCHOOL, USER_PHONENUM,USER_NICKNAME
+        FROM
+        (
+            SELECT ROWNUM R, USER_NUMBER, USER_EMAIL, USER_NAME, USER_BIRTH, USER_SCHOOL, USER_PHONENUM,USER_NICKNAME
+            FROM
+            (
+                SELECT USER_NUMBER, USER_EMAIL, USER_NAME, USER_BIRTH, USER_SCHOOL, USER_PHONENUM,USER_NICKNAME
+                FROM TBL_USER B
+                ORDER BY USER_NUMBER
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <!-- 어드민 유저 상세조회 -->
+    <select id="selectUserAdm" resultType="userVO">
+        select USER_NUMBER, USER_EMAIL, USER_NAME, USER_MSG, USER_BIRTH, USER_SCHOOL, USER_NICKNAME, USER_PHONENUM, USER_TYPE, USER_GRADE, USER_POINT
+        FROM TBL_USER
+        WHERE USER_NUMBER = #{userNumber}
+    </select>
+
+    <!-- 어드민 유저 삭제-->
+    <select id="deleteUser">
+        DELETE FROM TBL_USER
+        WHERE USER_NUMBER = #{userNumber}
+    </select>
+
+    <!-- 유저 전체 개수-->
+    <select id="getTotal" resultType="_int">
+        SELECT COUNT(USER_NUMBER) FROM TBL_USER
+    </select>
+
+
+
 </mapper>
-
-
-
-
-
-
-
-
 
 
 

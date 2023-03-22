@@ -1,0 +1,297 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
+@media (min-width: 768px){
+    .layoutDefault {
+        height: auto;
+        min-height: 100%;
+        padding: 80px 0;
+        padding: 152px 0 80px;
+        background: #f3f5f9;
+    }
+
+    .layoutDefaultView{
+        max-width: 760px;
+        max-height: 500px;
+        margin: auto;
+        border-radius: 0.25rem;
+    }
+
+    .main{
+        margin-left: 1.25rem;
+        margin-right: 1.25rem;
+    }
+
+    .mainLeft{
+        display: flex;
+    }
+
+    .mainScreen{
+        height: auto;
+        position: relative;
+        border-width: 1px;
+        max-height: 580px;
+        background: #fff!important;
+    }
+
+    .mainScreen_body{
+        padding-top: 40px;
+    }
+
+    .homeScreen_desktop{
+        display: block;
+    }
+
+    .btnBottom{
+        margin-bottom: 1rem;
+    }
+}
+body {
+    font-family: "Pretendard","Roboto",Helvetica,Arial,sans-serif;
+
+
+}
+
+.layoutDefault {
+    position: absolute;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.layoutDefaultView {
+    height: 100%;
+    width: 100%;
+}
+
+.main {
+    display: flex;
+    height: 100%;
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+    min-height: 500px;
+    box-shadow: 0 8px 16px rgb(182 190 204 / 50%);
+    border-radius: 8px;
+}
+
+.mainLeft {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url(https://media.a-ha.io/aha-qna/assets/web/auth/visual_area.png),linear-gradient(180deg,#1831e6,#0206af);
+    background-size: cover;
+    border-radius: 8px 0 0 8px;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.mainLeft svg {
+    margin-right: 0px;
+    top: 0;
+    width: 120px;
+    height: 72px;
+    color: #fff;
+}
+
+svg {
+    margin-right: 13px;
+    position: relative;
+    top: -0.5px;
+    display: inline;
+}
+
+.logoIcon {
+
+    top: 0;
+    width: 160px;
+    height: 92px;
+    color: #fff;
+}
+
+
+
+.mainLeft_title {
+    margin-top: 0.25rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.mainScreen {
+
+    width: 100%;
+    border-style: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.mainScreen_body {
+    padding-top: 2rem;
+    height: 100%;
+
+    min-height: 344px;
+}
+
+.homeScreen {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.homeScreen_inner{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.homeScreen_desktop{
+    text-align: center;
+}
+
+.homeScreen_mobile{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 454px;
+    text-align: center;
+}
+
+.homeScreen_btns{
+    position: relative;
+    margin-top: auto;
+    width: 100%;
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgba(28, 26, 24, var(--tw-text-opacity));
+    padding: 0 20px 4px;
+}
+
+.btns{
+    font-size: 1rem;
+    line-height: 1.5rem;
+    height: 56px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 3%;
+    max-width: 422px;
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+    border-width: 1px;
+    font-weight: 500;
+}
+#btnkakao{
+    border-color: transparent;
+    --tw-bg-opacity: 1;
+    background-color: #FFE812;
+
+}
+.icon{
+    margin-right: 13px;
+    position: relative;
+    top: -0.5px;
+}
+
+#kakao{
+    width: 20px;
+    height: 20px;
+}
+
+svg{
+    margin-right: 13px;
+    position: relative;
+    top: -0.5px;
+    display: inline;
+}
+
+#btnnaver{
+    border-color: transparent;
+    --tw-bg-opacity: 1;
+    background-color: #6cda73;
+    --tw-text-opacity: 1;
+    color: white;
+}
+
+.btnBottom{
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgba(34, 37, 43, var(--tw-text-opacity));
+}
+
+a{
+    color: inherit;
+    text-decoration: inherit;
+}
+
+#naver{
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+    fill: #fff;
+    width: 14px;
+    height: 12px;
+}
+
+#apple{
+    width: 24px;
+    height: 24px;
+
+}
+
+#btnapple{
+    background-color: rgb(46, 43, 43);
+    color: white;
+    margin-bottom: 2%;
+}
+
+.forLogin{
+    margin: 0 auto;
+}
+
+.homeScreen_inner {
+    margin: 0 auto;
+}
+
+
+
+.btnLogin {
+    border-color: transparent;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+    font-size: 1rem;
+    line-height: 1.5rem;
+    height: 56px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border-width: 1px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: #0206af;
+}
+.loginInput {
+    border: none;
+    width: 86%;
+    padding-left: 10px;
+}

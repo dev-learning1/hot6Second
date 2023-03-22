@@ -1,34 +1,300 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hot6.web.spring.mapper.BoardMapper">
+
     <insert id="insert">
-        <selectKey keyProperty="boardNumber" order="BEFORE" resultType="long"></selectKey>
+        <selectKey keyProperty="boardNumber" order="BEFORE" resultType="long">
+            SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO TBL_BOARD(BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_TYPE, USER_NUMBER, QUIZ_LIST, QUIZ_NUMBER)
+        VALUES(#{boardNumber}, #{boardTitle}, #{boardContent}, '01', 1, #{quizList}, #{quizNumber})
     </insert>
 
-    <update id="update"></update>
+    <update id="update">
+        UPDATE TBL_BOARD
+        SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENT = #{boardContent}, BOARD_UPDATE_DATE = SYSDATE, QUIZ_LIST = #{quizList}, QUIZ_NUMBER = #{quizNumber}
+        WHERE BOARD_NUMBER = #{boardNumber}
+    </update>
 
-    <delete id="delete"></delete>
+    <delete id="delete">
+        DELETE FROM TBL_BOARD
+        WHERE BOARD_NUMBER = #{boardNumber}
+    </delete>
 
-    <select id="select" resultType="boardDTO"></select>
+   
+    <select id="select" resultType="boardDTO">
+        SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, B.USER_NUMBER, USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER, BOARD_REPORT
+        FROM TBL_USER U JOIN TBL_BOARD B ON U.USER_NUMBER = B.USER_NUMBER
+        WHERE BOARD_NUMBER = #{boardNumber}
+    </select>
 
-    <select id="selectAll" resultType="boardVO"></select>
+    <select id="selectAll" resultType="boardDTO">
+        SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER
+        FROM
+        (
+            SELECT ROWNUM R, BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER
+            FROM
+            (
+                SELECT B.BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, U.USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER
+                FROM TBL_USER U JOIN TBL_BOARD B
+                ON U.USER_NUMBER = B.USER_NUMBER
+                ORDER BY BOARD_NUMBER DESC
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
 
-    <select id="getTotal" resultType="_int"></select>
+    <select id="selectAllBy" parameterType="String" resultType="boardDTO">
+        SELECT ROWNUM R, BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER
+            FROM
+            (
+                SELECT B.BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, U.USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER
+                FROM TBL_USER U JOIN TBL_BOARD B
+                ON U.USER_NUMBER = B.USER_NUMBER
+                WHERE B.BOARD_TYPE = #{boardType}
+                ORDER BY BOARD_NUMBER DESC
+            )
+    </select>
+
+    <select id="selectAllAdm" resultType="boardVO">
+        SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER
+        FROM
+        (
+            SELECT ROWNUM R, BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER
+            FROM
+            (
+                SELECT B.BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE, U.USER_NICKNAME, QUIZ_LIST, QUIZ_NUMBER
+                FROM TBL_USER U JOIN TBL_BOARD B
+                ON U.USER_NUMBER = B.USER_NUMBER
+                ORDER BY BOARD_NUMBER DESC
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="selectAllMain" resultType="boardVO">
+        SELECT ROWNUM, BOARD_NUMBER , BOARD_TITLE , BOARD_CONTENT FROM(
+        SELECT * FROM TBL_BOARD WHERE BOARD_TYPE = '01'
+        ORDER BY BOARD_UPDATE_DATE DESC)
+        <![CDATA[
+        WHERE ROWNUM < 6
+        ]]>
+
+    </select>
+
+
+
+    <select id="getTotal" resultType="_int">
+        SELECT COUNT(BOARD_NUMBER) FROM TBL_BOARD
+    </select>
+    <!--===============마이페이지 부분===============-->
+    <!--특정 유저 게시글 전체 가져오기-->
+    <select id="getUserInquiry" resultType="boardVO">
+        SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_UPDATE_DATE
+        FROM TBL_BOARD B
+        WHERE BOARD_TYPE = '2'
+        AND B.USER_NUMBER = (SELECT U.USER_NUMBER FROM TBL_USER U WHERE U.USER_EMAIL = #{userEmail})
+    </select>
+
+    <select id="selectUserInquiryAll" resultType="boardDTO">
+        SELECT D3.BOARD_NUMBER, D3.BOARD_TITLE, D3.BOARD_CONTENT, D3.BOARD_UPDATE_DATE, D3.REPLY_CONTENT
+        FROM
+        (
+            SELECT ROWNUM R, D2.BOARD_NUMBER, D2.BOARD_TITLE, D2.BOARD_CONTENT, D2.BOARD_UPDATE_DATE, D2.REPLY_CONTENT
+            FROM
+            (
+                SELECT B.BOARD_NUMBER, B.BOARD_TITLE, B.BOARD_CONTENT, B.BOARD_UPDATE_DATE, Y.REPLY_CONTENT
+                FROM TBL_BOARD B, TBL_REPLY Y
+                WHERE B.BOARD_NUMBER = Y.BOARD_NUMBER
+               AND B.BOARD_TYPE = '2'
+               AND B.USER_NUMBER = #{userNumber}
+                ORDER BY B.BOARD_NUMBER DESC
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) D3 WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="getUserInquiryTotal" resultType="_int">
+        SELECT COUNT(BOARD_NUMBER) FROM TBL_BOARD WHERE USER_NUMBER = #{userNumber}
+    </select>
+
+    <insert id="userSendInquiry">
+            INSERT INTO TBL_BOARD (BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_TYPE, USER_NUMBER)
+            VALUES (SEQ_BOARD.NEXTVAL, #{boardTitle},#{boardContent},'2',#{userNumber})
+    </insert>
+
+    <select id="getInquiryCount" resultType="_int">
+        SELECT COUNT(BOARD_NUMBER) FROM TBL_BOARD WHERE USER_NUMBER = #{userNumber}
+    </select>
+
+    <select id="selectUserQuizOk" resultType="quizDTO">
+        SELECT D3.QUIZ_NUMBER, D3.QUIZ_TITLE, D3.QUIZ_CONTENT, D3.QUIZ_LIST,D3.QUIZ_LIST_TITLE, D3.MYQUIZ_SUBMIT_DATE
+        FROM
+        (
+            SELECT ROWNUM R, D2.QUIZ_NUMBER, D2.QUIZ_TITLE, D2.QUIZ_CONTENT, D2.QUIZ_LIST, D2.QUIZ_LIST_TITLE, D2.MYQUIZ_SUBMIT_DATE
+            FROM
+            (
+                SELECT Q.QUIZ_NUMBER, Q.QUIZ_TITLE, Q.QUIZ_CONTENT, Q.QUIZ_LIST, Q.QUIZ_LIST_TITLE, M.MYQUIZ_SUBMIT_DATE
+                FROM TBL_QUIZ Q, TBL_MY_QUIZ M
+                WHERE Q.QUIZ_NUMBER = M.QUIZ_NUMBER AND M.MYQUIZ_CORRECT = 1 AND M.USER_NUMBER = #{userNumber}
+                ORDER BY M.MYQUIZ_SUBMIT_DATE DESC
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) D3 WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="countQuizOkTotal" resultType="_int">
+        SELECT COUNT(MYQUIZ_CORRECT) FROM TBL_MY_QUIZ
+        WHERE USER_NUMBER = #{userNumber} AND MYQUIZ_CORRECT = 1
+    </select>
+
+
+    <select id="selectUserQuizNo" resultType="quizDTO">
+        SELECT D3.QUIZ_NUMBER, D3.QUIZ_TITLE, D3.QUIZ_CONTENT, D3.QUIZ_LIST, D3.QUIZ_LIST_TITLE, D3.MYQUIZ_SUBMIT_DATE
+        FROM
+        (
+            SELECT ROWNUM R, D2.QUIZ_NUMBER, D2.QUIZ_TITLE, D2.QUIZ_CONTENT, D2.QUIZ_LIST, D2.QUIZ_LIST_TITLE, D2.MYQUIZ_SUBMIT_DATE
+            FROM
+            (
+                SELECT Q.QUIZ_NUMBER, Q.QUIZ_TITLE, Q.QUIZ_CONTENT, Q.QUIZ_LIST, Q.QUIZ_LIST_TITLE, M.MYQUIZ_SUBMIT_DATE
+                FROM TBL_QUIZ Q, TBL_MY_QUIZ M
+                WHERE Q.QUIZ_NUMBER = M.QUIZ_NUMBER AND M.MYQUIZ_CORRECT = 0 AND M.USER_NUMBER = #{userNumber}
+                ORDER BY M.MYQUIZ_SUBMIT_DATE DESC
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) D3 WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="countQuizNoTotal" resultType="_int">
+        SELECT COUNT(MYQUIZ_CORRECT) FROM TBL_MY_QUIZ
+        WHERE USER_NUMBER = #{userNumber} AND MYQUIZ_CORRECT = 0
+    </select>
+
+    <!--문의글 전체 개수-->
+    <select id="getInquiryTotal" resultType="_int">
+        SELECT COUNT(BOARD_NUMBER) FROM TBL_BOARD
+        WHERE BOARD_TYPE = '2'
+    </select>
+
+    <select id="getInquiryWaitCount" resultType="_int">
+        SELECT COUNT(B.BOARD_NUMBER) FROM TBL_BOARD B, TBL_REPLY Y
+        WHERE B.BOARD_NUMBER = Y.BOARD_NUMBER AND B.USER_NUMBER = #{userNumber}
+    </select>
+    <!--admin 페이지 문의글 전체 조회-->
+    <select id="selectAllInquiry" resultType="boardVO">
+
+        SELECT BOARD_ROWNUM, BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+        FROM
+        (
+            SELECT ROWNUM BOARD_ROWNUM, BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+            FROM
+            (
+                SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+                FROM TBL_BOARD B
+                WHERE BOARD_TYPE = '2'
+                ORDER BY BOARD_NUMBER DESC
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) WHERE BOARD_ROWNUM > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <!-- admin 페이지 문의글 상세조회-->
+    <select id="selectInquiry" resultType="boardDTO">
+    SELECT USER_NAME, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE
+    FROM TBL_USER A, TBL_BOARD B
+    WHERE A.USER_NUMBER = B.USER_NUMBER
+        AND B.BOARD_TYPE = 2
+        AND B.BOARD_NUMBER = #{boardNumber}
+    </select>
+
+    <!-- admin 페이지 이전 문의글 제목 조회-->
+    <select id="selectBefore" resultType="boardVO">
+    SELECT BOARD_NUMBER, BOARD_TITLE
+    FROM
+    (
+        SELECT ROWNUM BOARD_ROWNUM, BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+        FROM
+        (
+            SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+            FROM TBL_BOARD B
+            WHERE BOARD_TYPE = '2'
+            ORDER BY BOARD_NUMBER DESC
+        ) D2
+        )
+    WHERE board_rownum =
+    (
+        SELECT board_rownum
+        FROM
+        (
+            SELECT ROWNUM BOARD_ROWNUM, BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+            FROM
+            (
+                SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+                FROM TBL_BOARD B
+                WHERE BOARD_TYPE = '2'
+                ORDER BY BOARD_NUMBER DESC
+            ) D2
+        )
+        WHERE BOARD_NUMBER = #{boardNumber}
+    )-1
+    </select>
+
+    <!-- admin 페이지 다음 문의글 제목 조회-->
+    <select id="selectAfter" resultType="boardVO">
+    SELECT BOARD_NUMBER, BOARD_TITLE
+    FROM
+    (
+        SELECT ROWNUM BOARD_ROWNUM, BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+        FROM
+        (
+            SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+            FROM TBL_BOARD B
+            WHERE BOARD_TYPE = '2'
+            ORDER BY BOARD_NUMBER DESC
+        ) D2
+        )
+    WHERE board_rownum =
+    (
+        SELECT board_rownum
+        FROM
+        (
+            SELECT ROWNUM BOARD_ROWNUM, BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+            FROM
+            (
+                SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_DATE, USER_NUMBER
+                FROM TBL_BOARD B
+                WHERE BOARD_TYPE = '2'
+                ORDER BY BOARD_NUMBER DESC
+            ) D2
+        )
+        WHERE BOARD_NUMBER = #{boardNumber}
+    )+1
+
+</select>
+
+    <!-- Admin 페이지 작성게시글 전체보기 -->
+    <select id="selectAllBoard" resultType="boardDTO">
+        SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_UPDATE_DATE, BOARD_TYPE,USER_NAME, USER_NICKNAME ,QUIZ_LIST, QUIZ_NUMBER, BOARD_REPORT
+        FROM TBL_USER tu , TBL_BOARD tb
+        WHERE tu.USER_NUMBER = tb.USER_NUMBER
+    </select>
+    <!-- Admin 페이지 작성게시글 전체 개수-->
+    <select id="getBoardTotal" resultType="_int">
+        SELECT COUNT(BOARD_NUMBER) FROM TBL_BOARD
+    </select>
+
+
+
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

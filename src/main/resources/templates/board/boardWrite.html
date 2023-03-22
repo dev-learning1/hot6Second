@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,102 +17,88 @@
     </script>
 </head>
 <body>
-    <!-- header 작성 -->
-    <header>
-        <div class="headWrapper">
-            <div class="navigation_wrap">
-                <div class="navigation_left">
-                    <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
-                </div>
-                <div class="navigation_right">
-                    <ul class="menu">
-                        <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                        <li><a href="javascript:void(0)">대회</a></li>
-                        <li><a href="javascript:void(0)">랭킹</a></li>
-                        <li><a href="javascript:void(0)">게시판</a></li>
-                    </ul>
-                </div>
-                <div class="login">
-                        <span class="loginYet">
-                            <a href="javascript:void(0)" class="btn_login"  style="display: none;">로그인 / 회원가입</a>
-                        </span>
-                    <span class="loginOk"">
-                    <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                    <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
-                    <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+<!-- header 작성 -->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                    <li><a th:href="@{/board/contestList}">대회</a></li>
+                    <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                    <li><a th:href="@{/board/boardList}">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
                     </span>
-                </div>
+                <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
+                    </span>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
-    <div class="base">
-        <div class="container">
-            <div class="container2">
-                <div class="container3">
-                    <div class="mainContainer">
-                        <div class="content">
+<div class="base">
+    <div class="container">
+        <div class="container2">
+            <div class="container3">
+                <div class="mainContainer">
+                    <div class="content">
+                        <form method="post" th:action="@{/board/boardWrite}" th:object="${board}">
                             <div class="categoryContainer">
                                 <label class="categoryLabel">문제 선택</label>
                                 <div class="categoryBox">
                                     <select class="categorySelect">
-                                        <option value="normalProblem">오늘의 문제</option>
-                                        <option value="contestProblem">대회 문제</option>
+                                        <option th:field="*{boardType}" value="00" placeholder="대회 문제">대회 문제</option>
+                                        <option th:field="*{boardType}" value="01" placeholder="오늘의 문제">오늘의 문제</option>
                                     </select>
-                                    <input type="text" name="category" class="categoryInput" placeholder="문제 번호를 입력해주세요.">
+                                    <input th:field="*{quizList}" type="text" name="category" class="categoryInput" placeholder="문제 리스트 번호를 입력해주세요.">
+                                    <input th:field="*{quizNumber}" type="text" name="category" class="categoryInput" placeholder="문제 번호를 입력해주세요.">
+                                    <div th:field="${session.userNumber}" style="display: none"></div>
                                 </div>
                             </div>
                             <div class="textBox">
                                 <header class="titleContainer">
-                                    <img src="../../img/board/Q.jpg">
-                                    <input type="text" name="title" class="titleInput" placeholder="제목을 입력해 주세요.">
-                                    <span>(0/80자)</span>
+
+                                    <input th:field="*{boardTitle}" type="text" name="title" class="titleInput" placeholder="제목을 입력해 주세요.">
+
                                 </header>
                                 <div class="textContainer">
                                     <div class="mainText">
-                                        <!-- <input type="text" name="question" class="question" placeholder="궁금한 점을 적어주세요."> -->
-                                        <textarea class="question" placeholder="궁금한 점을 적어주세요.""></textarea>
+                                        <textarea th:field="*{boardContent}" class="question" placeholder="궁금한 점을 적어주세요."></textarea>
                                     </div>
                                     <div class="length"></div>
-                                    <div class="menubar">
-                                        <button>
-                                            <img src="../../img/board/B.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/line.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/order.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/document.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/picture.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/video.jpg">
-                                        </button>
-                                    </div>
+
                                 </div>
                             </div>
+
                             <div class="qstFooter">
-                                <button type="button" name="temporarySave" class="btnTemporarySave">임시저장</button>
-                                <button type="button" name="register" class="btnRegister">질문 등록</button>
+                                <button type="submit" name="register" class="btnRegister">질문 등록</button>
                             </div>
-                        </div>
-                        <div class="noticeContainer">
-                            <div class="noticeBox">
-                                <div class="noticeTitle">
-                                    <img src="https://www.a-ha.io/_nuxt/img/electric-light-bulb.d60c538.png">
-                                    <span class="noticeTitleText">이런 질문은 신고 받을 수 있어요.</span>
-                                </div>
-                                <div class="noticeContent">
-                                    <ul>
-                                        <li>문제와 관련 없는 내용</li>
-                                        <li>비방적인 단어를 사용할 경우</li>
-                                    </ul>
-                                </div>
+                        </form>
+                    </div>
+                    <div class="noticeContainer">
+                        <div class="noticeBox">
+                            <div class="noticeTitle">
+                                <img src="https://www.a-ha.io/_nuxt/img/electric-light-bulb.d60c538.png">
+                                <span class="noticeTitleText">이런 질문은 신고 받을 수 있어요.</span>
+                            </div>
+                            <div class="noticeContent">
+                                <ul>
+                                    <li>문제와 관련 없는 내용</li>
+                                    <li>비방적인 단어를 사용할 경우</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -120,50 +106,51 @@
             </div>
         </div>
     </div>
+</div>
 
-    <footer class="mainFooter">
-        <div class="footer_wrap">
-            <div class="footer_content">
-                <ul class="footer_list_top">
-                    <li class="list_style top_font">
-                        <span>(미정)소개</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>이용약관</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>개인정보처리방침</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>출제 문의</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>광고 문의</span>
-                    </li>
-                </ul>
-                <ul class="footer_list_middle">
-                    <li class="list_style">
-                        <span class="middle_font">팀명 : 핫식스</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트명 : 미정</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트 깃허브</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀장 : 고진혁</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
-                    </li>
-                </ul>
-                <div class="footer_bottom">
-                    @ 2022 Hot6. All rights reserved.
-                </div>
+<footer class="mainFooter">
+    <div class="footer_wrap">
+        <div class="footer_content">
+            <ul class="footer_list_top">
+                <li class="list_style top_font">
+                    <span>(미정)소개</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>이용약관</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>개인정보처리방침</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>출제 문의</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>광고 문의</span>
+                </li>
+            </ul>
+            <ul class="footer_list_middle">
+                <li class="list_style">
+                    <span class="middle_font">팀명 : 핫식스</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트명 : 미정</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트 깃허브</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀장 : 고진혁</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
+                </li>
+            </ul>
+            <div class="footer_bottom">
+                @ 2022 Hot6. All rights reserved.
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
 </body>
 </html>

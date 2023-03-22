@@ -1,19 +1,209 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hot6.web.spring.mapper.QuizMapper">
-    <insert id="insert"></insert>
 
-    <update id="update"></update>
+    <insert id="insert">
+        <selectKey keyProperty="quizNumber" order="BEFORE" resultType="long">
+            SELECT SEQ_QUIZ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO TBL_QUIZ(QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+        QUIZ_ONE, QUIZ_TWO, QUIZ_THREE, QUIZ_FOUR, QUIZ_FIVE, QUIZ_LEVEL)
+        VALUES(#{quizNumber}, #{quizTitle}, #{quizContent}, (SELECT NVL(MAX(QUIZ_LIST), 0) + 1 FROM TBL_QUIZ),
+        #{quizListTitle}, #{quizTheme}, #{quizType},  #{quizOne}, #{quizTwo}, #{quizThree}, #{quizFour}, #{quizFive}, #{quizLevel})
+    </insert>
 
-    <delete id="delete"></delete>
+    <update id="update">
+        UPDATE TBL_QUIZ
+        SET QUIZ_TITLE = #{quizTitle}, QUIZ_CONTENT = #{quizContent}, QUIZ_LIST = #{quizList}, QUIZ_LIST_TITLE =
+        #{quizListTitle}, QUIZ_UPDATE_DATE = SYSDATE, QUIZ_START_DATE = #{quizStartDate}, QUIZ_FINISH_DATE =
+        #{quizFinishDate}, QUIZ_THEME = #{quizTheme}, QUIZ_TYPE = #{quizType}, QUIZ_ONE = #{quizOne}, QUIZ_TWO =
+        #{quizTwo}, QUIZ_THREE = #{quizThree}, QUIZ_FOUR = #{quizFour}, QUIZ_FIVE = #{quizFive}, QUIZ_COMMENTARY =
+        #{quizCommentary},USER_NUMBER
+        WHERE QUIZ_NUMBER = #{quizNumber}
+    </update>
 
-    <select id="select" resultType="quizDTO"></select>
+    <delete id="delete">
+        DELETE FROM TBL_QUIZ
+        WHERE QUIZ_NUMBER = #{quizNumber}
+    </delete>
 
-    <select id="selectAll" resultType="quizVO"></select>
+    <select id="select" resultType="quizVO">
+        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+        TO_CHAR(QUIZ_REGISTER_DATE, 'yyyy-MM-dd') QUIZ_REGISTER_DATE, TO_CHAR(QUIZ_UPDATE_DATE, 'yyyy-MM-dd')
+        QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE, QUIZ_FOUR, QUIZ_FIVE,
+        QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+        FROM TBL_QUIZ
+        WHERE QUIZ_NUMBER = #{quizNumber}
+    </select>
 
-    <select id="getTotal" resultType="_int"></select>
+    <select id="selectList" resultType="quizVO">
+        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+        TO_CHAR(QUIZ_REGISTER_DATE, 'yyyy-MM-dd') QUIZ_REGISTER_DATE, TO_CHAR(QUIZ_UPDATE_DATE, 'yyyy-MM-dd')
+        QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE, QUIZ_FOUR, QUIZ_FIVE,
+        QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+        FROM TBL_QUIZ
+        WHERE QUIZ_LIST = #{quizList}
+        ORDER BY QUIZ_NUMBER
+    </select>
+
+    <select id="selectListAll" resultType="quizVO">
+        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+        QUIZ_REGISTER_DATE, QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE,
+        QUIZ_FOUR, QUIZ_FIVE, QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+        FROM
+        (
+            SELECT ROWNUM R, QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+            QUIZ_REGISTER_DATE, QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE,
+            QUIZ_FOUR, QUIZ_FIVE, QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+            FROM
+            (
+                SELECT RN, QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+                QUIZ_REGISTER_DATE, QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE,
+                QUIZ_FOUR, QUIZ_FIVE, QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+                FROM
+                (
+                    SELECT ROW_NUMBER() OVER(PARTITION BY QUIZ_LIST ORDER BY QUIZ_LIST DESC) AS RN, QUIZ_NUMBER, QUIZ_TITLE,
+                    QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE, QUIZ_REGISTER_DATE, QUIZ_UPDATE_DATE,
+                    QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE, QUIZ_FOUR, QUIZ_FIVE, QUIZ_COMMENTARY,
+                    USER_NUMBER, QUIZ_LEVEL
+                    FROM
+                    (
+                        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+                        TO_CHAR(QUIZ_REGISTER_DATE, 'yyyy-MM-dd') QUIZ_REGISTER_DATE, TO_CHAR(QUIZ_UPDATE_DATE, 'yyyy-MM-dd')
+                        QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE, QUIZ_FOUR, QUIZ_FIVE,
+                        QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+                        FROM TBL_QUIZ Q
+                        ORDER BY QUIZ_LIST DESC, QUIZ_NUMBER
+                    ) D1
+                ) D2
+                WHERE RN = 1 ORDER BY QUIZ_REGISTER_DATE DESC
+            )
+            <![CDATA[
+            WHERE ROWNUM <= #{page} * #{amount}
+        ) WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="selectAll" resultType="quizVO">
+        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+        QUIZ_REGISTER_DATE, QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE,
+        QUIZ_FOUR, QUIZ_FIVE, QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+        FROM
+        (
+        SELECT ROWNUM R, QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+        QUIZ_REGISTER_DATE, QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE,
+        QUIZ_FOUR, QUIZ_FIVE, QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+        FROM
+        (
+        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_TYPE,
+        TO_CHAR(QUIZ_REGISTER_DATE, 'yyyy-MM-dd') QUIZ_REGISTER_DATE, TO_CHAR(QUIZ_UPDATE_DATE, 'yyyy-MM-dd')
+        QUIZ_UPDATE_DATE, QUIZ_START_DATE, QUIZ_FINISH_DATE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE, QUIZ_FOUR, QUIZ_FIVE,
+        QUIZ_COMMENTARY, USER_NUMBER, QUIZ_LEVEL
+        FROM TBL_QUIZ Q
+        ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="getTotal" resultType="_int">
+        SELECT COUNT(QUIZ_NUMBER) FROM TBL_QUIZ
+    </select>
+
+    <select id="getListTotal" resultType="_int">
+        SELECT COUNT( DISTINCT QUIZ_LIST)
+        FROM TBL_QUIZ
+    </select>
+    <!--Admin 페이지 오늘의 문제 insert -->
+    <insert id="insertAdm">
+        INSERT INTO TBL_QUIZ
+        (QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_REGISTER_DATE,
+        QUIZ_UPDATE_DATE, QUIZ_TYPE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE, QUIZ_FOUR, QUIZ_FIVE, USER_NUMBER)
+        VALUES(seq_quiz.nextval, #{quizTitle}, #{quizContent}, #{quizList}, #{quizListTitle}, '1', SYSDATE, SYSDATE,
+        #{quizType}, #{quizOne}, #{quizTwo}, #{quizThree}, #{quizFour}, #{quizFive}, 0)
+    </insert>
+
+    <!-- update-->
+    <select id="updateToday">
+        UPDATE TBL_QUIZ
+        SET QUIZ_TITLE=#{quizTitle}, QUIZ_CONTENT=#{quizContent}, QUIZ_LIST=#{quizList},
+        QUIZ_LIST_TITLE=#{quizListTitle}, QUIZ_THEME='1', QUIZ_REGISTER_DATE=SYSDATE, QUIZ_UPDATE_DATE=SYSDATE,
+        QUIZ_TYPE=#{quizType}, QUIZ_ONE=#{quizOne}, QUIZ_TWO=#{quizTwo}, QUIZ_THREE=#{quizThree}, QUIZ_FOUR=#{quizFour},
+        QUIZ_FIVE=#{quizFive}, USER_NUMBER=0
+        WHERE QUIZ_NUMBER = #{quizNumber}
+    </select>
+    <!-- Admin 페이지 오늘의 문제 조회 -->
+    <select id="selectAllToday" resultType="quizDTO">
+        SELECT R, QUIZ_NUMBER, QUIZ_TITLE, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_REGISTER_DATE
+        FROM
+        (
+        SELECT ROWNUM R, QUIZ_NUMBER, QUIZ_TITLE, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_REGISTER_DATE
+        FROM
+        (
+        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_REGISTER_DATE
+        FROM TBL_QUIZ B
+        WHERE QUIZ_THEME = '1'
+        ORDER BY QUIZ_NUMBER DESC
+        ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <!-- Admin 페이지 전체 카운트-->
+    <select id="getToday" resultType="_int">
+        SELECT COUNT(QUIZ_NUMBER) FROM TBL_QUIZ WHERE QUIZ_THEME = '1'
+    </select>
+
+    <!-- Admin 페이지 오늘의 문제 디테일-->
+    <select id="selectTodayDetail" resultType="quizDTO">
+        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_CONTENT, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_THEME, QUIZ_REGISTER_DATE,
+        QUIZ_UPDATE_DATE, QUIZ_TYPE, QUIZ_ONE, QUIZ_TWO, QUIZ_THREE, QUIZ_FOUR, QUIZ_FIVE, USER_NUMBER
+        FROM TBL_QUIZ
+        WHERE QUIZ_NUMBER = #{quizNumber}
+    </select>
+
+    <!-- Admin 페이지 오늘의 문제 삭제 -->
+    <select id="deleteToday">
+        DELETE FROM TBL_QUIZ
+        WHERE QUIZ_NUMBER = #{quizNumber}
+    </select>
+    <!-- Admin 페이지 대회 문제 조회 -->
+    <select id="selectAllContest" resultType="quizDTO">
+        SELECT R, QUIZ_NUMBER, QUIZ_TITLE, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_REGISTER_DATE, USER_NAME
+        FROM
+        (
+        SELECT ROWNUM R, QUIZ_NUMBER, QUIZ_TITLE, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_REGISTER_DATE, USER_NAME
+        FROM
+        (
+        SELECT QUIZ_NUMBER, QUIZ_TITLE, QUIZ_LIST, QUIZ_LIST_TITLE, QUIZ_REGISTER_DATE, tu.USER_NAME
+        FROM TBL_USER tu ,TBL_QUIZ B
+        WHERE QUIZ_THEME = '2'
+        AND tu.USER_NUMBER =B.USER_NUMBER
+        ORDER BY QUIZ_NUMBER
+        ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <!-- Admin 페이지 대회 전체 카운트-->
+    <select id="getTodayContest" resultType="_int">
+        SELECT COUNT(QUIZ_NUMBER) FROM TBL_QUIZ WHERE QUIZ_THEME = '2'
+    </select>
+    <select id="getListTotalAdm" resultType="_int">
+        SELECT COUNT(QUIZ_LIST)
+        FROM
+        (
+        SELECT DISTINCT QUIZ_LIST, TO_CHAR(QUIZ_REGISTER_DATE, 'yyyy-MM-dd') QUIZ_REGISTER_DATE
+        FROM TBL_QUIZ
+        ORDER BY QUIZ_REGISTER_DATE DESC
+        )
+    </select>
 </mapper>
-
 
 
 

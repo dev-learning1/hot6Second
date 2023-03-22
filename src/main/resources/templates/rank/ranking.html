@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랭킹</title>
+    <link rel="stylesheet" href="../../css/board/contestList.css">
+    <link rel="stylesheet" href="../../css/main/header.css">
+    <link rel="stylesheet" href="../../css/main/footer.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+
+</head>
+<body>
+<!-- header 작성 -->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a href="../../board/problemList">오늘의 문제</a></li>
+                    <li><a href="../../board/contestList">대회</a></li>
+                    <li><a href="../../rank/ranking">랭킹</a></li>
+                    <li><a href="../../board/boardList">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
+                    <span class="loginYet">
+                        <a href="javascript:void(0)" class="btn_login">로그인 / 회원가입</a>
+                    </span>
+                <span class="loginOk" style="display: none;">
+                        <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
+                        <a href="javascript:void(0)" class="loginOk_font">설정</a>
+                        <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+                    </span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="base">
+    <div class="container">
+        <div class="bannerContainer">
+            <div class="banner">
+                <div class="bannerContent">
+                    <div class="bannerImageContainer">
+                        <img src="../../img/main/ranking.png" alt="랭킹" class="bannerImage">
+                    </div>
+                    <div class="bannerTextContainer">
+                        <div>
+                            <span class="title">랭킹</span>
+                            <span class="description">야! 너도 1등 할 수 있어!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mainContainer" style="height: 290px;">
+            <div class="mainContent">
+                <div class="leftSideContainer">
+                    <ul class="leftSide ranking">
+                        <li><a class="allRanking">전체 랭킹</a></li>
+                        <li>
+                            <hr style="margin-top: 12px; border-top: 2px dashed rgb(222, 222, 222);">
+                            <a class="elementary">초등학생 랭킹</a><br>
+                            <a class="middle">중학생 랭킹</a><br>
+                            <a class="high">고등학생 랭킹</a><br>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="problemContainer">
+                    <div class="problemList">
+                        <div class="problem">
+                            <div class="problemTableWrap">
+                                <!-- <input type="checkbox">범위 -->
+                                <!-- 기간(년/월/주) 넣어야합니다  -->
+                                <table> <!-- style="width: 900px;margin-left: 36px;"> -->
+                                    <thead class="tableHeader"> <!-- style="margin-bottom: 20px;"> -->
+                                    <tr>
+                                        <th>등수</th>
+                                        <th>닉네임</th>
+                                        <th>초/중/고</th>
+                                        <th>맞은 문제 갯수</th>
+                                        <th>틀린 문제 갯수</th>
+                                        <th>포인트 점수</th>
+                                        <th>정답률</th>
+                                    </tr>
+                                    <hr>
+                                    </thead>
+                                    <tbody class="tableBody" style="text-align: center;" th:each="ranking:${rankings}">
+                                    <tr th:object="${ranking}">
+                                        <td th:text="*{userRanking}"></td>
+                                        <td th:text="*{userNickname}"></td>
+                                        <td th:text="*{userGrade}"></td>
+                                        <td th:text="*{userCorrectCount}"></td>
+                                        <td th:text="*{userWrongCount}"></td>
+                                        <td th:text="*{userPoint}"></td>
+                                        <td th:text="*{userCorrectPercent} +'%'"></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script th:inline="javascript">
+    function virtual(data){
+        $(".problemList table tbody").remove();
+
+        // 새로운 HTML 요소 생성
+        var newTbody = "<tbody>";
+        data.forEach(function(rankingDTO) {
+            newTbody += "<tr>" +
+                "<td>" + rankingDTO.userRanking + "</td>" +
+                "<td style='text-align: center;'>" + rankingDTO.userNickname + "</td>" +
+                "<td>" + rankingDTO.userGrade + "</td>" +
+                "<td>" + rankingDTO.userCorrectCount + "</td>" +
+                "<td>" + rankingDTO.userWrongCount + "</td>" +
+                "<td>" + rankingDTO.userPoint + "</td>" +
+                "<td>" + (rankingDTO.userCorrectPercent)+'%'+"</td>" +
+                "</tr>";
+        });
+        newTbody += "</tbody>";
+
+        // 새로운 tbody 태그 추가
+        $(".problemList table").append(newTbody);
+
+    }
+
+    function on(a){
+        $("."+a).css('color', '#333');
+        $("."+a).css('border-bottom', '2px solid #2553e5');
+    }
+
+    function off(a){
+        $("."+a).css('color', '#aaa');
+        $("."+a).css('border-bottom', '3px solid transparent');
+    }
+
+    $(document).ready(function() {
+        on("allRanking");
+        $(".elementary").click(function(event) {
+            event.preventDefault(); // a 태그 기본 동작 취소
+            $.ajax({
+                type: "GET",
+                url: "/rank/rankingBy",
+                data: {userGrade: 'elementary'},
+                success: function(data) {
+                    virtual(data);
+                    on("elementary");
+                    off("allRanking");
+                    off("middle");
+                    off("high");
+                }
+
+
+                // 기존 tbody 요소 대체
+                // var tbody = $(".tableBody");
+                // if (tbody.children().length > 0) {
+                // empty를 쓸 경우 태그 자체는 남아있어서 데이터 반복될 경우 있음 - 조심
+                //     tbody.empty();
+                // }
+                // tbody.append(newTbody);
+
+            });
+        });
+
+
+        $(".middle").click(function(event) {
+            event.preventDefault(); // a 태그 기본 동작 취소
+            $.ajax({
+                type: "GET",
+                url: "/rank/rankingBy",
+                data: {userGrade: 'middle'},
+                success: function(data) {
+                    virtual(data);
+                    off("elementary");
+                    off("allRanking");
+                    on("middle");
+                    off("high");
+                }
+
+            });
+        });
+
+        $(".allRanking").click(function(event) {
+            event.preventDefault(); // a 태그 기본 동작 취소
+            $.ajax({
+                type: "GET",
+                url: "/rank/rankingAll",
+                success: function(data) {
+                    virtual(data);
+                    virtual(data);
+                    off("elementary");
+                    on("allRanking");
+                    off("middle");
+                    off("high");
+                }
+
+            });
+        });
+
+        $(".high").click(function(event) {
+            event.preventDefault(); // a 태그 기본 동작 취소
+            $.ajax({
+                type: "GET",
+                url: "/rank/rankingBy",
+                data: {userGrade: 'high'},
+                success: function(data) {
+                    virtual(data);
+                    off("elementary");
+                    off("allRanking");
+                    off("middle");
+                    on("high");
+                }
+
+            });
+        });
+    });
+
+
+</script>
+</html>

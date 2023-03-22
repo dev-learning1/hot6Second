@@ -1,16 +1,52 @@
 package com.hot6.web.spring.controller;
 
+import com.hot6.web.spring.domain.vo.RankingDTO;
+import com.hot6.web.spring.service.RankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/rank/*")
 public class RankingController {
-    // 랭킹 전체 조회(목록)
+    private final RankingService rankingService;
 
-    // 초등학교 랭킹 전체 조회
+    // 랭킹 페이지 이동
+    @GetMapping("/ranking")
+    public void ranking(Model model) {
+        List<RankingDTO> rankingDTOS = rankingService.showAll();
+        for (RankingDTO rankingDTO : rankingDTOS) {
+            rankingDTO.calculateCorrectPercent();
+        }
+        model.addAttribute("rankings", rankingDTOS);
+    }
 
-    // 중학교 랭킹 전체 조회
+    @GetMapping("/rankingBy")
+    @ResponseBody
+    public List<RankingDTO> rankingBy(@RequestParam String userGrade) {
+        List<RankingDTO> rankingDTOS = rankingService.showAllBy(userGrade);
+        for (RankingDTO rankingDTO : rankingDTOS) {
+            rankingDTO.calculateCorrectPercent();
+        }
+        return rankingDTOS;
+    }
 
-    // 고등학교 랭킹 전체 조회
+    @GetMapping("/rankingAll")
+    @ResponseBody
+    public List<RankingDTO> rankingBy() {
+        List<RankingDTO> rankingDTOS = rankingService.showAll();
+        for (RankingDTO rankingDTO : rankingDTOS) {
+            rankingDTO.calculateCorrectPercent();
+        }
+        return rankingDTOS;
+    }
+
+
+
+
 }

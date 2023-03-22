@@ -20,6 +20,7 @@ body{
     margin: 0;
 }
 
+
 div {
     display: block;
     box-sizing: border-box;
@@ -182,10 +183,7 @@ hr{
     text-decoration: none;
 }
 
-.contestProblems{
-    color: #333 !important;
-    border-bottom: 2px solid #2553e5 !important;
-}
+
 
 
 .questionContainer{
@@ -343,4 +341,5 @@ hr{
     align-items: center;
     font-family: inherit;
     padding: 0;
+
 }

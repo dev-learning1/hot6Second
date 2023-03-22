@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,24 +22,27 @@
         <div class="headWrapper">
             <div class="navigation_wrap">
                 <div class="navigation_left">
-                    <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+                    <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
                 </div>
                 <div class="navigation_right">
                     <ul class="menu">
-                        <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                        <li><a href="javascript:void(0)">대회</a></li>
-                        <li><a href="javascript:void(0)">랭킹</a></li>
-                        <li><a href="javascript:void(0)">게시판</a></li>
+                        <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                        <li><a th:href="@{/board/contestList}">대회</a></li>
+                        <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                        <li><a th:href="@{/board/boardList}">게시판</a></li>
                     </ul>
                 </div>
                 <div class="login">
-                        <span class="loginYet">
-                            <a href="javascript:void(0)" class="btn_login"  style="display: none;">로그인 / 회원가입</a>
-                        </span>
-                    <span class="loginOk"">
-                    <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                    <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
-                    <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
+                    </span>
+                    <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
                     </span>
                 </div>
             </div>
@@ -52,54 +55,39 @@
                 <div class="container3">
                     <div class="mainContainer">
                         <div class="content">
-                            <div class="categoryContainer">
-                                <label class="categoryLabel">문제 선택</label>
-                                <div class="categoryBox">
-                                    <select class="categorySelect">
-                                        <option value="normalProblem">오늘의 문제</option>
-                                        <option value="contestProblem">대회 문제</option>
-                                    </select>
-                                    <input type="text" name="category" class="categoryInput" placeholder="문제 번호를 입력해주세요.">
-                                </div>
-                            </div>
-                            <div class="textBox">
-                                <header class="titleContainer">
-                                    <img src="../../img/board/Q.jpg">
-                                    <input type="text" name="title" class="titleInput" placeholder="제목을 입력해 주세요.">
-                                    <span>(0/80자)</span>
-                                </header>
-                                <div class="textContainer">
-                                    <div class="mainText">
-                                        <!-- <input type="text" name="question" class="question" placeholder="궁금한 점을 적어주세요."> -->
-                                        <textarea class="question" placeholder="궁금한 점을 적어주세요.""></textarea>
-                                    </div>
-                                    <div class="length"></div>
-                                    <div class="menubar">
-                                        <button>
-                                            <img src="../../img/board/B.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/line.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/order.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/document.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/picture.jpg">
-                                        </button>
-                                        <button>
-                                            <img src="../../img/board/video.jpg">
-                                        </button>
+                            <form method="post" th:action="@{/board/boardUpdate}" th:object="${board}" >
+                                <div class="categoryContainer" style="">
+                                    <label class="categoryLabel">문제 선택</label>
+                                    <div class="categoryBox">
+                                        <select class="categorySelect" style="display: none">
+                                            <input th:field="*{boardType}" type="radio" value="00" style="display: none">
+                                            <input th:field="*{boardType}" type="radio" value="01" style="display: none">
+                                        </select>
+                                        <input th:field="*{quizList}" type="text" name="category" class="categoryInput" placeholder="문제 리스트 번호를 입력해주세요.">
+                                        <input th:field="*{quizNumber}" type="text" name="category" class="categoryInput" placeholder="문제 번호를 입력해주세요.">
+                                        <div th:field="*{userNumber}" style="display: none"></div>
+
                                     </div>
                                 </div>
-                            </div>
-                            <div class="qstFooter">
-                                <button type="button" name="temporarySave" class="btnTemporarySave">임시저장</button>
-                                <button type="button" name="register" class="btnRegister">질문 등록</button>
-                            </div>
+                                <div class="textBox">
+                                    <header class="titleContainer">
+
+                                        <input th:field="*{boardTitle}" type="text" name="title" class="titleInput" placeholder="제목을 입력해 주세요.">
+
+                                    </header>
+                                    <div class="textContainer">
+                                        <div class="mainText">
+                                            <textarea th:field="*{boardContent}" class="question" placeholder="궁금한 점을 적어주세요."></textarea>
+                                        </div>
+                                        <div class="length"></div>
+
+                                    </div>
+                                </div>
+                                <div class="qstFooter">
+                                    <button type="submit" name="register" class="btnRegister">질문 등록</button>
+                                </div>
+                            </form>
+
                         </div>
                         <div class="noticeContainer">
                             <div class="noticeBox">
@@ -166,4 +154,13 @@
     </footer>
 
 </body>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!--<script th:inline="javascript">-->
+
+<!--    $("button.btnRegister").on("click", function(e){-->
+<!--        e.preventDefault();-->
+<!--        location.href = "/board/boardList;-->
+<!--    });-->
+
+</script>
 </html>

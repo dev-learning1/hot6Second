@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,267 +17,252 @@
     </script>-->
 </head>
 <body>
-    <!-- header 작성 -->
-    <header>
-        <div class="headWrapper">
-            <div class="navigation_wrap">
-                <div class="navigation_left">
-                    <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
-                </div>
-                <div class="navigation_right">
-                    <ul class="menu">
-                        <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                        <li><a href="javascript:void(0)">대회</a></li>
-                        <li><a href="javascript:void(0)">랭킹</a></li>
-                        <li><a href="javascript:void(0)">게시판</a></li>
-                    </ul>
-                </div>
-                <div class="login">
-                        <span class="loginYet">
-                            <a href="javascript:void(0)" class="btn_login"  style="display: none;">로그인 / 회원가입</a>
-                        </span>
-                    <span class="loginOk"">
-                    <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                    <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
-                    <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+<!-- header 작성 -->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                    <li><a th:href="@{/board/contestList}">대회</a></li>
+                    <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                    <li><a th:href="@{/board/boardList}">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
                     </span>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="base" style="height: 100%;">
-        <div class="container">
-            <div class="bannerContainer">
-                <div class="banner">
-                    <div class="bannerContent">
-                        <div class="bannerImageContainer">
-                            <img src="https://media.a-ha.io/aha-qna/categories/logos/category_commonsense.png?v=1.2" alt="정보공유" class="bannerImage">
-                        </div>
-                        <div class="bannerTextContainer">
-                            <div>
-                                <span class="title">정보공유</span>
-                                <span class="description">누구나 질문! 누구나 답변!</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 목록 10개일 경우 height: 1100 -->
-            <div class="mainContainer" style="height: 550px;">
-                <div class="mainContent">
-                    <div class="leftSideContainer">
-                        <ul class="leftSide">
-                            <li><a href="#">홈</a></li>
-                            <li>
-                                <hr style="margin-top: 12px; border-top: 2px dashed rgb(222, 222, 222);">
-                                <a class="todayProblems" href="#">오늘의 문제</a><br>
-                                <a class="contestProblems" href="#">대회 문제</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="questionContainer">
-                        <div class="questionList">
-                            <div class="question">
-                                <article>
-                                    <aside>1번</aside>
-                                    <div class="questionContent">
-                                        <div class="questionTitle">질문1</div>
-                                        <div class="questionOption">
-                                            <div class="questionIcons">
-                                                    <span class="questionIcon">
-                                                        <img src="../../img/board/ans.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/interest.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/good.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/report.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                            </div>
-                                            <span class="questionTime">2022. 11. 16. 12:25</span>
-                                        </div>
-                                    </div>
-                                </article>
-                                <article>
-                                    <aside>10번</aside>
-                                    <div class="questionContent">
-                                        <div class="questionTitle">질문2</div>
-                                        <div class="questionOption">
-                                            <div class="questionIcons">
-                                                    <span class="questionIcon">
-                                                        <img src="../../img/board/ans.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/interest.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/good.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/report.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                            </div>
-                                            <span class="questionTime">2022. 11. 16. 12:29</span>
-                                        </div>
-                                    </div>
-                                </article>
-                                <article>
-                                    <aside>1000번</aside>
-                                    <div class="questionContent">
-                                        <div class="questionTitle">질문3</div>
-                                        <div class="questionOption">
-                                            <div class="questionIcons">
-                                                    <span class="questionIcon">
-                                                        <img src="../../img/board/ans.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/interest.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/good.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/report.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                            </div>
-                                            <span class="questionTime">2022. 11. 16. 12:30</span>
-                                        </div>
-                                    </div>
-                                </article>
-                                <article>
-                                    <aside>700번</aside>
-                                    <div class="questionContent">
-                                        <div class="questionTitle">질문4</div>
-                                        <div class="questionOption">
-                                            <div class="questionIcons">
-                                                    <span class="questionIcon">
-                                                        <img src="../../img/board/ans.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/interest.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/good.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/report.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                            </div>
-                                            <span class="questionTime">2022. 11. 16. 12:31</span>
-                                        </div>
-                                    </div>
-                                </article>
-                                <article>
-                                    <aside>24번</aside>
-                                    <div class="questionContent">
-                                        <div class="questionTitle">질문5</div>
-                                        <div class="questionOption">
-                                            <div class="questionIcons">
-                                                    <span class="questionIcon">
-                                                        <img src="../../img/board/ans.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/interest.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/good.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                                <span class="questionIcon">
-                                                        <img src="../../img/board/report.jpg">
-                                                        <span>0</span>
-                                                    </span>
-                                            </div>
-                                            <span class="questionTime">2022. 11. 16. 12:32</span>
-                                        </div>
-                                    </div>
-                                </article>
-                                <div class="pagerContainer">
-                                    <div class="pagerList">
-                                        <button>1</button>
-                                        <button>2</button>
-                                        <button>3</button>
-                                        <button>4</button>
-                                        <button><img src="../../img/board/nxt.jpg"></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="writeContainer">
-                            <button class="btnWrite">나도 질문하기</button>
-                        </div>
-                    </div>
-
-                </div>
+                <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
+                    </span>
             </div>
         </div>
     </div>
+</header>
 
-    <footer class="mainFooter">
-        <div class="footer_wrap">
-            <div class="footer_content">
-                <ul class="footer_list_top">
-                    <li class="list_style top_font">
-                        <span>(미정)소개</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>이용약관</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>개인정보처리방침</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>출제 문의</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>광고 문의</span>
-                    </li>
-                </ul>
-                <ul class="footer_list_middle">
-                    <li class="list_style">
-                        <span class="middle_font">팀명 : 핫식스</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트명 : 미정</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트 깃허브</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀장 : 고진혁</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
-                    </li>
-                </ul>
-                <div class="footer_bottom">
-                    @ 2022 Hot6. All rights reserved.
+<div class="base" style="height: 100%;">
+    <div class="container">
+        <div class="bannerContainer">
+            <div class="banner">
+                <div class="bannerContent">
+                    <div class="bannerImageContainer">
+                        <img src="https://media.a-ha.io/aha-qna/categories/logos/category_commonsense.png?v=1.2" alt="정보공유" class="bannerImage">
+                    </div>
+                    <div class="bannerTextContainer">
+                        <div>
+                            <span class="title">정보공유</span>
+                            <span class="description">누구나 질문! 누구나 답변!</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+
+        <!-- 목록 10개일 경우 height: 1100 -->
+        <div class="mainContainer" style="height: 1100px;">
+            <div class="mainContent">
+                <div class="leftSideContainer">
+                    <ul class="leftSide">
+                        <li>
+                            <a th:href="@{/board/boardList}" class="allProblems" style="color: #333 !important;
+                            border-bottom: 2px solid #2553e5 !important;">전체 문제</a>
+                            <hr style="margin-top: 12px; border-top: 2px dashed rgb(222, 222, 222);">
+                        </li>
+                        <li>
+                            <a th:href="@{/board/boardList/01}" class="todayProblems" th:value='01'>오늘의 문제</a><br>
+                            <a th:href="@{/board/boardList/01}" class="contestProblems" th:value='00'>대회 문제</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="questionContainer">
+                    <div class="questionList">
+                        <div class="question">
+                            <th:block th:each="board:${boards}">
+                                <article th:object="${board}">
+                                    <aside th:text="*{quizList} + '-' + *{quizNumber}"></aside>
+                                    <div class="questionContent">
+                                        <div class="questionTitle" style="display: flex; justify-content: space-between;">
+                                            <a class="boardDetail" th:text="*{boardTitle}" th:href="*{boardNumber}"/>
+                                            <div class="boardWriter" th:text="*{userNickName}"></div>
+                                        </div>
+                                        <div class="questionOption">
+                                            <div class="questionIcons">
+                                               <span th:text="*{boardReport}"></span>
+                                            </div>
+                                            <span class="questionTime" th:text="*{boardDate}"></span>
+                                        </div>
+                                    </div>
+                                </article>
+                            </th:block>
+
+                            <div class="pagerContainer">
+                                <div th:object="${pagination}">
+                                    <div style="text-align: center">
+                                        <a class="changePage" th:href="*{startPage - 1}" th:if="*{prev}"><code><</code></a>
+                                        <th:block th:each="page:${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+                                            <a class="changePage" th:href="${page}" th:if="${pagination.criteria.page != page}"><code th:text="${page}"></code></a>
+                                            <code th:unless="${pagination.criteria.page != page}" th:text="${page}"></code>
+                                        </th:block>
+                                        <a class="changePage" th:href="*{endPage + 1}" th:if="*{next}"><code>></code></a>
+                                    </div>
+                                    <form th:action="@{/board/list}" th:object="${criteria}" name="pageForm">
+                                        <input type="hidden" th:field="*{page}">
+                                        <input type="hidden" th:field="*{amount}">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="writeContainer">
+                        <button class="btnWrite">나도 질문하기</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="mainFooter">
+    <div class="footer_wrap">
+        <div class="footer_content">
+            <ul class="footer_list_top">
+                <li class="list_style top_font">
+                    <span>(미정)소개</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>이용약관</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>개인정보처리방침</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>출제 문의</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>광고 문의</span>
+                </li>
+            </ul>
+            <ul class="footer_list_middle">
+                <li class="list_style">
+                    <span class="middle_font">팀명 : 핫식스</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트명 : 미정</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트 깃허브</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀장 : 고진혁</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
+                </li>
+            </ul>
+            <div class="footer_bottom">
+                @ 2022 Hot6. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script th:inline="javascript">
+
+    let boardNumber = [[${boardNumber}]];
+    let $pages = $("a.changePage");
+    let queryString = [[${pagination.criteria.queryString}]];
+    const $read = $("a.boardDetail");
+    let boardType = $("a.todayProblems").val();
+
+    $("button.btnWrite").on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/boardWrite";
+    });
+
+    $("a.contestProblems").on("click", function(e) {
+        let boardType = '00'// 클릭된 a 요소의 value 값을 가져옴
+        $.ajax({
+            url: "/board/boardListBy",
+            type: "GET",
+            data: {boardType: boardType},
+            success: function(result) {
+                $("a.contestProblems").css({
+                    color: "#333",
+                    borderBottom: "2px solid #2553e5"
+                });
+                $("a.todayProblems").css({
+                    borderBottom: "none"
+                });
+                $("a.allProblems").css({
+                    borderBottom: "none"
+                });
+
+            }
+        });
+    });
+
+
+
+
+    $("a.todayProblems").on("click", function(e){
+        let boardType = '01';
+        $.ajax({
+            url: "/board/boardListBy",
+            type: "GET",
+            data: {boardType: boardType},
+            success: function(result) {
+                console.log(boardType)
+                $("a.todayProblems").css({
+                    color: "#333",
+                    borderBottom: "2px solid #2553e5"
+                })
+                $("a.contestProblems").css({
+                    borderBottom: "none"
+                })
+                $("a.allProblems").css({
+                    borderBottom: "none"
+                })
+
+            }
+        });
+    });
+
+
+    if(boardNumber != null){
+        alert(boardNumber + "번 게시글이 등록되었습니다.");
+    }
+
+
+    $pages.on("click", function(e){
+        e.preventDefault();
+        $(document.pageForm.page).val($(this).attr("href"));
+        document.pageForm.submit();
+    });
+
+    $read.on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/boardDetail?boardNumber=" + $(this).attr("href");
+    });
+
+
+
+
+
+
+</script>
 </html>

@@ -2,245 +2,245 @@
     .layoutDefault {
         padding: 152px 0 80px;
         background: #f3f5f9;
-        }
-    
+    }
+
     .layoutDefault_view{
         margin: auto;
         border-radius: 0.25rem;
         max-width: 464px;
         max-height: 650px;
-        }
-    
+    }
+
     .theScreen{
         position: relative;
         border-width: 1px;
     }
-    
+
     .theScreen_header{
         position: absolute;
         --tw-shadow: 0 0 #0000;
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
         top: -68px;
     }
-    
+
     .theScreen_body{
         padding-top: 40px;
     }
-    }
-    
-    .layoutDefault {
-        position: absolute;
-        display: flex;
-        height: 1000px;
-        width: 99%;
-        align-items: flex-start;
-        justify-content: center;
-        margin-top: -220px;
-        overflow: hidden;
-    }
-    
-    .layoutDefault_view{
-        height: 1000px;
-        width: 540px;
-    }
-    
-    .theLogin{
-        height: 800px;
-        width: 540px;
-    }
-    
-    .theLogin_form{
-        display: flex;
-        height: 100%;
-        width: 100%;
-        flex-direction: column;
-        justify-content: center;
-    }
-    
-    .theScreen{
-        display: flex;
-        height: 100%;
-        flex-direction: column;
-        border-radius: 8px;
-        background: #fff;
-    }
-    
-    .theScreen_header{
-        z-index: 10;
-        display: flex;
-        width: 92%;
-        flex-shrink: 0;
-        align-items: center;
-        justify-content: center;
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
-        height: 44px;
+}
 
-    }
-    
-    
-    .headerLogo{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    a{
-        color: inherit;
-        text-decoration: inherit;
-    }
-    
-    .theScreen_body{
-        height: 100%;
-        overflow: auto;
-        min-height: 344px;
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
-    
-    h1 {
-        font-size: 1.4rem;
-        line-height: 2rem;
-        text-align: center;
-    }
-    
-    .textTitle span {
-        position: relative;
-    }
-    
-    .theLogin_bodyInput{
-        margin-top: 44px;
-        margin-bottom: 18px;
-    }
-    
-    .TextField {
-        display: block;
-        padding-top: 0.5rem;
-    }
-    
-    .TextField_label {
-        display: block;
-        text-align: left;
-        font-size: 0.75rem;
-        font-weight: 700;
-        line-height: 1rem;
-        --tw-text-opacity: 1;
-        color: rgba(34, 37, 43, var(--tw-text-opacity));
-        margin-bottom: 10px;
-    }
-    
-    .TextField_body {
-        position: relative;
-        margin-bottom: 0.75rem;
-        border-bottom-width: 1px;
-        padding-bottom: 0.5rem;
-    }
-    
-    .TextField_bodyInput {
-        display: block;
-        width: 100%;
-        font-size: 1.125rem;
-        line-height: 1.75rem;
-        line-height: 1;
-        caret-color: #0206af;
-        height: 28px;
-    }
-    
-    body, body input {
-        letter-spacing: -.038rem!important;
-    }
-    
-    button, input, optgroup, select, textarea {
-        padding: 0;
-        line-height: inherit;
-        color: inherit;
-    }
-    
-    *, ::before, ::after {
-        --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
-        --tw-ring-offset-width: 0px;
-        --tw-ring-offset-color: #fff;
-        --tw-ring-color: rgba(59, 130, 246, 0.5);
-        --tw-ring-offset-shadow: 0 0 #0000;
-        --tw-ring-shadow: 0 0 #0000;
-    }
-    
-    .TextField_bodyInput[type=password] {
-        letter-spacing: 4px!important;
-    }
-    
-    
-    
-    .TextField_bodyButton {
-        position: absolute;
-        top: 0.25rem;
-        right: 0px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 20px;
-        border: none;
-    }
-    
-    .school{
-        width: 32.58%;
-        margin-top: 11px;
-        padding: 12px 0;
-        border: 1px solid white;
-        background-color: #edecec;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 400;
-        color: #242424;
-        line-height: 16px;
-    }
-    
-    .Input{
-        display: block;
-        width: 100%;
-        font-size: 11px;
-        line-height: 1.75rem;
-        line-height: 1;
-        caret-color: #0206af;
-        height: 28px;
-        box-sizing: border-box;
-        border-width: 0;
-        border-bottom: 1px solid #d8d8d8;
-        color: black;
-    
-    }
-    
-    input:focus {
-        outline: 2px solid transparent;
-        outline-offset: 2px;
-    }
-    
-    .theScreen_footer{
-        position: relative;
-        --tw-bg-opacity: 1;
-        background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-        padding-left: 2rem;
-        padding-right: 2rem;
-        padding-top: 1.25rem;
-        padding-bottom: 1.25rem;
-        border-radius: 0 0 8px 8px;
-    }
-    
-    .Button{
-        border-color: transparent;
-        --tw-bg-opacity: 1;
-        background-color: rgba(2, 6, 175, var(--tw-bg-opacity));
-        --tw-text-opacity: 1;
-        color: rgba(255, 255, 255, var(--tw-text-opacity));
-        font-size: 1rem;
-        line-height: 1.5rem;
-        height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 8px;
-        border-width: 1px;
-        font-weight: 500;
-        width: 100%;
-        margin-bottom: 30px;
-    }
+.layoutDefault {
+    position: absolute;
+    display: flex;
+    height: 1000px;
+    width: 99%;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: -220px;
+    overflow: hidden;
+}
+
+.layoutDefault_view{
+    height: 1000px;
+    width: 540px;
+}
+
+.theLogin{
+    height: 800px;
+    width: 540px;
+}
+
+.theLogin_form{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.theScreen{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.theScreen_header{
+    z-index: 10;
+    display: flex;
+    width: 92%;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    height: 44px;
+
+}
+
+
+.headerLogo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a{
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.theScreen_body{
+    height: 100%;
+    overflow: auto;
+    min-height: 344px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+h1 {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    text-align: center;
+}
+
+.textTitle span {
+    position: relative;
+}
+
+.theLogin_bodyInput{
+    margin-top: 44px;
+    margin-bottom: 18px;
+}
+
+.TextField {
+    display: block;
+    padding-top: 0.5rem;
+}
+
+.TextField_label {
+    display: block;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1rem;
+    --tw-text-opacity: 1;
+    color: rgba(34, 37, 43, var(--tw-text-opacity));
+    margin-bottom: 10px;
+}
+
+.TextField_body {
+    position: relative;
+    margin-bottom: 0.75rem;
+    border-bottom-width: 1px;
+    padding-bottom: 0.5rem;
+}
+
+.TextField_bodyInput {
+    display: block;
+    width: 100%;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    line-height: 1;
+    caret-color: #0206af;
+    height: 28px;
+}
+
+body, body input {
+    letter-spacing: -.038rem!important;
+}
+
+button, input, optgroup, select, textarea {
+    padding: 0;
+    line-height: inherit;
+    color: inherit;
+}
+
+*, ::before, ::after {
+    --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: rgba(59, 130, 246, 0.5);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+}
+
+.TextField_bodyInput[type=password] {
+    letter-spacing: 4px!important;
+}
+
+
+
+.TextField_bodyButton {
+    position: absolute;
+    top: 0.25rem;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    border: none;
+}
+
+.school{
+    width: 32.58%;
+    margin-top: 11px;
+    padding: 12px 0;
+    border: 1px solid white;
+    background-color: #edecec;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #242424;
+    line-height: 16px;
+}
+
+.Input{
+    display: block;
+    width: 100%;
+    font-size: 11px;
+    line-height: 1.75rem;
+    line-height: 1;
+    caret-color: #0206af;
+    height: 28px;
+    box-sizing: border-box;
+    border-width: 0;
+    border-bottom: 1px solid #d8d8d8;
+    color: black;
+
+}
+
+input:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+.theScreen_footer{
+    position: relative;
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-radius: 0 0 8px 8px;
+}
+
+.Button{
+    border-color: transparent;
+    --tw-bg-opacity: 1;
+    background-color: rgba(2, 6, 175, var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+    font-size: 1rem;
+    line-height: 1.5rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border-width: 1px;
+    font-weight: 500;
+    width: 100%;
+    margin-bottom: 30px;
+}

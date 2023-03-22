@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%;">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,141 +10,205 @@
     <link rel="stylesheet" href="../../css/main/footer.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script>
-        $(function(){
+        $(function () {
             $("#header").load("../main/header.html");
             $("#footer").load("../main/footer.html");
         });
     </script>
 </head>
 <body style="height: 100%;">
-    <!-- header 작성 -->
-    <header>
-        <div class="headWrapper">
-            <div class="navigation_wrap">
-                <div class="navigation_left">
-                    <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
-                </div>
-                <div class="navigation_right">
-                    <ul class="menu">
-                        <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                        <li><a href="../../html/board/contestList.html">대회</a></li>
-                        <li><a href="">랭킹</a></li>
-                        <li><a href="javascript:void(0)">게시판</a></li>
-                    </ul>
-                </div>
-                <div class="login">
+<!-- header 작성 -->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a href="/board/problemList">오늘의 문제</a></li>
+                    <li><a href="/board/contestList">대회</a></li>
+                    <li><a href="javascript:void(0)">랭킹</a></li>
+                    <li><a href="/board/boardList">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
                         <span class="loginYet">
-                            <a href="javascript:void(0)" class="btn_login"  style="display: none;">로그인 / 회원가입</a>
+                            <a href="javascript:void(0)" class="btn_login" style="display: none;">로그인 / 회원가입</a>
                         </span>
-                    <span class="loginOk"">
+                <span class="loginOk">
                     <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
                     <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
                     <a href="javascript:void(0)" class="btn_login">로그아웃</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="base" style="min-height: 100%; margin: -85px 0 -210px;">
-        <div class="container">
-            <div class="mainbox">
-                <div class="mainboxHeader box">
-                    <div>
-                        <!-- 대회일때는 span태그안에 글자가 "대회"가 되도록 변경 -->
-                        <!-- a태그에 링크도 대회목록 url로 변경 -->
-                        <a class="category" href="#">
-                            <span>오늘의 문제</span>
-                        </a>
-                    </div>
-                    <h2 class="title">제 572회 추리퀴즈 - [ 나지막한 콧노래 ]</h2>
-                    <div class="questionInfo">
-                        <span class="questionTime">2022.02.03</span>
-                        <div class="questionFile">
-                            첨부파일
-                            <a href="#">첨부된 파일</a>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-                <div class="mainboxBody box">
-                    <p>“어디 외출이라도 했었나 봐?”</p>
-                    <p>안락의자 위에서 몸을 한껏 웅크리고 있던 탐정이 말했다.</p>
-                    <p>-나 : 자네는 어떻게 내가 나갈 때랑 손가락 위치까지 똑같게 앉아있는가?<br>
-                        -탐정 : 몸을 움직이는 것 말고도 나는 에너지를 쓸 일이 꽤 많거든. 이를테면, 자네가 아침부터 어디를 다녀왔는가, 하는 문제들 말야.</p>
-                    <p>탐정은 나를 위아래로 몇 번을 훑어봤다. 그러나 힌트가 될 만한 건 거의 없었다. 탐정도 별수가 없었는지 금새 깊은 고민에 빠졌다.</p>
-                    <p>나는 탐정의 고뇌에 안도하며, 절로 콧노래가 나왔다.</p>
-                    <p>-탐정 : 단서가 전혀 없는데? …하지만 자네라면 멀미가 나는 버스보다는 전철이었겠지? 진짜 문제는 전철을 타고 어디를 갔느냐겠지. 집 근처 전철이면 XX역 한 군데이고, 자네가 XX역에서 전철을 탔다면 갔을 만한 데는 딱 2곳뿐이잖아. 하나는 추리소설 전문 서점과 또 하나는 영화관.</p>
-                    <p><img src="https://www.nis.go.kr:4016/common/download.do?seq=388C51D12ADF2F7E98294E07D8C8E44C" title="%EC%A0%9C572%ED%99%94%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8.jpg"><br style="clear:both;"></p>
-                    <p>아, 바보 같지만 사실 이건 처음부터 답이 정해진 질문이었다. 내가 집을 제외하고는 세상에서 갈 곳이 저 두 곳밖에 없다는 걸 탐정은 너무나 잘 알고 있었다. 하지만 다행히도 서점과 영화관, 선택지는 2개다. 그리고 둘은 각각 전혀 다른 장소에 있었다. 서점은 전철로 따지면 상행선, 영화관은 하행선을 타야 갈 수 있었으니까.</p>
-                    <p>-나 : 자, 처음부터 바보 같은 퀴즈가 되어버리긴 했지만, 그렇다고 답이 쉬운 건 아니지. 잘 맞춰보라고!</p>
-                    <p>나는 의기양양하게 밀어붙였다. 아까의 콧노래를 흥얼거리며. 그러자 그때,</p>
-                    <p>-탐정 : 자네 그 콧노래 소리… 아까부터 계속 신경이 쓰이더군. 무슨 의도가 있는 거지?<br>
-                        -나 : 글쎄… 콧노래 소리에 무슨 의도까지야.<br>
-                        -탐정 : 그 멜로디가 왠지 청아한 종소리와 잘 어울릴 거 같다, 이런 나의 감상에 대해서는 어떻게 생각하나?</p>
-                    <p>탐정의 얘기에 나는 깜짝 놀라고 말았다. 탐정은 이 균열을 놓치지 않고 정답을 내게 던졌다. 과연 나의 행선지는 서점과 영화관 중 무엇일까?</p>
-                    <hr>
-                </div>
-                <div class="answerbox box">
-                    <div class="answerSheet">
-                        <p>나의 행선지는 서점과 영화관 중 무엇일까?</p>
-                        <input type="radio" id="1" name="answer" value="">
-                        <label for="1">1. 서점</label>
-                        <br>
-                        <input type="radio" id="2" name="answer" value="">
-                        <label for="2">2. 영화관</label>
-                        <br>
-                        <!-- <input type="text" name="answer" placeholder="정답 입력"> -->
-                        <textarea class="question" placeholder="정답 입력""></textarea>
-                    </div>
-                    <button class="btnAnswer">제출</button>
-                </div>
+                </span>
             </div>
         </div>
     </div>
-    <footer class="mainFooter" style="height: auto;">
-        <div class="footer_wrap">
-            <div class="footer_content">
-                <ul class="footer_list_top">
-                    <li class="list_style top_font">
-                        <span>(미정)소개</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>이용약관</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>개인정보처리방침</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>출제 문의</span>
-                    </li>
-                    <li class="list_style top_font">
-                        <span>광고 문의</span>
-                    </li>
-                </ul>
-                <ul class="footer_list_middle">
-                    <li class="list_style">
-                        <span class="middle_font">팀명 : 핫식스</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트명 : 미정</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">프로젝트 깃허브</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀장 : 고진혁</span>
-                    </li>
-                    <li class="list_style">
-                        <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
-                    </li>
-                </ul>
-                <div class="footer_bottom">
-                    @ 2022 Hot6. All rights reserved.
+</header>
+
+<div class="base" style="min-height: 100%; margin: -85px 0 -210px;">
+    <div class="container">
+        <form method="post" th:action="@{/board/problemDetail}" id="writeForm" enctype="multipart/form-data">
+            <th:block th:each="todayQuiz:${todayQuizList}">
+                <div class="mainbox" th:object="${todayQuiz}" style="margin-bottom: 12px;">
+                    <div class="mainboxHeader box">
+                        <div>
+                            <!-- 대회일때는 span태그안에 글자가 "대회"가 되도록 변경 -->
+                            <!-- a태그에 링크도 대회목록 url로 변경 -->
+                            <a th:if="*{quizTheme}==0" class="category">
+                                <span>오늘의 문제</span>
+                            </a>
+                            <a th:if="*{quizTheme}==1" class="category">
+                                <span>대회</span>
+                            </a>
+                        </div>
+                        <h2 class="title" th:text="*{quizTitle}">제 572회 추리퀴즈 - [ 나지막한 콧노래 ]</h2>
+                        <div class="questionInfo">
+                            <span class="questionTime" th:text="*{quizRegisterDate}">2022.02.03</span>
+                            <input type="hidden" th:value="*{quizList}">     <!--컨트롤러에 값 넘겨주기위해-->
+                            <input type="hidden" th:value="*{quizNumber}">   <!--컨트롤러에 값 넘겨주기위해-->
+                            <!--                            <div class="questionFile">-->
+                            <!--                                첨부파일-->
+                            <!--                                <a href="#">첨부된 파일</a>-->
+                            <!--                            </div>-->
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="mainboxBody box" th:text="*{quizContent}"></div>
+                    <div class="answerbox box">
+                        <!--                        <div class="answerSheet" th:each="quiz : ${quizList}">-->
+                        <div class="answerSheet">
+                            <!--                            <p>나의 행선지는 서점과 영화관 중 무엇일까?</p>-->
+                            <div th:if="*{quizType}==1">
+                                <!-- <input type="text" name="answer" placeholder="정답 입력"> -->
+                                <textarea class="question" th:field="${myQuiz.myQuizUserAnsOne}"
+                                          placeholder="정답 입력"></textarea>
+                            </div>
+                            <!--                            <div th:if="*{quizType}==0" th:each="examples : ${examples}">-->
+                            <!--                                <input type="radio" th:field="${myQuiz.myQuizUserAnsOne}" th:value="${examples}">-->
+                            <!--                                <label th:for="${#ids.next('myQuiz.myQuizUserAnsOne')}" th:text="${examples}">① 건물 관리인</label>-->
+                            <!--                            </div>-->
+                            <!--                            <div th:if="*{quizType}==0">-->
+                            <!--                                <div>-->
+                            <!--                                    <input type="radio" id="1" name="answer" th:field="${myQuiz.myQuizUserAnsOne}" th:value="*{quizTwo}">-->
+                            <!--                                    <label th:for="1" th:text="*{quizTwo}">① 건물 관리인</label>-->
+                            <!--                                </div>-->
+                            <!--                                <div>-->
+                            <!--                                    <input type="radio" id="2" name="answer" th:field="${myQuiz.myQuizUserAnsOne}" th:value="${quizThree}">-->
+                            <!--                                    <label th:for="2" th:text="*{quizThree}">② 동업자</label>-->
+                            <!--                                </div>-->
+                            <!--                                <div>-->
+                            <!--                                    <input type="radio" id="3" name="answer" th:field="${myQuiz.myQuizUserAnsOne}"-->
+                            <!--                                           th:value="${quizFour}">-->
+                            <!--                                    <label th:for="3" th:text="*{quizFour}">③ 부인</label>-->
+                            <!--                                </div>-->
+                            <!--                                <div>-->
+                            <!--                                    <input type="radio" id="4" name="answer" th:field="${myQuiz.myQuizUserAnsOne}" th:value="${quizFive}">-->
+                            <!--                                    <label th:for="4" th:text="*{quizFive}">④ 친구A</label>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <div th:if="*{quizType}==0">
+                                <div>
+                                    <input type="radio" th:id="*{quizTwo}" th:name="*{quizNumber}" th:value="*{quizTwo}">
+                                    <label th:for="*{quizTwo}" th:text="*{quizTwo}">① 건물 관리인</label>
+                                </div>
+                                <div>
+                                    <input type="radio" th:id="*{quizThree}" th:name="*{quizNumber}" th:value="*{quizThree}">
+                                    <label th:for="*{quizThree}" th:text="*{quizThree}">② 동업자</label>
+                                </div>
+                                <div>
+                                    <input type="radio" th:id="*{quizFour}" th:name="*{quizNumber}"
+                                           th:value="*{quizFour}">
+                                    <label th:for="*{quizFour}" th:text="*{quizFour}">③ 부인</label>
+                                </div>
+                                <div>
+                                    <input type="radio" th:id="*{quizFive}" th:name="*{quizNumber}" th:value="*{quizFive}">
+                                    <label th:for="*{quizFive}" th:text="*{quizFive}">④ 친구A</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </th:block>
+
+
+            <!--        </form>-->
+            <!--        <form method="post" th:action="@{/board/problemOk}" th:object="${myQuiz}" enctype="multipart/form-data">-->
+            <!--            <input type="text" th:field = "*{myQuizUserAnsOne}">-->
+            <!--            <input type="submit" value="눌렀어">-->
+
+            <button type="submit" class="btnAnswer">제출</button>
+        </form>
+
+        <!--            <form  method="post" th:action="@{/board/problemDetailOk}" th:object="${myQuiz}" name="ansSubmit">-->
+        <!--                <input type="hidden" th:field="*{quizNumber}">-->
+        <!--                <input type="hidden" th:field="*{userNumber}">-->
+        <!--            </form>-->
+    </div>
+</div>
+<footer class="mainFooter" style="height: auto;">
+    <div class="footer_wrap">
+        <div class="footer_content">
+            <ul class="footer_list_top">
+                <li class="list_style top_font">
+                    <span>(미정)소개</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>이용약관</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>개인정보처리방침</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>출제 문의</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>광고 문의</span>
+                </li>
+            </ul>
+            <ul class="footer_list_middle">
+                <li class="list_style">
+                    <span class="middle_font">팀명 : 핫식스</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트명 : 미정</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트 깃허브</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀장 : 고진혁</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
+                </li>
+            </ul>
+            <div class="footer_bottom">
+                @ 2022 Hot6. All rights reserved.
             </div>
         </div>
-    </footer>
-
+    </div>
+</footer>
 </body>
+<script th:inline="javascript">
+    let queryString = [[${criteria.queryString}]];
+    let quizList = [[${todayQuizList[0].quizList}]];
+    let examples = [[${examples}]];
+    console.log([[${myQuizAns}]]);
+    console.log([[${todayQuizList[0].quizTwo}]]);
+
+
+
+    $("a.category").on("click", function (e) {
+        e.preventDefault();
+        location.href = "/board/problemList" + queryString;
+    });
+
+    // $("button.btnAnswer").on("click", function(e){
+    //     e.preventDefault();
+    // location.href = "/board/problemAnswer?quizList=" + quizList;
+    // let text = "/board/problemAnswer?quizList=" + quizList;
+    // $("form#writeForm").append(quizList).submit()
+    // });
+</script>
 </html>

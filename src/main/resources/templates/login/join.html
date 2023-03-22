@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,100 +13,114 @@
     <link rel="stylesheet" href="../../css/login/join.css">
     <!-- font css -->
     <link >
+    <link rel="stylesheet" href="../../css/login/joinbtn.css">
 </head>
 <body>
-    <div class="layout">
-        <div class="layoutDefault">
-            <main class="layoutDefault_view">
-                <div class="theLogin">
-                    <form class="theLogin_form">
-                        <div class="theScreen">
-                            <header class="theScreen_header">
-                                <a href="http://127.0.0.1:5500/src/html/main/main.html" class="headerLogo" >
-                                    <h1 style="color: rgb(198, 84, 84)">Hot6</h1>
-                                </a>
-                                <!-- 메인페이지 -->
-                            </header>
-                            <div class="theScreen_body">
-                                <h1 class="textTitle">
-                                    <span>학생 회원 로그인</span>
-                                </h1>
-                                <div class="theLogin_body">
-                                    <div class="theLogin_bodyInput">
-                                        <div class="TextField">
-                                            <label class="TextField_label" style="display: inline-block; ">이메일</label>
-                                            <div id="yahoo1" class="yahoo"  style="display: inline-block; color: red;"></div>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="이메일을 입력해주세요" value="" class="Input" id="yeah">
-                                            </div>
-                                            
+<div class="layout">
+    <div class="layoutDefault">
+        <main class="layoutDefault_view">
+            <div class="theLogin">
+                <div class="theScreen">
+                    <header class="theScreen_header">
+                        <a href="http://127.0.0.1:5500/src/html/main/main.html" class="headerLogo" >
+                            <h1 style="color: rgb(198, 84, 84)">Hot6</h1>
+                        </a>
+                        <!-- 메인페이지 -->
+                    </header>
+                    <div class="theScreen_body">
+                        <h1 class="textTitle">
+                            <span>학생 회원 로그인</span>
+                        </h1>
+                        <form method="post" th:action="@{/login/join}" th:object="${userInfo}" id="joinUser">
+                            <div class="theLogin_body">
+                                <div class="theLogin_bodyInput">
+                                    <div class="TextField">
+                                        <label class="TextField_label" style="display: inline-block; ">이메일</label>
+                                        <div id="yahoo1" class="yahoo"  style="display: inline-block; color: red;"></div>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userEmail}" placeholder="이메일을 입력해주세요" value="" class="Input" id="email">
                                         </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label" style="display: inline-block;">비밀번호</label>
-                                            <div id="yahoo2" class="yahoo" style="display: inline-block; color: red;"></div>
-                                            <div class="TextField_body">
-                                                <input type="password" placeholder="비밀번호를 입력해주세요" value="" class="Input" id="yeah2">
-                                                <button type="button" tabindex="-1" class="TextField_bodyButton">
-                                                    <img src="../../img/main/noon.png" alt="" style="height: 22px;">
-                                                </button>
-                                            </div>
+
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label" style="display: inline-block;">비밀번호</label>
+                                        <span id="checkPwResult"></span>
+                                        <div id="yahoo2" class="yahoo" style="display: inline-block; color: red;"></div>
+                                        <div class="TextField_body">
+                                            <input type="password" th:field="*{userPassword}" placeholder="비밀번호를 입력해주세요" value="" class="Input" id="yeah2">
                                         </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">비밀번호 확인</label>
-                                            <div class="TextField_body">
-                                                <input type="password" placeholder="비밀번호를 다시 입력해주세요" value="" class="Input">
-                                                <button type="button" tabindex="-1" class="TextField_bodyButton">
-                                                    <img src="../../img/main/noon.png" alt="" style="height: 22px;">
-                                                </button>
-                                            </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">비밀번호 확인</label>
+                                        <div class="TextField_body">
+                                            <input type="password" placeholder="비밀번호를 다시 입력해주세요" value="" class="Input" id="yeah3">
                                         </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">이름</label>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="이름을 입력해주세요" value="" class="Input">
-                                            </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">이름</label>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userName}" placeholder="이름을 입력해주세요" value="" class="Input">
                                         </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">휴대폰 번호</label>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="휴대폰 번호를 입력해주세요" value="" class="Input">
-                                            </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">휴대폰 번호</label>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userPhonenum}" placeholder="휴대폰 번호를 입력해주세요" value="" class="Input">
                                         </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">생년월일</label>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="생년월일을 입력해주세요(ex 930926)" value="" class="Input">
-                                            </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">생년월일</label>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userBirth}" placeholder="생년월일을 입력해주세요(ex 930926)" value="" class="Input">
                                         </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">닉네임</label>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="닉네임을 입력해주세요" value="" class="Input">
-                                            </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">닉네임</label>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userNickname}" placeholder="닉네임을 입력해주세요" value="" class="Input">
                                         </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">학생(초/중/고)</label>
-                                            <div class="TextField_body">
-                                                <div class="school_btns">
-                                                    <button tabindex="0" type="button" value="" class="school">초등학교</button>
-                                                    <button tabindex="0" type="button" value="" class="school">중학교</button>
-                                                    <button tabindex="0" type="button" value="" class="school">고등학교</button>
-                                                </div>
-                                                
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">학생(초/중/고)</label>
+                                        <div class="TextField_body">
+                                            <div class="school_btns" style="display: flex;justify-content: space-between;">
+                                                <!--<button tabindex="0" th:field="*{userGrade}" type="button" value="" class="school">초등학교</button>
+                                                <button tabindex="0" type="button" value="" class="school">중학교</button>
+                                                <button tabindex="0" type="button" value="" class="school">고등학교</button>-->
+                                                <input type="radio" th:field="*{userGrade}" id="radio1" name="radios" value="elementary">
+                                                <label for="radio1" style="width: 26%; border-radius: 8px;">초등학교</label>
+                                                <input type="radio" th:field="*{userGrade}" id="radio2" name="radios"value="middle">
+                                                <label for="radio2" style="width: 26%; border-radius: 8px;">중학교</label>
+                                                <input type="radio" th:field="*{userGrade}" id="radio3" name="radios" value="high">
+                                                <label for="radio3" style="width: 26%; border-radius: 8px;">고등학교</label>
+                                                <!--                                                        <label for="cd1">-->
+                                                <!--                                                            <input type="radio" id="cd1" name="cd" value="01" th:checked="${data.cd eq '01'}">-->
+                                                <!--                                                            <span>초등학교</span>-->
+                                                <!--                                                        </label>-->
+                                                <!--                                                        <label for="cd2">-->
+                                                <!--                                                            <input type="radio" id="cd2" name="cd" value="02" th:checked="${data.cd eq '02'}">-->
+                                                <!--                                                            <span>중학교</span>-->
+                                                <!--                                                        </label>-->
+                                                <!--                                                        <label for="cd3">-->
+                                                <!--                                                            <input type="radio" id="cd3" name="cd" value="03" th:checked="${data.cd eq '03'}">-->
+                                                <!--                                                            <span>고등학교</span>-->
+                                                <!--                                                        </label>-->
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <footer class="theScreen_footer">
-                                <button type="submit" class="Button" >로그인</button>
+                                <input type="submit" class="Button" value="가입하기"/>
                             </footer>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
+</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script>
@@ -127,7 +141,41 @@
         });
 
     });
-    
+</script>
+<script>
+    $('#email').change(function() {
+        let email = $(this).val();
+        let pattern_email = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/;
+        pattern_email = new RegExp(pattern_email);
+        if (pattern_email.test(email) == false) {
+            alert('정확한 이메일 주소를 입력하세요');
+            $(this).focus();
+        }
+    });
+
+    $("#yeah2").change(function(){
+        let password = $(this).val();
+        let pattern_password = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        pattern_password = new RegExp(pattern_password);
+        if (pattern_password.test(password) == false) {
+            alert('최소 8자 영문 대 소문자, 숫자, 특수문자를 사용하세요.');
+            $(this).focus();
+        }
+    });
+
+    let checkPw = $("#yeah2");
+    let checkPwPw = $("#yeah3");
+    checkPwPw.on("change", function(){
+        if(checkPw.val() != checkPwPw.val()){
+            $("#checkPwResult").text("*비밀번호가 일치하지 않습니다");
+            $("#checkPwResult").css("color", "red");
+            $("#checkPwResult").css("font-size", "12px");
+            $("#checkPwResult").css("margin-left", "6px");
+            checkPwPw.focus();
+        }else{
+            $("#checkPwResult").text("");
+        }
+    });
 
 </script>
 </html>

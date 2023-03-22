@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>질문하기</title>
+    <link rel="stylesheet" href="../../css/main/header.css">
+    <link rel="stylesheet" href="../../css/main/footer.css">
+    <link rel="stylesheet" href="../../css/board/contestWrite.css">
+</head>
+<body>
+<!-- header 작성 -->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a href="javascript:void(0)">오늘의 문제</a></li>
+                    <li><a href="javascript:void(0)">대회</a></li>
+                    <li><a href="javascript:void(0)">랭킹</a></li>
+                    <li><a href="javascript:void(0)">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
+                            <span class="loginYet">
+                                <a href="javascript:void(0)" class="btn_login">로그인 / 회원가입</a>
+                            </span>
+                <span class="loginOk" style="display: none;">
+                                <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
+                                <a href="javascript:void(0)" class="loginOk_font">설정</a>
+                                <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+                            </span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="base">
+    <div class="container">
+        <div class="container2">
+            <div class="container3">
+                <div class="mainContainer">
+                    <div class="content">
+                        <form method="post" th:action="@{/board/contestWrite}" th:object="${contestQuizList}"
+                              id="writeForm" enctype="multipart/form-data">
+                            <div class="categoryContainer">
+                                <label class="categoryLabel">대회 LEVEL</label>
+                                <div class="categoryBox">
+                                    <select class="categorySelect" th:field="*{quizLevel}">
+                                        <option th:value="elementLevel" >초등학교</option>
+                                        <option th:value="midLevel" >중학교</option>
+                                        <option th:value="highLevel" >고등학교</option>
+                                    </select>
+                                    <input type="text" name="category" class="categoryInput" th:field="*{quizListTitle}"
+                                           placeholder="대회 이름을 작성해주세요.">
+                                </div>
+                            </div>
+                            <div class="textBox">
+                                <header class="titleContainer">
+                                    <input type="text" name="title" th:field="*{quizTitle}" class="titleInput"
+                                           placeholder="문제 타이틀 작성">
+                                    <span>(0/80자)</span>
+                                </header>
+                                <div class="textContainer">
+                                    <div class="mainText">
+                                            <textarea class="question" cols="30" rows="10" th:field="*{quizContent}"
+                                                      placeholder="문제 작성 해주시기 바랍니다"></textarea>
+                                    </div>
+                                    <div class="divCheckType">
+                                        <div class="check_title">문제 유형을 선택해주세요.</div>
+                                        <div class="checkTypeBar">
+                                            <input type="radio" name="problem" id="multiple choice"
+                                                   th:field="*{quizType}" value="0" onclick="showDivAnswer(this)"/>
+                                            <label for="multiple choice">객관식</label>
+                                            &nbsp;
+                                            <input type="radio" name="problem" id="short form"
+                                                   th:field="*{quizType}" value="1" onclick="showDivAnswer(this)"/>
+                                            <label for="short form">주관식</label>
+                                        </div>
+                                    </div>
+                                    <div class="divAnswer">
+                                        <div class="answer-multiple" style="display: none;">
+                                            <div class="check_title">4지선다 작성해주시기 바랍니다.</div>
+                                            <div class="check_title">첫 번째 박스에 정답을 입력해주세요.</div>
+                                            <input class="keyword" th:field="*{quizOne}" type="text"
+                                                   placeholder="정답">
+                                            <input class="keyword" th:field="*{quizTwo}" type="text"
+                                                   placeholder="답1">
+                                            <input class="keyword" th:field="*{quizThree}" type="text"
+                                                   placeholder="답2">
+                                            <input class="keyword" th:field="*{quizFour}" type="text"
+                                                   placeholder="답3">
+                                            <input class="keyword" th:field="*{quizFive}" type="text"
+                                                   placeholder="답4">
+                                        </div>
+                                        <div class="answer-short" style="display: none">
+                                            <div class="check_title">핵심 키워드를 작성해주세요.</div>
+                                            <input class="keyword" th:field="*{quizOne}" type="text"
+                                                   placeholder="키워드">
+                                            <input class="keyword" th:field="*{quizTwo}" type="text"
+                                                   placeholder="키워드">
+                                            <input class="keyword" th:field="*{quizThree}" type="text"
+                                                   placeholder="키워드">
+                                            <input class="keyword" th:field="*{quizFour}" type="text"
+                                                   placeholder="키워드">
+                                            <input class="keyword" th:field="*{quizFive}" type="text"
+                                                   placeholder="키워드">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="textBoxContainer"></div>
+                            <div class="plusProblem">
+                                <button type="button" name="register" class="btnPlus" id="plusProblem">문제 추가</button>
+                            </div>
+                            <div class="qstFooter">
+                                <button type="submit" name="register" class="btnRegister">대회 등록</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="noticeContainer">
+                        <div class="noticeBox">
+                            <div class="noticeTitle">
+                                <img src="https://www.a-ha.io/_nuxt/img/electric-light-bulb.d60c538.png">
+                                <span class="noticeTitleText">문제 작성 시 고려 사항</span>
+                            </div>
+                            <div class="noticeContent">
+                                <ul>
+                                    <li>대회 문제는 최대 10 문제까지 가능합니다</li>
+                                    <li>객관식은 5지선다형 입니다.</li>
+                                    <li>주관식 답변의 경우 키워드를 지정해주시기 바랍니다.</li>
+                                    <li>키워드 지정은 5개 입니다.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="mainFooter">
+    <div class="footer_wrap">
+        <div class="footer_content">
+            <ul class="footer_list_top">
+                <li class="list_style top_font">
+                    <span>(미정)소개</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>이용약관</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>개인정보처리방침</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>출제 문의</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>광고 문의</span>
+                </li>
+            </ul>
+            <ul class="footer_list_middle">
+                <li class="list_style">
+                    <span class="middle_font">팀명 : 핫식스</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트명 : 미정</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트 깃허브</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀장 : 고진혁</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
+                </li>
+            </ul>
+            <div class="footer_bottom">
+                @ 2022 Hot6. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<!--<script src="../../js/main/contestWrite.js"></script>-->
+<script th:inline="javascript">
+
+    var count = 0;
+
+    // 버튼 클릭 이벤트 감지
+    document.getElementById('plusProblem').addEventListener('click', function(e) {
+        e.preventDefault();
+        // HTML 코드 생성
+        let answerShortHtml = `
+        <div class="textBox">
+            <header class="titleContainer">
+                <input type="text" name="title" th:field="*{quizTitle}" class="titleInput"
+                       placeholder="문제 타이틀 작성">
+                <span>(0/80자)</span>
+            </header>
+            <div class="textContainer">
+                <div class="mainText">
+                        <textarea class="question" cols="30" rows="10" th:field="*{quizContent}"
+                                  placeholder="문제 작성 해주시기 바랍니다"></textarea>
+                </div>
+                <div class="divCheckType">
+                    <div class="check_title">문제 유형을 선택해주세요.</div>
+                    <div class="checkTypeBar">
+                        <input type="radio" name="problem" id="multiple choice"
+                               th:field="*{quizType}" value="0" onclick="showDivAnswer(this)"/>
+                        <label for="multiple choice">객관식</label>
+                        &nbsp;
+                        <input type="radio" name="problem" id="short form"
+                               th:field="*{quizType}" value="1" onclick="showDivAnswer(this)"/>
+                        <label for="short form">주관식</label>
+                    </div>
+                </div>
+                <div class="divAnswer">
+                    <div class="answer-multiple" style="display: none;">
+                        <div class="check_title">4지선다 작성해주시기 바랍니다.</div>
+                        <div class="check_title">첫 번째 박스에 정답을 입력해주세요.</div>
+                        <input class="keyword" th:field="*{quizOne}" type="text"
+                               placeholder="정답">
+                        <input class="keyword" th:field="*{quizTwo}" type="text"
+                               placeholder="답1">
+                        <input class="keyword" th:field="*{quizThree}" type="text"
+                               placeholder="답2">
+                        <input class="keyword" th:field="*{quizFour}" type="text"
+                               placeholder="답3">
+                        <input class="keyword" th:field="*{quizFive}" type="text"
+                               placeholder="답4">
+                    </div>
+                    <div class="answer-short" style="display: none">
+                        <div class="check_title">핵심 키워드를 작성해주세요.</div>
+                        <input class="keyword" th:field="*{quizOne}" type="text"
+                               placeholder="키워드">
+                        <input class="keyword" th:field="*{quizTwo}" type="text"
+                               placeholder="키워드">
+                        <input class="keyword" th:field="*{quizThree}" type="text"
+                               placeholder="키워드">
+                        <input class="keyword" th:field="*{quizFour}" type="text"
+                               placeholder="키워드">
+                        <input class="keyword" th:field="*{quizFive}" type="text"
+                               placeholder="키워드">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+        // HTML 코드 추가
+        let divPlus = document.createElement('div');
+        divPlus.innerHTML = answerShortHtml;
+        document.getElementById('textBoxContainer').appendChild(divPlus);
+        count++;
+    });
+
+
+
+    // $(this).val(): undefined 나옴
+    function showDivAnswer(element){
+        let divAnswer = element.id.split(" ")[0];
+        console.log("div." + divAnswer);
+
+        if("div.answer-" + divAnswer == "div.answer-multiple") {
+            $("div.answer-multiple").show();
+            $("div.answer-short").hide();
+        }
+        if("div.answer-" + divAnswer == "div.answer-short") {
+            $("div.answer-multiple").hide();
+            $("div.answer-short").show();
+        }
+    }
+
+
+
+    function register(){
+        var quizList = [];
+        var quizLevel = document.getElementsByClassName("categorySelect");
+        var quizListTitle = document.getElementsByClassName("categoryInput");
+        var quizTitles = document.getElementsByClassName("titleInput");
+        var quizContents = document.getElementsByClassName("question");
+        var quizTypes = document.getElementsByClassName("checkType");
+        var quizOnes = document.getElementsByClassName("quiz1");
+        var quizTwos = document.getElementsByClassName("quiz2");
+        var quizThrees = document.getElementsByClassName("quiz3");
+        var quizFours = document.getElementsByClassName("quiz4");
+        var quizFives = document.getElementsByClassName("quiz5");
+
+
+        for (var i = 0; i < quizTitles.length; i++) {
+            var quizVO = {
+                "quizLevel" : quizLevel[0].value,
+                "quizListTitle" : quizListTitle[0].value,
+                "quizTitle": quizTitles[i].value,
+                "quizContent": quizContents[i].value,
+                "quizType": quizTypes[i].value,
+                "quizOne": quizOnes[i].value,
+                "quizTwo": quizTwos[i].value,
+                "quizThree": quizThrees[i].value,
+                "quizFour": quizFours[i].value,
+                "quizFive": quizFives[i].value
+            };
+            quizList.push(quizVO);
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/board/contestWriteAll");
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify(quizList));
+
+        console.log(quizList);
+    }
+
+
+    document.querySelector('.btnRegister').addEventListener('click', function(e) {
+        if (count != 0) {
+            e.preventDefault();
+            register();
+        }
+    });
+
+
+
+
+</script>
+</html>

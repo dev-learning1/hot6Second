@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,125 +10,134 @@
     <link rel="stylesheet" href="../../css/board/contestList.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script>
-        $(function(){
+        $(function () {
             $("#header").load("../main/header.html");
             $("#footer").load("../main/footer.html");
         });
     </script>
 </head>
 <body>
-    <!-- header 작성 -->
-    <div id="header"></div>
+<!-- header 작성 -->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a href="/board/problemList">오늘의 문제</a></li>
+                    <li><a href="/board/contestList">대회</a></li>
+                    <li><a href="javascript:void(0)">랭킹</a></li>
+                    <li><a href="/board/boardList">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
+                            <span class="loginYet">
+                                <a href="javascript:void(0)" class="btn_login" style="display: none;">로그인 / 회원가입</a>
+                            </span>
+                <span class="loginOk">
+                        <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
+                        <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
+                        <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+                        </span>
+            </div>
+        </div>
+    </div>
+</header>
 
-    <div class="base">
-        <div class="container">
-            <div class="bannerContainer">
-                <div class="banner">
-                    <div class="bannerContent">
-                        <div class="bannerImageContainer">
-                            <img src="https://media.a-ha.io/aha-qna/categories/logos/category_commonsense.png?v=1.2" alt="정보공유" class="bannerImage">
-                        </div>
-                        <div class="bannerTextContainer">
-                            <div>
-                                <span class="title">대회</span>
-                                <span class="description">누구나 참여! 우승은 당신의 것!</span>
-                            </div>
+<div class="base">
+    <div class="container">
+        <div class="bannerContainer">
+            <div class="banner">
+                <div class="bannerContent">
+                    <div class="bannerImageContainer">
+                        <img src="https://media.a-ha.io/aha-qna/categories/logos/category_commonsense.png?v=1.2"
+                             alt="정보공유" class="bannerImage">
+                    </div>
+                    <div class="bannerTextContainer">
+                        <div>
+                            <span class="title">대회</span>
+                            <span class="description">누구나 참여! 우승은 당신의 것!</span>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- 목록 10개일 경우 height: 732 -->
-            <div class="mainContainer" style="height: 270px;">
-                <div class="mainContent">
-                    <div class="leftSideContainer">
-                        <ul class="leftSide">
-                            <li><a href="#">홈</a></li>
-                            <li>
-                                <hr style="margin-top: 12px; border-top: 2px dashed rgb(222, 222, 222);">
-                                <a class="todayProblems" href="#">오늘의 문제</a><br>
-                                <a class="contextProblems" href="#">대회 문제</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="problemContainer">
-                        <div class="problemList">
-                            <div class="problem">
-                                <div class="problemTableWrap">
-                                    <table>
-                                        <thead class="tableHeader">
-                                        <tr>
-                                            <th width="10%">번호</th>
-                                            <th width="60%">제목</th>
-                                            <th width="10%">시작</th>
-                                            <th width="10%">종료</th>
-                                            <th width="10%">상태</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr class="notFinish">
-                                            <td>
-                                                <span>478</span>
+        <!-- 목록 10개일 경우 height: 732 -->
+        <div class="mainContainer" style="height: 732px;">
+            <div class="mainContent">
+                <div class="leftSideContainer">
+                    <ul class="leftSide">
+                        <li><a href="#">홈</a></li>
+                        <li>
+                            <hr style="margin-top: 12px; border-top: 2px dashed rgb(222, 222, 222);">
+                            <a class="todayProblems" href="/board/problemList">오늘의 문제</a><br>
+                            <a class="contextProblems" href="/board/contestList">대회 문제</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="problemContainer">
+                    <button type="button" class="contestBtn"> <!--style="display: none"--> 대회 문제 출제하기</button>
+                    <div class="problemList">
+                        <div class="problem">
+                            <div class="problemTableWrap">
+                                <table>
+                                    <thead class="tableHeader">
+                                    <tr>
+                                        <th width="10%">번호</th>
+                                        <th width="60%">제목</th>
+                                        <th width="10%">시작</th>
+                                        <th width="10%">종료</th>
+                                        <th width="10%">상태</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <th:block th:each="contestQuiz:${contestQuizs}" th:object="${contestQuiz}">
+                                        <tr th:if="*{quizTheme}==1">   <!--class="notFinish"-->
+                                            <td class="quizList" th:text="*{quizList}">
+
                                             </td>
-                                            <td>
-                                                2022 홍익대학교 HI-ARC 프로그래밍 경진대회 Open Contest
+                                            <td class="quizTitle">
+                                                <a class="detail" th:text="*{quizListTitle}" th:href="*{quizList}">
+                                                    //@{/board/problemDetail(quizList=*{quizList})}
+                                                </a>
                                             </td>
-                                            <td>
-                                                2022.11.20 15:00
+                                            <td class="startDate" th:text="*{quizStartDate}">
+
                                             </td>
-                                            <td>
-                                                2022.11.20 17:00
+                                            <td class="finishDate" th:text="*{quizFinishDate}">
+
                                             </td>
-                                            <td>
+                                            <td class="contestCondition">
                                                 진행 전
                                             </td>
                                         </tr>
-                                        <tr class="notFinish">
-                                            <td>
-                                                <span>476</span>
-                                            </td>
-                                            <td>
-                                                4th UNIST Algorithm Programming Contest Uni-CODE 2022 Open Contest
-                                            </td>
-                                            <td>
-                                                2022.11.26 17:00
-                                            </td>
-                                            <td>
-                                                2022.11.26 20:00
-                                            </td>
-                                            <td>
-                                                진행 전
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>469</span>
-                                            </td>
-                                            <td>
-                                                2022 아주대학교 프로그래밍 경시대회 APC Open Contest
-                                            </td>
-                                            <td>
-                                                2022.11.13 19:00
-                                            </td>
-                                            <td>
-                                                2022.11.13 23:00
-                                            </td>
-                                            <td>
-                                                종료
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                    </th:block>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pagerContainer" th:object="${pagination}">
+                                <div class="pagerList">
+                                    <a class="changePage" th:href="*{startPage - 1}" th:if="*{prev}"><img
+                                            src="../../img/board/prv.jpg"></a>
+                                    <th:block
+                                            th:each="page:${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+                                        <a class="changePage" th:href="${page}"
+                                           th:if="${pagination.criteria.page != page}"><code
+                                                th:text="${page}"></code></a>
+                                        <code th:unless="${pagination.criteria.page != page}" th:text="${page}"></code>
+                                    </th:block>
+
+                                    <a class="changePage" th:href="*{endPage + 1}" th:if="*{next}"><img
+                                            src="../../img/board/nxt.jpg"></a>
                                 </div>
-                                <div class="pagerContainer">
-                                    <div class="pagerList">
-                                        <button>1</button>
-                                        <button>2</button>
-                                        <button>3</button>
-                                        <button>4</button>
-                                        <button><img src="../../img/board/nxt.jpg"></button>
-                                    </div>
-                                </div>
+                                <form th:action="@{/board/contestList}" th:object="${criteria}" name="pageForm">
+                                    <input type="hidden" th:field="*{page}">
+                                    <input type="hidden" th:field="*{amount}">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -136,6 +145,112 @@
             </div>
         </div>
     </div>
-    <div id="footer"></div>
+</div>
+
+<footer class="mainFooter">
+    <div class="footer_wrap">
+        <div class="footer_content">
+            <ul class="footer_list_top">
+                <li class="list_style top_font">
+                    <span>(미정)소개</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>이용약관</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>개인정보처리방침</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>출제 문의</span>
+                </li>
+                <li class="list_style top_font">
+                    <span>광고 문의</span>
+                </li>
+            </ul>
+            <ul class="footer_list_middle">
+                <li class="list_style">
+                    <span class="middle_font">팀명 : 핫식스</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트명 : 미정</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">프로젝트 깃허브</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀장 : 고진혁</span>
+                </li>
+                <li class="list_style">
+                    <span class="middle_font">팀원 : 김효범 도희정 황영택</span>
+                </li>
+            </ul>
+            <div class="footer_bottom">
+                @ 2022 Hot6. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
+<script th:inline="javascript">
+    let $pages = $("a.changePage");
+    let queryString = [[${pagination.criteria.queryString}]];
+    var $quizFinishDate = $("td.finishDate")
+    var date = new Date();
+    // var quizBackColor = document.getElementsByClassName("todayProblem")
+
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hour = date.getHours(); // 시
+    var minute = date.getMinutes();  // 분
+    var second = date.getSeconds();  // 초
+
+    const $detail = $("a.detail");
+
+    if ((month + "").length < 2) {
+        month = "0" + month;
+    }
+    if ((day + "").length < 2) {
+        day = "0" + day;
+    }
+    if ((hour + "").length < 2) {
+        hour = "0" + hour;
+    }
+
+    var dateTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+    console.log(dateTime);
+
+    $quizFinishDate.each(function (i, td) {
+        console.log($(this).text());
+        if ($(this).text() > dateTime) {
+            $(this).closest("tr").css("background-color", "rgb(120, 226, 198)");
+        }
+    })
+
+
+    $detail.on("click", function (e) {
+        e.preventDefault();
+        location.href = "/board/problemDetail" + queryString + "?quizList=" + $(this).attr("href");
+    });
+
+    // $quizList.each(function (i, td) {
+    //     if (i!=0) {
+    //         if (($(this).text() == $quizList.slice(i - 1, i).text()) && ($quizRegisterDate.slice(i, i+1).text() == $quizRegisterDate.slice(i - 1, i).text())) {
+    //             $(this).closest("tr").remove();
+    //         }
+    //     }
+    // })
+
+    $pages.on("click", function (e) {
+        e.preventDefault();
+        $(document.pageForm.page).val($(this).attr("href"));
+        document.pageForm.submit();
+    });
+
+    $("button.contestBtn").on("click", function (e) {
+        e.preventDefault();
+        location.href = "/board/contestWrite";
+    });
+
+</script>
 </html>

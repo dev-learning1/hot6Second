@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="ko" style="height: 100%;">
 <head>
     <meta charset="UTF-8">
@@ -14,54 +15,107 @@
     <!-- 푸터 -->
     <link rel="stylesheet" href="../../css/main/footer.css">
 </head>
-<body style="position: relative; background-color: white;">
-    <header>
-        <div class="headWrapper">
-            <div class="navigation_wrap">
-                <div class="navigation_left">
-                    <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
-                </div>
-                <div class="navigation_right">
-                    <ul class="menu">
-                        <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                        <li><a href="javascript:void(0)">대회</a></li>
-                        <li><a href="javascript:void(0)">랭킹</a></li>
-                        <li><a href="javascript:void(0)">게시판</a></li>
-                    </ul>
-                </div>
-                <div class="login">
+<style>
+    label[for='attach'] span {
+        width: 120px;
+        height: 120px;
+        background-color: #ffffff;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        border-radius: 50%;
+        border: 2px solid black;
+    }
+
+    .uploadResult ul{
+        width: 120px;
+        height: 120px;
+        background-color: #ffffff;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+</style>
+<body style="position: relative; background-color: white;" th:object="${userInfo}">
+<!--<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a href="javascript:void(0)">오늘의 문제</a></li>
+                    <li><a href="javascript:void(0)">대회</a></li>
+                    <li><a href="javascript:void(0)">랭킹</a></li>
+                    <li><a href="javascript:void(0)">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
                     <span class="loginYet">
                         <a href="javascript:void(0)" class="btn_login"  style="display: none;">로그인 / 회원가입</a>
                     </span>
-                    <span class="loginOk"">
-                        <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                        <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
-                        <a href="javascript:void(0)" class="btn_login">로그아웃</a>
+                <span class="loginOk">
+                        <a th:href="@{/mypage/myPageMain}" th:text="*{userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
                     </span>
-                </div>
             </div>
         </div>
-    </header>
-    <div id="__nuxt"><!---->
-        <div id="__layout">
-            <div>
-                <div class="base">
-                    <div class="profile page" data-v-69cb600e="">
-                        <header class="profileHeader -defaultCover" data-v-697c8a13="" data-v-69cb600e=""><!----> 
-                            <div class="a-container" data-v-697c8a13="">
-                                <button class="a-button -dark" data-v-697c8a13="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons" data-v-697c8a13="">
-                                        <use href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" xlink:href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" data-v-697c8a13=""></use>
-                                    </svg> 
-                                    커버 사진 수정
-                                </button> 
-                                <button class="a-button -primary" data-v-697c8a13="" id="button_modal">지식프로필 편집</button> 
-                                
-                            </div> 
-                            <!-- 모달창 -->
+    </div>
+</header>-->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                    <li><a th:href="@{/board/contestList}">대회</a></li>
+                    <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                    <li><a th:href="@{/board/boardList}">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
+                    </span>
+                <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
+                    </span>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="__nuxt"><!---->
+    <div id="__layout">
+        <div>
+            <div class="base">
+                <div class="profile page" data-v-69cb600e="">
+                    <header class="profileHeader -defaultCover" data-v-697c8a13="" data-v-69cb600e=""><!---->
+                        <div class="a-container" data-v-697c8a13="">
+                            <button class="a-button -dark" data-v-697c8a13="">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons" data-v-697c8a13="">
+                                    <use href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" xlink:href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" data-v-697c8a13=""></use>
+                                </svg>
+                                커버 사진 수정
+                            </button>
+                            <button class="a-button -primary" data-v-697c8a13="" id="button_modal">지식프로필 편집</button>
+
+                        </div>
+                        <!-- 모달창 -->
+                        <form id="writeForm" method="post" th:action="@{/mypage/updateInfo}" th:object="${userInfo}" enctype="multipart/form-data">
                             <div data-v-68929f59="" data-v-3e730c40="" data-v-697c8a13="" class="a-modal modalProfileEditor" id="modal" style="display: none;">
                                 <div data-v-68929f59="" class="scroll -open">
-                                    <div data-v-68929f59="" class="a-modal__inner" style="width: 600px;"><!----> 
+                                    <div data-v-68929f59="" class="a-modal__inner" style="width: 600px;"><!---->
                                         <div data-v-68929f59="" class="a-modal__innerBody">
                                             <button data-v-68929f59="" class="close-button">
                                                 <svg data-v-68929f59="" xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons">
@@ -69,9 +123,9 @@
 
                                                     </use>
                                                 </svg>
-                                            </button> 
+                                            </button>
                                             <div data-v-3e730c40="" class="header">
-                                                <span data-v-3e730c40="" class="tw-text-lg tw-font-medium">프로필 편집</span> 
+                                                <span data-v-3e730c40="" class="tw-text-lg tw-font-medium">프로필 편집</span>
                                                 <button data-v-3e730c40="" class="close-button">
                                                     <svg data-v-3e730c40="" xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons">
                                                         <use data-v-3e730c40="" href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-cancel" xlink:href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-cancel">
@@ -79,15 +133,29 @@
                                                         </use>
                                                     </svg>
                                                 </button>
-                                            </div> 
+                                            </div>
                                             <div data-v-67fd8155="" data-v-3e730c40="" class="profile-box row">
-                                                <div data-v-67fd8155="" class="profile-image-box tw-mb-5">
-                                                    <span data-v-e03ee39c="" data-v-67fd8155="" class="profile-image" style="width: 85px; height: 85px;">
-                                                    </span> 
+                                                <div data-v-67fd8155="" class="profile-image-box tw-mb-5" style="margin: 0 auto;">
+                                                    <!--                                                        <span data-v-e03ee39c="" data-v-67fd8155="" class="profile-image" style="width: 85px; height: 85px;"></span>-->
+                                                    <div class="field">
+                                                        <input id="attach" name="upload" multiple type="file" style="margin-top: 10px; display: none" value="프로필 사진 추가" data-v-0aca78a1="" data-v-09b58cb1="" class="button-base edit-button -medium -light -">
+                                                    </div>
+                                                    <div class="field">
+                                                        <label for="attach">
+                                                            <div class="uploadResult" style="border-radius: 50%; width: 120px; height: 120px; margin: 0 auto; ">
+                                                                <ul>
+                                                                    <th:block th:each="thumb:*{thumbs}">
+                                                                        <li>
+                                                                            <img th:if="${thumb.thumbImageCheck} " th:src="@{/thumb/display(thumbName=${thumb.thumbUploadPath} + '/s_' + ${thumb.thumbUuid} + '_' + ${thumb.thumbName})}" style="width: 120px; height: 120px;border-radius: 50%;border: 1px solid #e3e3e3;">
+                                                                            <img th:unless="${thumb.thumbImageCheck}" th:src="@{/images/attach.png}" width="100">
+                                                                        </li>
+                                                                    </th:block>
+                                                                </ul>
+                                                            </div>
+                                                        </label>
+                                                    </div>
                                                     <div data-v-09b58cb1="" data-v-67fd8155="" class="profile-image-cropper">
-                                                        <button data-v-0aca78a1="" data-v-09b58cb1="" class="button-base edit-button -medium -light -">
-                                                            프로필 사진 추가
-                                                        </button> 
+
 
                                                         <!-- 모달 안에 모달창 -->
                                                         <div data-v-66125e90="" data-v-09b58cb1="" tabindex="-1" role="dialog" aria-hidden="true" class="modal modal-fixed-right fade fade">
@@ -97,17 +165,17 @@
                                                                         <div data-v-66125e90="" class="container">
                                                                             <div data-v-66125e90="" class="navbar-header">
                                                                                 <button data-v-66125e90="" type="button" class="navbar-toggle collapsed">
-                                                                                    <span data-v-66125e90="" class="sr-only">Toggle navigation</span> 
-                                                                                    <span data-v-66125e90="" class="icon-bar"></span> 
-                                                                                    <span data-v-66125e90="" class="icon-bar middle"></span> 
+                                                                                    <span data-v-66125e90="" class="sr-only">Toggle navigation</span>
+                                                                                    <span data-v-66125e90="" class="icon-bar"></span>
+                                                                                    <span data-v-66125e90="" class="icon-bar middle"></span>
                                                                                     <!-- 여기서부터 모달 css 다시 -->
                                                                                     <span data-v-66125e90="" class="icon-bar"></span>
-                                                                                </button> 
+                                                                                </button>
                                                                                 <a data-v-66125e90="" href="/" class="navbar-brand">
                                                                                     <svg data-v-66125e90="" width="60" height="30" viewBox="0 0 60 30" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-default">
                                                                                         <g clip-path="url(#clip0_1340_8918)">
                                                                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M48.6558 1H48.6642C49.2314 1 49.6912 1.45977 49.6912 2.02692V6.26207C49.6912 6.82923 49.2314 7.289 48.6642 7.289H48.6558C48.0887 7.289 47.6289 6.82923 47.6289 6.26207V2.02692C47.6289 1.45977 48.0887 1 48.6558 1ZM28.8606 11.7052C26.2471 11.9417 24.7865 13.2896 24.2148 14.4382V5.69575C24.2148 4.50257 23.2477 3.53543 22.0545 3.53543H22.0282C20.8351 3.53543 19.8679 4.50257 19.8679 5.69575V27.087C19.8679 28.2802 20.8351 29.2474 22.0282 29.2474H22.0524C23.2456 29.2474 24.2127 28.2802 24.2127 27.087V21.2654C24.2127 18.1757 25.8071 16.3206 28.4059 16.073C32.4208 15.6865 33.4466 18.2848 33.4466 22.1255V27.0876C33.4466 28.2808 34.4138 29.2479 35.607 29.2479C36.8002 29.2479 37.7673 28.2808 37.7673 27.0876V20.4792C37.7694 13.9075 33.9008 11.2494 28.8606 11.7052ZM8.90876 11.6507C13.8289 11.6507 17.8175 15.3929 17.8175 20.5595C17.8175 25.7256 17.8322 20.5595 17.8322 20.5595V27.0777C17.8311 28.2777 16.8572 29.2495 15.6572 29.2485C14.4771 29.2485 13.5131 28.3065 13.4848 27.127V27.0284C13.2693 28.4099 11.3554 29.4682 8.90876 29.4682C3.98864 29.4682 0 25.8577 0 20.5595C0 15.2612 3.98864 11.6507 8.90876 11.6507ZM4.19581 20.5595C4.19581 23.1625 6.30578 25.2724 8.90876 25.2724C11.5117 25.2724 13.6217 23.1625 13.6217 20.5595C13.6217 17.9565 11.5117 15.8465 8.90876 15.8465C6.30578 15.8465 4.19581 17.9565 4.19581 20.5595ZM48.4479 11.6507C53.3706 11.6507 57.3566 15.3929 57.3566 20.5595C57.3566 25.7256 57.3692 20.5595 57.3692 20.5595V27.0756C57.3692 28.2756 56.3963 29.2485 55.1963 29.2485C54.0163 29.2485 53.0523 28.3065 53.0239 27.127V27.0284C52.8084 28.4099 50.8946 29.4682 48.4479 29.4682C43.5252 29.4682 39.5391 25.8577 39.5391 20.5595C39.5391 15.2612 43.5252 11.6507 48.4479 11.6507ZM43.7349 20.5595C43.7349 23.1625 45.8449 25.2724 48.4479 25.2724C51.0509 25.2724 53.1608 23.1625 53.1608 20.5595C53.1608 17.9565 51.0509 15.8465 48.4479 15.8465C45.8449 15.8465 43.7349 17.9565 43.7349 20.5595ZM37.1364 6.50123L40.4149 9.22852C40.8481 9.58883 41.4911 9.53271 41.8551 9.10264C42.2217 8.66942 42.1682 8.02117 41.735 7.65456C41.7335 7.65305 41.7317 7.65181 41.73 7.65046L41.7281 7.64879L38.4497 4.92151C38.0165 4.56067 37.3729 4.61679 37.0089 5.04738C36.6423 5.48008 36.6958 6.12833 37.1285 6.49494L37.1364 6.50123ZM58.5071 4.92212C58.9403 4.56128 59.5839 4.6174 59.9478 5.048C59.9489 5.04931 59.9499 5.05049 59.951 5.05167C59.952 5.05285 59.9531 5.05403 59.9541 5.05534C60.316 5.4917 60.2552 6.13943 59.8188 6.50132L56.5398 9.2286C56.1129 9.55797 55.504 9.50133 55.1453 9.09905C54.7682 8.6758 54.8054 8.02702 55.2287 7.6494L58.5071 4.92212Z" fill="currentColor"></path>
-                                                                                        </g> 
+                                                                                        </g>
                                                                                         <defs>
                                                                                             <clipPath id="clip0_1340_8918">
                                                                                                 <rect width="60" height="30" fill="currentColor">
@@ -119,18 +187,18 @@
                                                                                 </a>
                                                                             </div>
                                                                         </div>
-                                                                    </nav> 
+                                                                    </nav>
                                                                     <div data-v-66125e90="" class="modal-header">
                                                                         <h5 data-v-66125e90="" class="tw-text-center">
                                                                             <button data-v-66125e90="" class="close modal-header-left">
                                                                                 <i data-v-66125e90="" class="icon icon-arrow-left"></i>
-                                                                            </button> 
-                                                                            <span data-v-66125e90="" class="title">프로필 사진 추가</span> 
+                                                                            </button>
+                                                                            <span data-v-66125e90="" class="title">프로필 사진 추가</span>
                                                                             <span data-v-66125e90="" class="modal-header-right">
-                                                                                <span data-v-66125e90="" class="dummy pull-right"></span>
-                                                                            </span>
+                                                                                    <span data-v-66125e90="" class="dummy pull-right"></span>
+                                                                                </span>
                                                                         </h5>
-                                                                    </div> 
+                                                                    </div>
                                                                     <div data-v-66125e90="" class="modal-body">
                                                                         <div data-v-09b58cb1="" class="custom-cropper croppie-container" data-v-66125e90="">
                                                                             <div class="cr-boundary" aria-dropeffect="none" style="width: 280px; height: 280px;">
@@ -144,55 +212,56 @@
                                                                             <div class="cr-slider-wrap">
                                                                                 <input class="cr-slider" type="range" step="0.0001" aria-label="zoom">
                                                                             </div>
-                                                                        </div> 
+                                                                        </div>
                                                                         <button data-v-09b58cb1="" data-v-66125e90="" class="btn btn-primary">저장하기
-                                                                            
+
                                                                         </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div> 
+                                                    </div>
                                                     <!-- 여기까지 -->
 
                                                     <div data-v-67fd8155="" class="tw-flex tw-justify-center tw-items-center tw-mt-5">
                                                         <div data-v-67fd8155="" class="tw-font-medium" style="color: rgb(20, 129, 227); word-break: keep-all;">
-                                                            <span data-v-67fd8155="" class="tw-font-bold">완성도 높은 프로필은 조회수를 높일 수 있어요.</span> 
-                                                            <br data-v-67fd8155=""> 
+                                                            <span data-v-67fd8155="" class="tw-font-bold">완성도 높은 프로필은 조회수를 높일 수 있어요.</span>
+                                                            <br data-v-67fd8155="">
                                                             <span data-v-67fd8155="" class="tw-relative tw-font-medium xxs:tw-text-base tw-text-base">
-                                                                <div data-v-67fd8155="" class="profile-icon -left">
-                                                                    <svg data-v-67fd8155="" width="94" height="86" xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2">
-                                                                        <use data-v-67fd8155="" href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-enroll-profile" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-enroll-profile">
+                                                                    <div data-v-67fd8155="" class="profile-icon -left">
+                                                                        <svg data-v-67fd8155="" width="94" height="86" xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2">
+                                                                            <use data-v-67fd8155="" href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-enroll-profile" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-enroll-profile">
 
-                                                                        </use>
-                                                                    </svg>
-                                                                </div>멋있는 프로필을 완성해 주세요.
-                                                                <div data-v-67fd8155="" class="profile-icon -right">
-                                                                    <svg data-v-67fd8155="" width="100" height="86" xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2">
-                                                                        <use data-v-67fd8155="" href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-enroll-profile2" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-enroll-profile2">
+                                                                            </use>
+                                                                        </svg>
+                                                                    </div>멋있는 프로필을 완성해 주세요.
+                                                                    <div data-v-67fd8155="" class="profile-icon -right">
+                                                                        <svg data-v-67fd8155="" width="100" height="86" xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2">
+                                                                            <use data-v-67fd8155="" href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-enroll-profile2" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-enroll-profile2">
 
-                                                                        </use>
-                                                                    </svg>
-                                                                </div>
-                                                            </span>
+                                                                            </use>
+                                                                        </svg>
+                                                                    </div>
+                                                                </span>
                                                         </div>
                                                     </div>
-                                                </div> 
+                                                </div>
 
-                                                <div data-v-67fd8155="" class="user-info-box"><!----> 
+                                                <div data-v-67fd8155="" class="user-info-box"><!---->
                                                     <div data-v-67fd8155="" class="gray-box">
                                                         <div data-v-67fd8155="" class="gray-box__title">
                                                             닉네임
-                                                        </div> 
+                                                        </div>
                                                         <div data-v-67fd8155="" class="gray-box__description">
                                                             <div data-v-67fd8155="">
                                                                 <div data-v-4087b28a="" data-v-67fd8155="" class="tw-relative">
-                                                                    <input data-v-4087b28a="" type="text" placeholder="최소 3자에서 최대 16자까지 입력할 수 있어요" maxlength="16" class="enroll-input" value="코딩머신"> 
-                                                                    <span data-v-4087b28a="" class="available-length">4 / 16자</span> <!----> 
+                                                                    <input th:field="*{userNickname}" data-v-4087b28a="" type="text" maxlength="16" class="enroll-input" id="updateNickname">
+                                                                    <input type="text" id="nicknameLengthCheck" data-v-4087b28a="" class="available-length">
+                                                                    <input th:field="*{userNumber}" data-v-4087b28a="" type="text" maxlength="16" class="enroll-input" style="display: none">
                                                                     <div data-v-4087b28a="" class="description">
-                                                                        
-                                                                            <img src="../../img/main/bad.png" alt="" class="badImg">
-                                                                        
+
+                                                                        <img src="../../img/main/bad.png" alt="" class="badImg">
+
                                                                         닉네임은 질문 작성시에 노출되며, 답변에는 실명으로 노출 됩니다.
                                                                     </div>
                                                                 </div>
@@ -201,16 +270,16 @@
                                                     </div>
                                                 </div>
 
-                                                <div data-v-67fd8155="" class="user-info-box"><!----> 
+                                                <div data-v-67fd8155="" class="user-info-box"><!---->
                                                     <div data-v-67fd8155="" class="gray-box">
                                                         <div data-v-67fd8155="" class="gray-box__title">
                                                             학교
-                                                        </div> 
+                                                        </div>
                                                         <div data-v-67fd8155="" class="gray-box__description">
                                                             <div data-v-67fd8155="">
                                                                 <div data-v-4087b28a="" data-v-67fd8155="" class="tw-relative">
-                                                                    <input data-v-4087b28a="" type="text" placeholder="본인의 학교 이름을 적어주세요" maxlength="16" class="enroll-input" value="고려대학교"> 
-                                                                    <span data-v-4087b28a="" class="available-length">5 / 16자</span> <!----> 
+                                                                    <input th:field="*{userSchool}" data-v-4087b28a="" type="text" placeholder="본인의 학교 이름을 적어주세요" maxlength="16" class="enroll-input" id="updateSchool">
+                                                                    <input type="text" id="schoolLengthCheck" data-v-4087b28a="" class="available-length">
                                                                     <div data-v-4087b28a="" class="description">
                                                                         <img src="../../img/main/bad.png" alt="" class="badImg">
                                                                         본인의 학교 이름을 정확히 기재해주세요.
@@ -221,16 +290,16 @@
                                                     </div>
                                                 </div>
 
-                                                <div data-v-67fd8155="" class="user-info-box"><!----> 
+                                                <div data-v-67fd8155="" class="user-info-box"><!---->
                                                     <div data-v-67fd8155="" class="gray-box">
                                                         <div data-v-67fd8155="" class="gray-box__title">
                                                             상태메세지
-                                                        </div> 
+                                                        </div>
                                                         <div data-v-67fd8155="" class="gray-box__description">
                                                             <div data-v-67fd8155="">
                                                                 <div data-v-4087b28a="" data-v-67fd8155="" class="tw-relative">
-                                                                    <input data-v-4087b28a="" type="text" placeholder="상태메세지를 적어주세요"  class="enroll-input" value="Hello world"> 
-                                                                    
+                                                                    <input th:field="*{userMsg}" data-v-4087b28a="" type="text" placeholder="상태메세지를 적어주세요"  class="enroll-input" id="updateMsg">
+
                                                                     <div data-v-4087b28a="" class="description">
                                                                         <img src="../../img/main/bad.png" alt="" class="badImg">
                                                                         상태메세지는 마이페이지에 노출됩니다.
@@ -241,16 +310,16 @@
                                                     </div>
                                                 </div>
 
-                                                <div data-v-67fd8155="" class="user-info-box"><!----> 
+                                                <div data-v-67fd8155="" class="user-info-box"><!---->
                                                     <div data-v-67fd8155="" class="gray-box">
                                                         <div data-v-67fd8155="" class="gray-box__title">
                                                             휴대폰 번호
-                                                        </div> 
+                                                        </div>
                                                         <div data-v-67fd8155="" class="gray-box__description">
                                                             <div data-v-67fd8155="">
                                                                 <div data-v-4087b28a="" data-v-67fd8155="" class="tw-relative">
-                                                                    <input data-v-4087b28a="" type="text" placeholder="본인의 휴대폰 번호를 적어주세요" maxlength="12" class="enroll-input"> 
-                                                                    <span data-v-4087b28a="" class="available-length">0 / 12자</span> <!----> 
+                                                                    <input th:field="*{userPhonenum}" data-v-4087b28a="" type="text" placeholder="본인의 휴대폰 번호를 적어주세요" maxlength="12" class="enroll-input" id="updatePhonenum">
+                                                                    <input type="text" id="phonenumLengthCheck" data-v-4087b28a="" class="available-length"> <!---->
                                                                     <div data-v-4087b28a="" class="description">
                                                                         <img src="../../img/main/bad.png" alt="" class="badImg">
                                                                         본인의 휴대폰 번호를 정확히 기재해주세요.
@@ -264,245 +333,165 @@
 
 
                                                 <div data-v-67fd8155="" class="tw-flex tw-justify-center tw-mt-6">
-                                                    <button data-v-0aca78a1="" data-v-67fd8155="" class="button-base -large -primary -" style="max-width: 320px;" id="button_hide">
+                                                    <button type="submit" data-v-0aca78a1="" data-v-67fd8155="" class="button-base -large -primary -" style="max-width: 320px;" id="button_hide">
                                                         저장
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                                 <div data-v-68929f59="" class="a-modal__backdrop"></div>
                             </div>
-                        </header> 
-                        <nav class="profile__tabs xs:tw-hidden sm:tw-hidden md:tw-block" data-v-69cb600e="">
-                            <div class="a-container" data-v-69cb600e="">
-                                <ul data-v-69cb600e="">
-                                    <li class="profile__tabsItem" data-v-69cb600e="">
-                                        <a href="../../html/myPage/myPageMain.html" class="" data-v-69cb600e="" aria-current="page">지식 프로필</a>
-                                    </li> 
-                                    <li class="profile__tabsItem" data-v-69cb600e="">
-                                        <a href="../../html/myPage/myPageQuizOk.html" data-v-69cb600e="" class="nuxt-link-exact-active nuxt-link-active">맞은 문제</a>
-                                    </li> 
-                                    <li class="profile__tabsItem" data-v-69cb600e="">
-                                        <a href="../../html/myPage/myPageQuizNo.html" data-v-69cb600e="" class="">
-                                            틀린 문제
-                                        </a>
-                                    </li> 
-                                    <li class="profile__tabsItem" data-v-69cb600e="">
-                                        <a href="../../html/myPage/myPageInquary.html" data-v-69cb600e="" class="">
-                                            내 문의글
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </nav> 
-                        <section class="a-container no-padding-xs" data-v-69cb600e="">
-                            <aside class="profile__aside" data-v-69cb600e="">
-                                <div class="profileUser a-cardShadow md:tw--mt-40" data-v-1bfbf0fb="" data-v-69cb600e="">
-                                    <div data-v-1bfbf0fb="">
-                                        <div class="tw-flex tw-flex-col tw-items-center xs:tw-flex-col-reverse" data-v-1bfbf0fb="">
-                                            <div class="profileUser__image" data-v-1bfbf0fb="">
-                                                <span border-spacing="true" class="profile-image profileUser__imageComponent" style="width:30px;height:30px;" data-v-e03ee39c="" data-v-1bfbf0fb="">
-                                                    
-                                                </span> 
-                                                <div class="profileUser__imageOverlay" data-v-1bfbf0fb="">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons" data-v-1bfbf0fb="">
-                                                        <use href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" xlink:href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" data-v-1bfbf0fb="">
-                                                        </use>
-                                                    </svg> 
-                                                    <div class="tw-mt-3" data-v-1bfbf0fb="">수정</div>
-                                                </div> 
-                                                <button class="md:tw-hidden profileUser__imageButton" data-v-1bfbf0fb="">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons" data-v-1bfbf0fb="">
-                                                        <use href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" xlink:href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" data-v-1bfbf0fb=""></use>
-                                                    </svg>
-                                                </button>
+                        </form>
+                    </header>
+
+                    <nav class="profile__tabs xs:tw-hidden sm:tw-hidden md:tw-block" data-v-69cb600e="">
+                        <div class="a-container" data-v-69cb600e="">
+                            <ul data-v-69cb600e="">
+                                <li class="profile__tabsItem" data-v-69cb600e="">
+                                    <a th:href="@{/mypage/myPageMain}" class="" data-v-69cb600e="" aria-current="page">지식 프로필</a>
+                                </li>
+                                <li class="profile__tabsItem" data-v-69cb600e="">
+                                    <a th:href="@{/mypage/myPageQuizOk}" data-v-69cb600e="" class="nuxt-link-exact-active nuxt-link-active">맞은 문제</a>
+                                </li>
+                                <li class="profile__tabsItem" data-v-69cb600e="">
+                                    <a th:href="@{/mypage/myPageQuizNo}" data-v-69cb600e="" class="">
+                                        틀린 문제
+                                    </a>
+                                </li>
+                                <li class="profile__tabsItem" data-v-69cb600e="">
+                                    <a th:href="@{/mypage/myPageInquary}" data-v-69cb600e="" class="">
+                                        내 문의글
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <section class="a-container no-padding-xs" data-v-69cb600e="">
+                        <aside class="profile__aside" data-v-69cb600e="">
+                            <div class="profileUser a-cardShadow md:tw--mt-40" data-v-1bfbf0fb="" data-v-69cb600e="">
+                                <div data-v-1bfbf0fb="">
+                                    <div class="tw-flex tw-flex-col tw-items-center xs:tw-flex-col-reverse" data-v-1bfbf0fb="">
+                                        <div class="profileUser__image" data-v-1bfbf0fb="">
+                                            <div class="uploadResult" style="border-radius: 50%; width: 120px; height: 120px;">
+                                                <th:block th:each="thumb:*{thumbs}">
+                                                    <img  style="border-radius: 50%; width: 120px; height: 120px;" th:if="${thumb.thumbImageCheck} " th:src="@{/thumb/display(thumbName=${thumb.thumbUploadPath} + '/s_' + ${thumb.thumbUuid} + '_' + ${thumb.thumbName})}">
+                                                    <img th:unless="${thumb.thumbImageCheck}" th:src="@{/images/attach.png}" width="100">
+                                                </th:block>
                                             </div>
-                                        </div> 
-                                        <div class="tw-text-xl xs:tw-text-xl tw-font-bold tw-mt-2 tw-flex tw-items-center tw-justify-center" data-v-1bfbf0fb="">
-                                            <span class="tw-align-middle" data-v-1bfbf0fb="">
-                                                코딩머신
+                                            <div class="profileUser__imageOverlay" data-v-1bfbf0fb="">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons" data-v-1bfbf0fb="">
+                                                    <use href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" xlink:href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" data-v-1bfbf0fb="">
+                                                    </use>
+                                                </svg>
+                                                <div class="tw-mt-3" data-v-1bfbf0fb="">수정</div>
+                                            </div>
+                                            <button class="md:tw-hidden profileUser__imageButton" data-v-1bfbf0fb="">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons" data-v-1bfbf0fb="">
+                                                    <use href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" xlink:href="/_nuxt/ca45fcd4f31060a49a0f7133023f1729.svg#i-camera" data-v-1bfbf0fb=""></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="tw-text-xl xs:tw-text-xl tw-font-bold tw-mt-2 tw-flex tw-items-center tw-justify-center" data-v-1bfbf0fb="">
+                                            <span th:text="*{userNickname}" class="tw-align-middle" data-v-1bfbf0fb="">
+
                                             </span> <!---->
-                                        </div> 
-                                        <div class="tw-mt-5 xs:tw-hidden sm:tw-hidden md:tw-block" data-v-2f2021a4="" data-v-1bfbf0fb="">
-                                            <div class="profileUser__stats" data-v-2f2021a4="">
-                                                <h5 class="tw-mt-0 tw-mb-4 tw-text-left tw-font-bold" data-v-2f2021a4="">
-                                                    랭킹
-                                                </h5> 
-                                                <div class="profileUser__stats__item" data-v-2f2021a4="">
+                                    </div>
+                                    <!-- 가상요소로 넣을 상태메세지 부분 -->
+                                    <p data-v-1bfbf0fb="" class="tw-text-state tw-font-medium tw-align-middle tw-text-sm tw-mt-4 xs:tw-mt-1 tw-mb-0 tw-break-all tw-whitespace-pre-line">
+                                        <span th:text="*{userMsg}"></span>
+                                    </p>
+                                    <div class="tw-mt-5 xs:tw-hidden sm:tw-hidden md:tw-block" data-v-2f2021a4="" data-v-1bfbf0fb="">
+                                        <div class="profileUser__stats" data-v-2f2021a4="">
+                                            <h5 class="tw-mt-0 tw-mb-4 tw-text-left tw-font-bold" data-v-2f2021a4="">
+                                                랭킹
+                                            </h5>
+                                            <div class="profileUser__stats__item" data-v-2f2021a4="">
                                                     <span class="tw-flex tw-items-center tw-text-gray-700" data-v-2f2021a4="">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2" data-v-2f2021a4="">
                                                             <use href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-question" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-question" data-v-2f2021a4="">
 
                                                             </use>
                                                         </svg>
-                                                        전체 랭킹
-                                                    </span> 
-                                                    <span class="tw-font-medium" data-v-2f2021a4="">
-                                                        10등
+                                                        랭킹
                                                     </span>
-                                                </div> 
-                                                <div class="profileUser__stats__item" data-v-2f2021a4="">
-                                                    <span class="tw-text-gray-700" data-v-2f2021a4="">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2" data-v-2f2021a4="">
-                                                            <use href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-answer" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-answer" data-v-2f2021a4="">
-
-                                                            </use>
-                                                        </svg>동급생 랭킹
-                                                    </span> 
-                                                    <span class="tw-font-medium" data-v-2f2021a4="">
-                                                        1등
+                                                <span class="tw-font-medium" data-v-2f2021a4="">
+                                                        3등
                                                     </span>
-                                                </div>
-                                            </div> 
-                                            <div class="profileUser__stats" data-v-2f2021a4="">
-                                                <h5 class="tw-mt-0 tw-mb-4 tw-text-left tw-font-bold" data-v-2f2021a4="">획득한 반응</h5> 
-                                                <div class="profileUser__stats__item" data-v-2f2021a4="">
+                                            </div>
+                                        </div>
+                                        <div class="profileUser__stats" data-v-2f2021a4="">
+                                            <h5 class="tw-mt-0 tw-mb-4 tw-text-left tw-font-bold" data-v-2f2021a4="">획득한 반응</h5>
+                                            <div class="profileUser__stats__item" data-v-2f2021a4="">
                                                     <span class="tw-text-gray-700" data-v-2f2021a4="">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2" data-v-2f2021a4="">
                                                             <use href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-like" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-like" data-v-2f2021a4="">
 
                                                             </use>
-                                                        </svg>관심 질문
+                                                        </svg>푼 문제
                                                     </span>
-                                                    <span class="tw-font-medium" data-v-2f2021a4="">0회</span>
-                                                </div> 
-                                                <div class="profileUser__stats__item" data-v-2f2021a4="">
+                                                <span th:text="${userCorrectCount}" class="tw-font-medium" data-v-2f2021a4=""></span>
+                                            </div>
+                                            <div class="profileUser__stats__item" data-v-2f2021a4="">
                                                     <span class="tw-text-gray-700" data-v-2f2021a4="">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2" data-v-2f2021a4=""><use href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-thumb-question" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-thumb-question" data-v-2f2021a4="">
 
                                                         </use>
-                                                        </svg>질문 좋아요
-                                                    </span> 
-                                                    <span class="tw-font-medium" data-v-2f2021a4="">0회</span>
-                                                </div> 
-                                                <div class="profileUser__stats__item" data-v-2f2021a4="">
+                                                        </svg>틀린 문제
+                                                    </span>
+                                                <span th:text="${userWrongCount}" class="tw-font-medium" data-v-2f2021a4=""></span>
+                                            </div>
+                                            <div class="profileUser__stats__item" data-v-2f2021a4="">
                                                     <span class="tw-text-gray-700" data-v-2f2021a4="">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2" data-v-2f2021a4="">
                                                             <use href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-answer-check" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-answer-check" data-v-2f2021a4="">
 
                                                             </use>
-                                                        </svg>답변 추천
-                                                    </span> 
-                                                    <span class="tw-font-medium" data-v-2f2021a4="">0회</span>
-                                                </div>
-                                                <div class="profileUser__stats__item" data-v-2f2021a4="">
-                                                    <span class="tw-text-gray-700" data-v-2f2021a4="">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2" data-v-2f2021a4=""><use href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-thumb-question" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-thumb-question" data-v-2f2021a4="">
-
-                                                        </use>
-                                                        </svg>답변 좋아요
-                                                    </span> 
-                                                    <span class="tw-font-medium" data-v-2f2021a4="">0회</span>
-                                                </div>
-                                                <div class="profileUser__stats__item" data-v-2f2021a4="">
-                                                    <span class="tw-text-gray-700" data-v-2f2021a4="">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-v2" data-v-2f2021a4=""><use href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-thumb-question" xlink:href="/_nuxt/7a52db43c0697d020627a8d8c5e23659.svg#i-thumb-question" data-v-2f2021a4="">
-
-                                                    </use>
-                                                    </svg>공유된 컨텐츠(질문, 답변)
-                                                </span> 
-                                                <span class="tw-font-medium" data-v-2f2021a4="">0회</span>
+                                                        </svg>문의
+                                                    </span>
+                                                <span th:text="${userInquiryCount}" class="tw-font-medium" data-v-2f2021a4=""></span>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
 
-                           
-                        </aside> 
+
+                        </aside>
                         <!-- 사이드바 -->
                         <main class="profile__main" data-v-69cb600e="">
                             <div class="questionList">
-                                <div class="question">
-                                    <article>
-                                        <aside>1번</aside>
+                                <div class="question" th:each="userQuizOk:${userQuizOks}">
+                                    <article th:object="${userQuizOk}">
+                                        <aside></aside>
                                         <div class="questionContent">
-                                            
-                                            <div class="questionTitle">
-                                                <a href="../../html/board/boardDetail.html">문제1</a>
-                                            </div>
-                                           
-                                            <div class="questionOption">
-                                                   <span class="questionIcon">
-                                                        
-                                                    </span>
-                                                    <span class="questionIcon">
-                                                        
-                                                    </span>
-                                                    <span class="questionIcon">
-                                                        
-                                                    </span>
-                                                    <span class="questionIcon">
-                                                        
-                                                      <div class="questionIcons">
-                                                   
-                                                    </span>
-                                                </div>
-                                                <span class="questionTime">2022. 11. 16. 12:25</span>
-                                            </div>
-                                        </div>
-                                    </article>
-                                    <article>
-                                        <aside>10번</aside>
-                                        <div class="questionContent">
-                                            <div class="questionTitle">문제2</div>
+                                            <div th:text="*{quizListTitle + ' - ' + quizTitle}" class="questionTitle read" th:href="*{quizNumber}"></div>
                                             <div class="questionOption">
                                                 <div class="questionIcons">
-                                                    
+
                                                 </div>
-                                                <span class="questionTime">2022. 11. 16. 12:29</span>
+                                                <span th:text="*{myQuizSubmitDate}" class="questionTime"></span>
                                             </div>
                                         </div>
                                     </article>
-                                    <article>
-                                        <aside>1000번</aside>
-                                        <div class="questionContent">
-                                            <div class="questionTitle">문제3</div>
-                                            <div class="questionOption">
-                                                <div class="questionIcons">
-                                                    
-                                                </div>
-                                                <span class="questionTime">2022. 11. 16. 12:29</span>
-                                            </div>
-                                        </div>
-                                    </article>
-                                    <article>
-                                        <aside>700번</aside>
-                                        <div class="questionContent">
-                                            <div class="questionTitle">문제4</div>
-                                            <div class="questionOption">
-                                                <div class="questionIcons">
-                                                    
-                                                </div>
-                                                <span class="questionTime">2022. 11. 16. 12:29</span>
-                                            </div>
-                                        </div>
-                                    </article>
-                                    <article>
-                                        <aside>24번</aside>
-                                        <div class="questionContent">
-                                            <div class="questionTitle">문제5</div>
-                                            <div class="questionOption">
-                                                <div class="questionIcons">
-                                                    
-                                                </div>
-                                                <span class="questionTime">2022. 11. 16. 12:29</span>
-                                            </div>
-                                                
-                                        </div>
-                                    </article>
-                                    <div class="pagerContainer">
-                                        <div class="pagerList">
-                                            <button>1</button>
-                                            <button>2</button>
-                                            <button>3</button>
-                                            <button>4</button>
-                                            <button><img src="../../img/board/nxt.jpg"></button>
-                                        </div>
-                                    </div>
                                 </div>
+                            </div>
+                            <div th:object="${pagination}">
+                                <div style="text-align: center">
+                                    <a class="changePage" th:href="*{startPage - 1}" th:if="*{prev}"><code><</code></a>
+                                    <th:block th:each="page:${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+                                        <a class="changePage" th:href="${page}" th:if="${pagination.criteria.page != page}"><code th:text="${page}"></code></a>
+                                        <code th:unless="${pagination.criteria.page != page}" th:text="${page}"></code>
+                                    </th:block>
+                                    <a class="changePage" th:href="*{endPage + 1}" th:if="*{next}"><code>></code></a>
+                                </div>
+                                <form th:action="@{/mypage/myPageQuizOk}" th:object="${criteria}" name="pageQuizOkForm">
+                                    <input type="hidden" th:field="*{page}">
+                                    <input type="hidden" th:field="*{amount}">
+                                </form>
                             </div>
                         </main>
                     </section>
@@ -556,7 +545,14 @@
 </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<script>
+<script src="pageMove.js"></script>
+<script th:inline="javascript">
+    let $pages = $("a.changePage");
+    let quizNumber = [[${quizNumber}]];
+    let queryString = [[${pagination.criteria.queryString}]];
+
+    const $read = $("div.read");
+
     $(document).ready(function(){
         $('#button_hide').click(function(){
             $('#modal').hide();
@@ -564,7 +560,174 @@
         $('#button_modal').click(function(){
             $('#modal').show();
         });
+        $(".modalSpanUpload").hide();
     })
+    $(".uploadResultImg").on("click", function(){
+        console.log("111111111");
+        $(".modalSpanUpload").show();
+    });
 
+    $pages.on("click", function(e){
+        e.preventDefault();
+        $(document.pageQuizOkForm.page).val($(this).attr("href"));
+        document.pageQuizOkForm.submit();
+    });
+
+    /*퀴즈 상세 페이지 주소*/
+    /*$read.on("click", function(e){
+        e.preventDefault();
+        location.href = "//read" + queryString + "&boardNumber=" + $(this).attr("href");
+    });*/
+
+</script>
+<script>
+    $("#updateNickname").keyup(function(e) {
+        var content = $(this).val();
+        $("#nicknameLengthCheck").val("(" + content.length + "/ 16)"); //실시간 글자수 카운팅
+        if (content.length > 16) {
+            Alert("최대 16자까지 입력 가능합니다.");
+            $(this).val(content.substring(0, 16));
+            $('#nicknameLengthCheck').html("(16 / 최대 16자)");
+        }
+    });
+    $("#updateSchool").keyup(function(e) {
+        var content = $(this).val();
+        $("#schoolLengthCheck").val("(" + content.length + "/ 16)"); //실시간 글자수 카운팅
+        if (content.length > 16) {
+            Alert("최대 16자까지 입력 가능합니다.");
+            $(this).val(content.substring(0, 16));
+            $('#schoolLengthCheck').html("(16 / 최대 16자)");
+        }
+    });
+    $("#updatePhonenum").keyup(function(e) {
+        var content = $(this).val();
+        $("#phonenumLengthCheck").val("(" + content.length + "/ 11)"); //실시간 글자수 카운팅
+        if (content.length > 11) {
+            Alert("최대 12자까지 입력 가능합니다.");
+            $(this).val(content.substring(0, 11));
+            $('#phonenumLengthCheck').html("(11 / 최대 11자)");
+        }
+    });
+</script>
+<script>
+    // 업로드한 파일은 input 객체의 프로퍼티에 존재한다.
+    const file = document.querySelector("input[type='file']");
+    // change : 해당 객체에 변화가 있을 때(파일이 없로드 되었을 떄)
+    file.addEventListener("change", function(e){
+        // console.log(e);
+        var reader = new FileReader();
+        //  업로드한 파일을 읽어와서 암호화된 URL 정보를 얻을 수 있다.
+        reader.readAsDataURL(e.target.files[0]);
+        // 전달받은 파일정보를 모두 로딩했을 때
+        reader.onload = function(e){
+            // console.log(e);
+            // 암호화된 절대 경로를 가져와서
+            let url = e.target.result;
+            if(url.includes("image")){
+                // 기존 이미지에서 썸네일 이미지로 대체
+                document.querySelector("label span").style.backgroundImage = "url(" + url + ")";
+                document.querySelector("label span").style.zIndex = "10010";
+            }else{
+                // 미리 준비해놓은 이미지로 대체
+                document.querySelector("label span").style.backgroundImage = "url(../../img/main/logo.jpg)";
+            }
+        }
+    });
+</script>
+<script>
+    let arrayFile = [];
+
+    $("input[type='file']").on('change', function(){
+        let formData = new FormData();
+        let thumbs = this.files;
+
+        Array.from(thumbs).forEach(thumb => arrayFile.push(thumb));
+        const dataTransfer = new DataTransfer();
+        arrayFile.forEach(thumb => dataTransfer.items.add(thumb));
+        $(this)[0].files = dataTransfer.files;
+
+        $(thumbs).each(function(i, thumb){
+            formData.append("upload", thumb);
+        });
+
+        $.ajax({
+            url: "/thumb/upload",
+            type: "post",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: showUploadResult
+        })
+    });
+
+    function showUploadResult(thumbs){
+        console.log(thumbs);
+        console.log(thumbs[0].thumbName);
+        let text = "";
+        $(thumbs).each(function(i, thumb){
+            $(".uploadResult ul li").remove();
+            console.log(thumb);
+            console.log(thumb.thumbName)
+            console.log(thumb["thumbSize"]);
+            console.log(thumb["thumbName"]);
+            text += `<li data-thumb-size="` + thumb.thumbSize + `" data-thumb-name="` + thumb.thumbName + `" data-thumb-upload-path="` + thumb.thumbUploadPath + `" data-thumb-uuid="` + thumb.thumbUuid + `" data-thumb-image-check="` + thumb.thumbImageCheck + `">`;
+            if(!thumb["thumbImageCheck"]){
+                text += `<img src="../../img/main/good.png" width="120">`;
+            }else{
+                text += `<img style="border: 1px solid #e3e3e3;width: 120px;height: 120px;border-radius: 50%;" src="/thumb/display?thumbName=` + thumb.thumbUploadPath + `/s_` + thumb.thumbUuid + "_" + thumb.thumbName + `">`;
+            }
+            text += `</li>`;
+
+        });
+        console.log("11111");
+        console.log(thumbs[0].thumbName);
+        // let thumbName = $(li).data("thumb-name");
+        $(".uploadResult ul").append(text);
+    }
+
+    $(".uploadResult ul").on("click", "span", function(){
+        const $li = $(this).closest("li");
+        let i = $(".uploadResult ul span").index($(this));
+        let thumbUploadPath = $li.data("thumb-upload-path");
+        let thumbName = $li.data("thumb-uuid") + "_" + $li.data("thumb-name");
+        let thumbImageCheck = $li.data("thumb-image-check");
+
+        $.ajax({
+            url: "/thumb/delete",
+            type: "post",
+            data: {thumbUploadPath: thumbUploadPath, thumbName: thumbName, thumbImageCheck: thumbImageCheck},
+            success: function(){
+                $li.remove();
+                arrayFile.splice(i, 1);
+                const dataTransfer = new DataTransfer();
+                arrayFile.forEach(file => dataTransfer.items.add(file));
+                $("input[name='upload']")[0].files = dataTransfer.files;
+            }
+        });
+    });
+
+    $("button[type='submit']").on("mouseover", function(){
+        let thumbImageCheck = $(li).data("thumb-image-check");
+        console.log(thumbImageCheck);
+    });
+
+    $("button[type='submit']").on("click", function(e){
+        e.preventDefault();
+        let text = "";
+        $.each($(".uploadResult ul li"), function(i, li){
+            let thumbName = $(li).data("thumb-name");
+            let thumbUploadPath = $(li).data("thumb-upload-path");
+            let thumbUuid = $(li).data("thumb-uuid");
+            let thumbSize = $(li).data("thumb-size");
+            let thumbImageCheck = $(li).data("thumb-image-check");
+
+            text += `<input type="hidden" name="thumbs[` + i + `].thumbName" value="` + thumbName + `">`;
+            text += `<input type="hidden" name="thumbs[` + i + `].thumbUploadPath" value="` + thumbUploadPath + `">`;
+            text += `<input type="hidden" name="thumbs[` + i + `].thumbUuid" value="` + thumbUuid + `">`;
+            text += `<input type="hidden" name="thumbs[` + i + `].thumbSize" value="` + thumbSize + `">`;
+            text += `<input type="hidden" name="thumbs[` + i + `].thumbImageCheck" value="` + thumbImageCheck + `">`;
+        });
+        $("form#writeForm").append(text).submit();
+    });
 </script>
 </html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>회원가입</title>
+
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/NanumJungHagSaeng.css" rel="stylesheet">
+    <!-- header css -->
+
+    <!-- footer css -->
+
+    <!-- main css -->
+    <link rel="stylesheet" href="../../css/login/logincheck.css">
+    <!-- font css -->
+    <link >
+</head>
+<body>
+<div id="layout">
+    <div class="layoutDefault">
+        <main class="layoutDefaultView">
+            <div class="main">
+                <div class="mainLeft">
+                    <a th:href="@{/main/main}"> <!-- 메인 페이지 경로 추가 -->
+
+
+                        <h3 class="mainLeft_title" style="font-family: 'Pretendard-Regular';">궁금할 땐, 핫식스!</h3>
+                    </a>
+                </div>
+                <div class="mainScreen">
+                    <div class="mainScreen_body">
+                        <div class="homeScreen">
+                            <form class="homeScreen_inner" method="post" th:object="${loginInfo}">
+                                <div class="homeScreen_desktop"></div>
+                                <div class="homeScreen_mobile">
+                                    <!-- 반응형 웹 부분 -->
+                                </div>
+
+                                <div class="homeScreen_btns">
+                                    <div th:if="${error}">
+                                        <div class="alert alert-danger" style="color: red; font-size: 13px; margin-left: 22px">
+                                            <span>* 입력하신 정보와 일치하는 계정이 없습니다.</span>
+                                            <br>
+                                            <span> &nbsp;&nbsp;로그인 정보를 확인해주시기 바랍니다.</span>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input type="email" th:field="*{userEmail}" id="studentJoin1" class="btns loginInput" placeholder="이메일">
+                                    </div>
+                                    <div>
+                                        <input type="password" th:field="*{userPassword}" id="studentJoin" class="btns loginInput" placeholder="비밀번호">
+                                    </div>
+                                    <input type="submit" class="btns btnLogin" id="organJoin" value="로그인하기">
+                                    <div class="btnBottom">
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+</html>

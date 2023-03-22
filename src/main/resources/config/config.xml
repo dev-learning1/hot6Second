@@ -3,11 +3,17 @@
 <configuration>
     <typeAliases>
         <typeAlias type="com.hot6.web.spring.domain.vo.BoardVO" alias="boardVO"/>
+        <typeAlias type="com.hot6.web.spring.domain.vo.BoardDTO" alias="boardDTO"/>
         <typeAlias type="com.hot6.web.spring.domain.vo.ReplyVO" alias="replyVO"/>
+        <typeAlias type="com.hot6.web.spring.domain.vo.ReplyDTO" alias="replyDTO"/>
         <typeAlias type="com.hot6.web.spring.domain.vo.QuizVO" alias="quizVO"/>
+        <typeAlias type="com.hot6.web.spring.domain.vo.QuizDTO" alias="quizDTO"/>
         <typeAlias type="com.hot6.web.spring.domain.vo.MyQuizVO" alias="myQuizVO"/>
         <typeAlias type="com.hot6.web.spring.domain.vo.FileVO" alias="fileVO"/>
         <typeAlias type="com.hot6.web.spring.domain.vo.UserVO" alias="userVO"/>
+        <typeAlias type="com.hot6.web.spring.domain.vo.RankingDTO" alias="rankingDTO"/>
+        <typeAlias type="com.hot6.web.spring.domain.vo.ThumbVO" alias="thumbVO"/>
+        <typeAlias type="com.hot6.web.spring.domain.vo.InReplyVO" alias="inReplyVO"/>
 
     </typeAliases>
 </configuration>

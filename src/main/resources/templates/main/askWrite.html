@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,47 +9,63 @@
     <title>문의하기</title>
 </head>
 <body>
-    <section class="askSection">
-        <div class="askWrapper">
-            <header>
-                <h5 class="h5Text">
-                    <span class="askHead">문의하기</span>
-                </h5>
-            </header>
-            <!-- 마이페이지 목록창으로 이동 -->
-            <form method="post">
-                <div class="askContent">
-                    <div class="askMain">
-                        <div class="divUserId">
-                            <h5 class="hUserId">아이디</h5>
-                            <div class="realUserId">userId</div>
-                        </div>
-                        <div class="divTitle">
-                            <h5 class="hTitle">제목</h5>
-                            <input class="realTitle" type="text" placeholder="문의 제목을 작성해주세요.">
-                        </div>
-                        <div class="divContent">
-                            <h5 class="hTitle">내용</h5>
-                            <textarea class="realContent" id="" cols="30" rows="10"></textarea>
-                        </div>
+<section class="askSection">
+    <div class="askWrapper">
+        <header>
+            <h5 class="h5Text">
+                <span class="askHead">문의하기</span>
+            </h5>
+        </header>
+        <!-- 마이페이지 목록창으로 이동 -->
+        <form method="post" th:object="${askInfo}" th:action="@{/mypage/sendInquiry}">
+            <div class="askContent">
+                <div class="askMain">
+                    <div class="divUserId">
+                        <h5 class="hUserId">이메일</h5>
+                        <div th:text="${userEmail}"class="realUserId" readonly></div>
+                    </div>
+                    <div class="divTitle">
+                        <h5 class="hTitle">제목</h5>
+                        <input th:field="*{boardTitle}" class="realTitle" type="text" placeholder="문의 제목을 작성해주세요.">
+                    </div>
+                    <div class="divContent">
+                        <h5 class="hTitle">내용</h5>
+                        <textarea th:field="*{boardContent}" class="realContent" id="" cols="30" rows="10"></textarea>
                     </div>
                 </div>
-                <footer>
-                    <!-- 취소하면 마이페이지 목록창으로 이동 -->
-                    <input class="btnCancel" type="button" value="취소하기">
-                    <input class="btnAsk" type="submit" value="문의하기">
-                </footer>
-                <ul class="ulInfo">
-                    <li>기관/학교 문의사항은 본 사이트 이메일로 보내주시기 바랍니다.</li>
-                    <li>문제 관련 문의인 경우 문제 번호를 필히 작성해주시기 바랍니다.</li>
-                    <li>회원 탈퇴를 원하실 시, 아래 버튼을 클릭해주시기 바랍니다.</li>
-                    <a href="javascript:void(0)" class="deleteUser">
-                        <img src="../../img/main/minus-button.png">
-                        <span>회원탈퇴</span>
-                    </a>
-                </ul>
-            </form>
-        </div>
-    </section>
+            </div>
+            <footer>
+                <!-- 취소하면 마이페이지 목록창으로 이동 -->
+                <input onclick="moveToInquiryPage()" class="btnCancel" type="button" value="취소하기">
+                <input class="btnAsk" type="submit" value="문의하기">
+            </footer>
+            <ul class="ulInfo">
+                <li>기관/학교 문의사항은 본 사이트 이메일로 보내주시기 바랍니다.</li>
+                <li>문제 관련 문의인 경우 문제 번호를 필히 작성해주시기 바랍니다.</li>
+                <li>회원 탈퇴를 원하실 시, 아래 버튼을 클릭해주시기 바랍니다.</li>
+                <li>질문하신 내용은 답변이 등록되어야 확인 가능합니다.</li>
+                <a onclick="deleteUser()" class="deleteUser">
+                    <img src="../../img/main/minus-button.png">
+                    <span>회원탈퇴</span>
+                </a>
+            </ul>
+        </form>
+    </div>
+</section>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script>
+    function deleteUser(){
+        if(!confirm("탈퇴하시면 계정을 복구하실 수 없습니다. 그래도 진행하시겠습니까?")){
+            alert("회원 탈퇴를 취소 하셨습니다.");
+        }else {
+            alert("회원 탈퇴 되었습니다. 감사합니다.");
+            location.href = "/mypage/delete";
+        }
+    };
+
+    function moveToInquiryPage(){
+        location.href = "/mypage/myPageMain";
+    }
+</script>
 </html>

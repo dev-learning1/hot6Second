@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,78 +15,73 @@
     <link >
 </head>
 <body>
-    <div class="layout">
-        <div class="layoutDefault">
-            <main class="layoutDefault_view">
-                <div class="theLogin">
-                    <form class="theLogin_form">
-                        <div class="theScreen">
-                            <header class="theScreen_header">
-                                <a href="http://127.0.0.1:5500/src/html/main/main.html" class="headerLogo" >
-                                    <h1 style="color: rgb(240, 129, 129);">Hot6</h1>
-                                </a>
-                                <!-- 메인페이지 -->
-                            </header>
-                            <div class="theScreen_body">
-                                <h1 class="textTitle">
-                                    <span>기업/학교 회원 로그인</span>
-                                </h1>
-                                <div class="theLogin_body">
-                                    <div class="theLogin_bodyInput">
-                                        <div class="TextField">
-                                            <label class="TextField_label">이메일</label>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="이메일을 입력해주세요" value="" class="Input">
-                                            </div>
+<div class="layout">
+    <div class="layoutDefault">
+        <main class="layoutDefault_view">
+            <div class="theLogin">
+                <form class="theLogin_form" method="post" th:action="@{/login/joinCompany}" th:object="${userInfo}">
+                    <div class="theScreen">
+                        <header class="theScreen_header">
+                            <a href="http://127.0.0.1:5500/src/html/main/main.html" class="headerLogo" >
+                                <h1 style="color: rgb(240, 129, 129);">Hot6</h1>
+                            </a>
+                            <!-- 메인페이지 -->
+                        </header>
+                        <div class="theScreen_body">
+                            <h1 class="textTitle">
+                                <span>기업/학교 회원 로그인</span>
+                            </h1>
+                            <input type="text" th:field="*{userType}" value="1" style="display: none">
+                            <div class="theLogin_body">
+                                <div class="theLogin_bodyInput">
+                                    <div class="TextField">
+                                        <label class="TextField_label">이메일</label>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userEmail}" placeholder="이메일을 입력해주세요" value="" class="Input">
                                         </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">비밀번호</label>
-                                            <div class="TextField_body">
-                                                <input type="password" placeholder="비밀번호를 입력해주세요" value="" class="Input">
-                                                <button type="button" tabindex="-1" class="TextField_bodyButton">
-                                                    <img src="../../img/main/noon.png" alt="" style="height: 22px;">
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">비밀번호 확인</label>
-                                            <div class="TextField_body">
-                                                <input type="password" placeholder="비밀번호를 다시 입력해주세요" value="" class="Input">
-                                                <button type="button" tabindex="-1" class="TextField_bodyButton">
-                                                    <img src="../../img/main/noon.png" alt="" style="height: 22px;">
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">기업/학교명</label>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="기업/학교명을 입력해주세요" value="" class="Input">
-                                            </div>
-                                        </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">휴대폰 번호</label>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="휴대폰 번호를 입력해주세요" value="" class="Input">
-                                            </div>
-                                        </div>
-                                        <div class="TextField">
-                                            <label class="TextField_label">닉네임</label>
-                                            <div class="TextField_body">
-                                                <input type="text" placeholder="닉네임을 입력해주세요" value="" class="Input">
-                                            </div>
-                                        </div>
-                                       
                                     </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">비밀번호</label>
+                                        <div class="TextField_body">
+                                            <input type="password" th:field="*{userPassword}" placeholder="비밀번호를 입력해주세요" value="" class="Input">
+                                        </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">비밀번호 확인</label>
+                                        <div class="TextField_body">
+                                            <input type="password" placeholder="비밀번호를 다시 입력해주세요" value="" class="Input">
+                                        </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">기업/학교명</label>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userName}" placeholder="기업/학교명을 입력해주세요" value="" class="Input">
+                                        </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">휴대폰 번호</label>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userPhonenum}" placeholder="휴대폰 번호를 입력해주세요" value="" class="Input">
+                                        </div>
+                                    </div>
+                                    <div class="TextField">
+                                        <label class="TextField_label">닉네임</label>
+                                        <div class="TextField_body">
+                                            <input type="text" th:field="*{userNickname}" placeholder="닉네임을 입력해주세요" value="" class="Input">
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-                            <footer class="theScreen_footer">
-                                <button type="submit" class="Button">로그인</button>
-                            </footer>
                         </div>
-                    </form>
-                </div>
-            </main>
-        </div>
+                        <footer class="theScreen_footer">
+                            <input type="submit" class="Button" value="가입하기">
+                        </footer>
+                    </div>
+                </form>
+            </div>
+        </main>
     </div>
+</div>
 </body>
 </html>

@@ -1,179 +1,136 @@
 <!DOCTYPE html>
-<html lang="kor">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>관리자 페이지</title>
-        <link href="../../css/admin/styles2.css" rel="stylesheet" />
-
-    </head>
-    <body class="body-container">
-        <nav class="topnav navbar-dark bg-dark">
-            <!-- logo 이름-->
-            <a class="logo" href="adm_main.html">로고가 들어갑니다</a>      
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>관리자 페이지</title>
+    <link href="../../css/admin/styles2.css" rel="stylesheet" />
+    <script src="../../static/js/jquery.js"></script>
+</head>
+<body class="body-container">
+<nav class="topnav navbar-dark bg-dark">
+    <!-- logo 이름-->
+    <a class="logo" href="/admin/adm_main">로고가 들어갑니다</a>
+</nav>
+<div id="sideNav">
+    <div id="sideNav_nav">
+        <nav class="sb-sidenav sb-sidenav-dark">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="menu-title">문제 리스트</div>
+                    <a class="nav-link" href="/admin/adm_todayList">
+                        오늘의 문제
+                    </a>
+                    <a class="nav-link" href="/admin/adm_contestList">
+                        대회 문제
+                    </a>
+                    <div class="menu-title">회원 정보</div>
+                    <a class="nav-link" href="/admin/adm_userList">
+                        회원 목록
+                    </a>
+                    <a class="nav-link" href="/admin/adm_boardList">
+                        작성 게시글
+                    </a>
+                    <a class="nav-link" href="/admin/adm_inquiryList">
+                        문의글
+                    </a>
+                </div>
+            </div>
         </nav>
-        <div id="sideNav">
-            <div id="sideNav_nav">
-                <nav class="sb-sidenav sb-sidenav-dark">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="menu-title">문제 리스트</div>
-                            <a class="nav-link" href="adm_todayList.html">
-                                오늘의 문제
-                            </a>
-                            <a class="nav-link" href="adm_contestList.html">
-                                대회 문제
-                            </a>
-                            <div class="menu-title">회원 정보</div>
-                            <a class="nav-link" href="adm_userList.html">
-                                회원 목록
-                            </a>
-                            <a class="nav-link" href="adm_boardList.html">
-                                작성 게시글
-                            </a>
-                            <a class="nav-link" href="adm_inquiryList.html">
-                                문의글
-                            </a>
-                           
-                            <div class="menu-title">통계</div>
-                            <a class="nav-link" href="charts.html">
-                                사용자 통계
-                            </a>
-                        </div>
+    </div>
+    <div id="main_content">
+        <main>
+            <div class="main_padding">
+                <h1 class="main-header">문의글</h1>
+
+
+                <div class="card main-margin">
+                    <div>
+                        <table id = user_table class="type09">
+                            <thead>
+                            <tr>
+                                <th class="no">번호</th>
+                                <th class="boardTitle">제목</th>
+                                <th>작성자</th>
+                                <th class="date">작성일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="board:${boards}">
+                                <tr th:object="${board}">
+                                    <td class="no" th:text="*{boardRowNum}"></td>
+                                    <td><a class = "read" th:text="*{boardTitle}" th:href="*{boardNumber}"></a></td>
+                                    <td th:text="*{userNumber}">user1</td>
+                                    <td th:text="*{boardDate}"></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                        </table>
                     </div>
-                </nav>
-            </div>
-            <div id="main_content">
-                <main>
-                    <div class="main_padding">
-                        <h1 class="main-header">문의글</h1>
-                    
-                       
-                        <div class="card main-margin">
-                            <div>
-                                <table id = user_table class="type09">
-                                    <thead>
-                                        <tr>
-                                          <th class="no">번호</th>
-                                          <th class="boardTitle">제목</th>
-                                          <th>작성자</th>
-                                          <th>조회수</th>
-                                          <th>답변여부</th>
-                                          <th class="date">작성일</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr>
-                                            <td class="no">1</td>
-                                            <td><a href="adm_inquiryDetail.html">아하 사이트가 너무 안이쁜데 어캐하죠?</a></td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>N</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">2</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>Y</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">3</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>Y</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">4</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>Y</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">5</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>N</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">6</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>N</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">7</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>N</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">8</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>Y</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">9</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>N</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">10</td>
-                                            <td>유저가 작성한 문의글 입니다</td>
-                                            <td>user1</td>
-                                            <td>23</td>
-                                            <td>N</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="page_wrap">
-                            <div class="page_nation">
-                               <a class="arrow pprev" href="#"></a>
-                               <a class="arrow prev" href="#"></a>
-                               <a href="#" class="active">1</a>
-                               <a href="#">2</a>
-                               <a href="#">3</a>
-                               <a href="#">4</a>
-                               <a href="#">5</a>
-                               <a href="#">6</a>
-                               <a href="#">7</a>
-                               <a href="#">8</a>
-                               <a href="#">9</a>
-                               <a href="#">10</a>
-                               <a class="arrow next" href="#"></a>
-                               <a class="arrow nnext" href="#"></a>
-                            </div>
-                         </div>
+                </div>
+
+                <div th:object="${pagination}">
+                    <div  style="text-align: center">
+                        <a class="changePage" th:href="*{startPage - 1}" th:if="*{prev}"><code><</code></a>
+                        <th:block th:each="page:${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+                            <a class="changePage" th:href="${page}" th:if="${pagination.criteria.page != page}"><code th:text="${page}"></code></a>
+                            <code th:unless="${pagination.criteria.page != page}" th:text="${page}"></code>
+                        </th:block>
+                        <a class="changePage" th:href="*{endPage + 1}" th:if="*{next}"><code>></code></a>
                     </div>
-                </main>
-                <br>
+                    <form th:action="@{/admin/adm_inquiryList}" th:object="${criteria}" name="pageForm">
+                        <input type="hidden" th:field="*{page}">
+                        <input type="hidden" th:field="*{amount}">
+                    </form>
+                </div>
             </div>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-    </body>
+        </main>
+        <br>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="/js/admin/jquery.min.js"></script>
+<script src="../../static/js/admin/jquery.dropotron.min.js"></script>
+<script src="../../static/js/admin/browser.min.js"></script>
+<script src="../../static/js/admin/breakpoints.min.js"></script>
+<script src="../../static/js/admin/js/util.js"></script>
+<script src="../../static/js/admin/jquery.dropotron.min.js"></script>
+<script src="../../static/js/jquery.js"></script>
+<!--        <script  src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+<script th:inline="javascript">
+    let boardNumber = [[${boardNumber}]];
+    let $pages = $("a.changePage");
+    let queryString = [[${pagination.criteria.queryString}]];
+
+    const $read = $("a.read");
+
+    if(boardNumber != null){
+        alert(boardNumber + "번 게시글이 등록되었습니다.");
+    }
+
+    $("a.write").on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/write";
+    });
+
+    $pages.on("click", function(e){
+        e.preventDefault();
+        $(document.pageForm.page).val($(this).attr("href"));
+        document.pageForm.submit();
+    });
+
+    $read.on("click", function(e){
+        e.preventDefault();
+        location.href = "/admin/adm_inquiryDetail" +"?boardNumber=" + $(this).attr("href");
+    });
+
+    $("a.write").on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/write" + queryString;
+    });
+
+</script>
+</body>
 </html>

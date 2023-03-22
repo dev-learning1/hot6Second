@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hot6.web.spring.mapper.ThumbMapper">
+    <insert id="insertThumb">
+        INSERT INTO TBL_THUMB(THUMB_NUMBER, THUMB_NAME, THUMB_UPLOAD_PATH, THUMB_UUID, THUMB_IMAGE_CHECK, THUMB_SIZE, USER_NUMBER)
+        VALUES(SEQ_THUMB.NEXTVAL, #{thumbName}, #{thumbUploadPath}, #{thumbUuid}, #{thumbImageCheck}, #{thumbSize}, #{userNumber})
+    </insert>
+
+    <delete id="deleteThumb">
+        DELETE FROM TBL_THUMB
+        WHERE USER_NUMBER = #{userNumber}
+    </delete>
+
+    <select id="selectAllThumb" resultType="thumbVO">
+        SELECT *
+        FROM (SELECT THUMB_NUMBER, THUMB_NAME, THUMB_UPLOAD_PATH, THUMB_UUID, THUMB_IMAGE_CHECK, THUMB_SIZE, USER_NUMBER
+            FROM TBL_THUMB
+            WHERE USER_NUMBER = #{userNumber}
+            ORDER BY THUMB_NUMBER DESC)
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="selectOldThumbs" resultType="thumbVO">
+        SELECT THUMB_NUMBER, THUMB_NAME, THUMB_UPLOAD_PATH, THUMB_UUID, THUMB_SIZE, THUMB_IMAGE_CHECK, USER_NUMBER
+        FROM TBL_THUMB
+        WHERE THUMB_UPLOAD_PATH = TO_CHAR(CURRENT_DATE - 3, 'YYYY/MM/DD')
+    </select>
+</mapper>

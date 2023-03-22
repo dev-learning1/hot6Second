@@ -1,21 +1,43 @@
 package com.hot6.web.spring.service;
 
 
+import com.hot6.web.spring.domain.vo.BoardDTO;
+import com.hot6.web.spring.domain.vo.Criteria;
+import com.hot6.web.spring.domain.vo.ReplyDTO;
+import com.hot6.web.spring.domain.vo.ReplyVO;
+import com.hot6.web.spring.repository.ReplyDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Scanner;
 
 @Service
 @RequiredArgsConstructor
 public class ReplyService {
-    // 답변 추가
+    private final ReplyDAO replyDAO;
 
-    // 답변 수정
+    public void register(ReplyVO replyVO){
+        replyDAO.save(replyVO);
+    }
 
-    // 답변 삭제
+    public List<ReplyVO> showAll(Long boardNumber, Criteria criteria){
+        return replyDAO.findAll(boardNumber, criteria);
+    }
 
-    // 답변 조회
+    public void modify(ReplyVO replyVO){
+        replyDAO.setReplyVO(replyVO);
+    }
 
-    // 답변 전체 조회
+    public void remove(Long replyNumber){
+        replyDAO.remove(replyNumber);
+    }
+
+    public ReplyVO show(Long replyNumber){
+        return replyDAO.findById(replyNumber);
+    }
+
+    public int count(Long boardNumber){
+        return replyDAO.count(boardNumber);
+    }
 }

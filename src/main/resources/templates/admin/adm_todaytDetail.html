@@ -1,107 +1,102 @@
 <!DOCTYPE html>
-<html lang="kor">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>관리자 페이지</title>
-        <link href="../../css/admin/styles2.css" rel="stylesheet" />
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>관리자 페이지</title>
+    <link href="../../css/admin/styles2.css" rel="stylesheet" />
 
-    </head>
-    <body class="body-container">
-        <nav class="topnav navbar-dark bg-dark">
-            <!-- logo 이름-->
-            <a class="logo" href="adm_main.html">로고가 들어갑니다</a>      
-        </nav>
-        <div id="sideNav">
-            <div id="sideNav_nav">
-                <nav class="sb-sidenav sb-sidenav-dark">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="menu-title">문제 리스트</div>
-                            <a class="nav-link" href="adm_todayList.html">
-                                오늘의 문제
-                            </a>
-                            <a class="nav-link" href="adm_contestList.html">
-                                대회 문제
-                            </a>
-                            <div class="menu-title">회원 정보</div>
-                            <a class="nav-link" href="adm_userList.html">
-                                회원 목록
-                            </a>
-                            <a class="nav-link" href="adm_boardList.html">
-                                작성 게시글
-                            </a>
-                            <a class="nav-link" href="adm_inquiryList.html">
-                                문의글
-                            </a>
-                           
-                            <div class="menu-title">통계</div>
-                            <a class="nav-link" href="charts.html">
-                                사용자 통계
-                            </a>
-                        </div>
-                    </div>
-                </nav>
+</head>
+<body class="body-container">
+<nav class="topnav navbar-dark bg-dark">
+    <!-- logo 이름-->
+    <a class="logo" href="/admin/adm_main">로고가 들어갑니다</a>
+</nav>
+<div id="sideNav">
+    <div id="sideNav_nav">
+        <nav class="sb-sidenav sb-sidenav-dark">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="menu-title">문제 리스트</div>
+                    <a class="nav-link" href="/admin/adm_todayList">
+                        오늘의 문제
+                    </a>
+                    <a class="nav-link" href="/admin/adm_contestList">
+                        대회 문제
+                    </a>
+                    <div class="menu-title">회원 정보</div>
+                    <a class="nav-link" href="/admin/adm_userList">
+                        회원 목록
+                    </a>
+                    <a class="nav-link" href="/admin/adm_boardList">
+                        작성 게시글
+                    </a>
+                    <a class="nav-link" href="/admin/adm_inquiryList">
+                        문의글
+                    </a>
+                </div>
             </div>
-            <div id="main_content">
-                <main>
-                    <div class="main_padding">
-                        <div>
-                            <a href="adm_todayInsert.html"><input type="button" value="수정" style="top : 24px;"></a>
-                            <input type="button" value="삭제" style="top :24px; left: -15px;">
-                            <h1 class="main-header">오늘의 문제</h1>
-                        </div>
-                        <div class="card main-margin">
-                           
-                            <div class="boardView">
-                                <!-- head -->
-                                <div class="head">
-                                    <h2 class="title">오늘의 문제 제목이 들어갑니다</h2>
-                                    <div class="article" data-brl-use="PH">
-                                        <strong>날짜</strong>
-                                        <span>2022-11-20</span>
-                                        <strong>등록자</strong>
-                                        <span>admin</span>
-                                        <strong>영역</strong>
-                                        <span>도형</span>
-                                        <strong>난이도</strong>
-                                        <span>상</span>
-                                    </div>
-                                </div>
-                                <!-- //head -->
-            
-                                <!-- body -->
-                                <div class="body" data-brl-use="PH">
-                                    <div class="cont">
-                                        <div style="text-align: justify;"><br>
-                                            <div>
-                                                오늘의 문제에 대한 내용이 들어갑니다
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- //body -->
-                                <!-- page -->
-                                <div class="page" data-brl-use="PH">
-                                    <div>
-                                        <strong>이전글</strong>
-                                            <a href="#">22/11/19 오늘의 문제</a>
-                                    </div>
-                                    <div>
-                                        <strong class="next">다음글</strong>
-                                                <span>다음글이 없습니다.</span>
-                                    </div>
-                                </div>
-                                <!-- //page -->
+        </nav>
+    </div>
+    <div id="main_content">
+        <main>
+            <div class="main_padding">
+                <div>
+                    <a href="adm_todayInsert.html"><input type="button" value="수정" style="top : 24px;"></a>
+                    <input type="button" value="삭제" style="top :24px; left: -15px;">
+                    <h1 class="main-header">오늘의 문제</h1>
+                </div>
+                <div class="card main-margin">
+
+                    <div class="boardView">
+                        <!-- head -->
+                        <div class="head">
+                            <h2 class="title">오늘의 문제 제목이 들어갑니다</h2>
+                            <div class="article" data-brl-use="PH">
+                                <strong>날짜</strong>
+                                <span>2022-11-20</span>
+                                <strong>등록자</strong>
+                                <span>admin</span>
+                                <strong>영역</strong>
+                                <span>도형</span>
+                                <strong>난이도</strong>
+                                <span>상</span>
                             </div>
                         </div>
-                        <a href="adm_todayList.html"><input type="button" value="목록으로"></a>
-                </main>
-            </div>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-    </body>
+                        <!-- //head -->
+
+                        <!-- body -->
+                        <div class="body" data-brl-use="PH">
+                            <div class="cont">
+                                <div style="text-align: justify;"><br>
+                                    <div>
+                                        오늘의 문제에 대한 내용이 들어갑니다
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- //body -->
+                        <!-- page -->
+                        <div class="page" data-brl-use="PH">
+                            <div>
+                                <strong>이전글</strong>
+                                <a href="#">22/11/19 오늘의 문제</a>
+                            </div>
+                            <div>
+                                <strong class="next">다음글</strong>
+                                <span>다음글이 없습니다.</span>
+                            </div>
+                        </div>
+                        <!-- //page -->
+                    </div>
+                </div>
+                <a href="/admin/adm_todayList"><input type="button" value="목록으로"></a>
+        </main>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+</body>
 </html>

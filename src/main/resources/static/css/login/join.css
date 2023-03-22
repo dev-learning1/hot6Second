@@ -1,32 +1,32 @@
 @media (min-width: 768px) {
-.layoutDefault {
-    padding: 152px 0 80px;
-    background: #f3f5f9;
-    }
-    
-
-.layoutDefault_view{
-    margin: auto;
-    border-radius: 0.25rem;
-    max-width: 464px;
-    max-height: 650px;
+    .layoutDefault {
+        padding: 152px 0 80px;
+        background: #f3f5f9;
     }
 
-.theScreen{
-    position: relative;
-    border-width: 1px;
-}
 
-.theScreen_header{
-    position: absolute;
-    --tw-shadow: 0 0 #0000;
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-    top: -68px;
-}
+    .layoutDefault_view{
+        margin: auto;
+        border-radius: 0.25rem;
+        max-width: 464px;
+        max-height: 650px;
+    }
 
-.theScreen_body{
-    padding-top: 40px;
-}
+    .theScreen{
+        position: relative;
+        border-width: 1px;
+    }
+
+    .theScreen_header{
+        position: absolute;
+        --tw-shadow: 0 0 #0000;
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+        top: -68px;
+    }
+
+    .theScreen_body{
+        padding-top: 40px;
+    }
 }
 
 body {
@@ -80,7 +80,7 @@ body {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
     height: 44px;
- 
+
 }
 
 .headerLogo{

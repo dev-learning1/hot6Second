@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,25 +16,28 @@
             <div class="headWrapper">
                 <div class="navigation_wrap">
                     <div class="navigation_left">
-                        <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+                        <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
                     </div>
                     <div class="navigation_right">
                         <ul class="menu">
-                            <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                            <li><a href="javascript:void(0)">대회</a></li>
-                            <li><a href="javascript:void(0)">랭킹</a></li>
-                            <li><a href="javascript:void(0)">게시판</a></li>
+                            <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                            <li><a th:href="@{/board/contestList}">대회</a></li>
+                            <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                            <li><a th:href="@{/board/boardList}">게시판</a></li>
                         </ul>
                     </div>
                     <div class="login">
-                        <span class="loginYet">
-                            <a href="javascript:void(0)" class="btn_login">로그인 / 회원가입</a>
-                        </span>
-                        <span class="loginOk" style="display: none;">
-                            <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                            <a href="javascript:void(0)" class="loginOk_font">설정</a>
-                            <a href="javascript:void(0)" class="btn_login">로그아웃</a>
-                        </span>
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
+                    </span>
+                        <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
+                    </span>
                     </div>
                 </div>
             </div>

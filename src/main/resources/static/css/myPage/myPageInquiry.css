@@ -1,0 +1,10 @@
+.board_content_content {
+    position: relative;
+    border-top-style: solid;
+    border-top-width: 2px;
+    padding-top: 6px;
+    padding-bottom: 0.8rem;
+    padding-right: 2rem;
+    border-color: rgba(243,245,249,.8);
+    margin-top: 6px;
+}

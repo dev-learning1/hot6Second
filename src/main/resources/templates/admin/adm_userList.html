@@ -1,212 +1,110 @@
 <!DOCTYPE html>
-<html lang="kor">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>관리자 페이지</title>
-        <link href="../../css/admin/styles2.css" rel="stylesheet" />
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>관리자 페이지</title>
+    <link href="../../css/admin/styles2.css" rel="stylesheet" />
 
-    </head>
-    <body class="body-container">
-        <nav class="topnav navbar-dark bg-dark">
-            <!-- logo 이름-->
-            <a class="logo" href="adm_main.html">로고가 들어갑니다</a>      
+</head>
+<body class="body-container">
+<nav class="topnav navbar-dark bg-dark">
+    <!-- logo 이름-->
+    <a class="logo" href="/admin/adm_main">로고가 들어갑니다</a>
+</nav>
+<div id="sideNav">
+    <div id="sideNav_nav">
+        <nav class="sb-sidenav sb-sidenav-dark">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="menu-title">문제 리스트</div>
+                    <a class="nav-link" href="/admin/adm_todayList">
+                        오늘의 문제
+                    </a>
+                    <a class="nav-link" href="/admin/adm_contestList">
+                        대회 문제
+                    </a>
+                    <div class="menu-title">회원 정보</div>
+                    <a class="nav-link" href="/admin/adm_userList">
+                        회원 목록
+                    </a>
+                    <a class="nav-link" href="/admin/adm_boardList">
+                        작성 게시글
+                    </a>
+                    <a class="nav-link" href="/admin/adm_inquiryList">
+                        문의글
+                    </a>
+                </div>
+            </div>
         </nav>
-        <div id="sideNav">
-            <div id="sideNav_nav">
-                <nav class="sb-sidenav sb-sidenav-dark">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="menu-title">문제 리스트</div>
-                            <a class="nav-link" href="adm_todayList.html">
-                                오늘의 문제
-                            </a>
-                            <a class="nav-link" href="adm_contestList.html">
-                                대회 문제
-                            </a>
-                            <div class="menu-title">회원 정보</div>
-                            <a class="nav-link" href="adm_userList.html">
-                                회원 목록
-                            </a>
-                            <a class="nav-link" href="adm_boardList.html">
-                                작성 게시글
-                            </a>
-                            <a class="nav-link" href="adm_inquiryList.html">
-                                문의글
-                            </a>
-                           
-                            <div class="menu-title">통계</div>
-                            <a class="nav-link" href="charts.html">
-                                사용자 통계
-                            </a>
-                        </div>
+    </div>
+    <div id="main_content">
+        <main>
+            <div class="main_padding">
+                <h1 class="main-header">회원 목록</h1>
+
+
+                <div class="card main-margin">
+                    <div>
+                        <table id = user_table class="type09">
+                            <thead>
+                            <tr>
+                                <th class="no">번호</th>
+                                <th>아이디</th>
+                                <th>이름</th>
+                                <th>성별</th>
+                                <th>생년월일</th>
+                                <th>학교</th>
+                                <th>연락처</th>
+                                <th>이메일</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="board:${boards}">
+                                <tr th:object="${board}">
+                                    <td class="no">1</td>
+                                    <td th:text="*{userNickname}"></td>
+                                    <td th:text="*{userName}">김유저</td>
+                                    <td>남</td>
+                                    <td th:text="*{userBirth}">1997-07-24</td>
+                                    <td th:text="*{userSchool}">한국대학교</td>
+                                    <td th:text="*{userPhonenum}">010-2907-8231</td>
+                                    <td th:text="*{userEmail}">youngtaek724@gmail.com</td>
+
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                        </table>
                     </div>
-                </nav>
-            </div>
-            <div id="main_content">
-                <main>
-                    <div class="main_padding">
-                        <h1 class="main-header">회원 목록</h1>
-                    
-                       
-                        <div class="card main-margin">
-                            <div>
-                                <table id = user_table class="type09">
-                                    <thead>
-                                        <tr>
-                                          <th class="no">번호</th>
-                                          <th>아이디</th>
-                                          <th>이름</th>
-                                          <th>성별</th>
-                                          <th>생년월일</th>
-                                          <th>학교</th>
-                                          <th>연락처</th>
-                                          <th>이메일</th>
-                                          <th class="date">가입일</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr>
-                                            <td class="no">1</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">2</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">3</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">4</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">5</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">6</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">7</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">8</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">9</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">10</td>
-                                            <td>user1</td>
-                                            <td>김유저</td>
-                                            <td>남</td>
-                                            <td>1997-07-24</td>
-                                            <td>한국대학교</td>
-                                            <td>010-2907-8231</td>
-                                            <td>youngtaek724@gmail.com</td>
-                                            <td>2022-11-19</td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="page_wrap">
-                            <div class="page_nation">
-                               <a class="arrow pprev" href="#"></a>
-                               <a class="arrow prev" href="#"></a>
-                               <a href="#" class="active">1</a>
-                               <a href="#">2</a>
-                               <a href="#">3</a>
-                               <a href="#">4</a>
-                               <a href="#">5</a>
-                               <a href="#">6</a>
-                               <a href="#">7</a>
-                               <a href="#">8</a>
-                               <a href="#">9</a>
-                               <a href="#">10</a>
-                               <a class="arrow next" href="#"></a>
-                               <a class="arrow nnext" href="#"></a>
-                            </div>
-                         </div>
+                </div>
+                <div class="page_wrap">
+                    <div class="page_nation">
+                        <a class="arrow pprev" href="#"></a>
+                        <a class="arrow prev" href="#"></a>
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">7</a>
+                        <a href="#">8</a>
+                        <a href="#">9</a>
+                        <a href="#">10</a>
+                        <a class="arrow next" href="#"></a>
+                        <a class="arrow nnext" href="#"></a>
                     </div>
-                </main>
-                <br>
+                </div>
             </div>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-    </body>
+        </main>
+        <br>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+</body>
 </html>

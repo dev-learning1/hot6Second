@@ -17,9 +17,9 @@ public class Criteria {
     }
 
     public String getQueryString(){
-        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
-                .queryParam("page", this.page)
-                .queryParam("amount", this.amount);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("");
+//                .queryParam("page", this.page)
+//                .queryParam("amount", this.amount);
         return builder.toUriString();
     }
 }

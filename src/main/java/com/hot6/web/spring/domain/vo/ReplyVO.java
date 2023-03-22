@@ -26,6 +26,7 @@ public class ReplyVO {
 //  유저 번호
     @NonNull
     private Long userNumber;
+    private String userNickname;
 
 
 

@@ -1,20 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hot6.web.spring.mapper.MyQuizMapper">
-    <insert id="insert"></insert>
+    <insert id="insert">
+        <selectKey keyProperty="myQuizNumber" order="BEFORE" resultType="long">
+            SELECT SEQ_MYQUIZ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO TBL_MY_QUIZ(MYQUIZ_NUMBER, USER_NUMBER, QUIZ_NUMBER, MYQUIZ_USERANS_ONE)
+        VALUES(#{myQuizNumber}, #{userNumber}, #{quizNumber}, #{myQuizUserAnsOne})
+    </insert>
 
-    <update id="update"></update>
+    <update id="update">
+        UPDATE TBL_MY_QUIZ
+        SET MYQUIZ_CORRECT = 1
+        WHERE MYQUIZ_USERANS_ONE =
+        (
+            SELECT QUIZ_ONE FROM TBL_QUIZ
+            WHERE QUIZ_NUMBER = #{quizNumber}
+        ) AND USER_NUMBER = #{userNumber}
+    </update>
+    <select id="selectUserQuizOk" resultType="quizDTO">
+        SELECT D3.QUIZ_NUMBER, D3.QUIZ_TITLE, D3.QUIZ_CONTENT, D3.QUIZ_LIST,D3.QUIZ_LIST_TITLE, D3.MYQUIZ_SUBMIT_DATE
+        FROM
+        (
+            SELECT ROWNUM R, D2.QUIZ_NUMBER, D2.QUIZ_TITLE, D2.QUIZ_CONTENT, D2.QUIZ_LIST, D2.QUIZ_LIST_TITLE, D2.MYQUIZ_SUBMIT_DATE
+            FROM
+            (
+                SELECT Q.QUIZ_NUMBER, Q.QUIZ_TITLE, Q.QUIZ_CONTENT, Q.QUIZ_LIST, Q.QUIZ_LIST_TITLE, M.MYQUIZ_SUBMIT_DATE
+                FROM TBL_QUIZ Q, TBL_MY_QUIZ M
+                WHERE Q.QUIZ_NUMBER = M.QUIZ_NUMBER AND M.MYQUIZ_CORRECT = 1 AND M.USER_NUMBER = #{userNumber}
+                ORDER BY M.MYQUIZ_SUBMIT_DATE DESC
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) D3 WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
 
-    <select id="select" resultType="myQuizDTO"></select>
+    <select id="countQuizOkTotal" resultType="_int">
+        SELECT COUNT(MYQUIZ_CORRECT) FROM TBL_MY_QUIZ
+        WHERE USER_NUMBER = #{userNumber} AND MYQUIZ_CORRECT = 1
+    </select>
 
-    <select id="selectAllOK" resultType="myquizDTO"></select>
 
-    <select id="selectAllNO" resultType="myquizDTO"></select>
+    <select id="selectUserQuizNo" resultType="quizDTO">
+        SELECT D3.QUIZ_NUMBER, D3.QUIZ_TITLE, D3.QUIZ_CONTENT, D3.QUIZ_LIST, D3.QUIZ_LIST_TITLE, D3.MYQUIZ_SUBMIT_DATE
+        FROM
+        (
+            SELECT ROWNUM R, D2.QUIZ_NUMBER, D2.QUIZ_TITLE, D2.QUIZ_CONTENT, D2.QUIZ_LIST, D2.QUIZ_LIST_TITLE, D2.MYQUIZ_SUBMIT_DATE
+            FROM
+            (
+                SELECT Q.QUIZ_NUMBER, Q.QUIZ_TITLE, Q.QUIZ_CONTENT, Q.QUIZ_LIST, Q.QUIZ_LIST_TITLE, M.MYQUIZ_SUBMIT_DATE
+                FROM TBL_QUIZ Q, TBL_MY_QUIZ M
+                WHERE Q.QUIZ_NUMBER = M.QUIZ_NUMBER AND M.MYQUIZ_CORRECT = 0 AND M.USER_NUMBER = #{userNumber}
+                ORDER BY M.MYQUIZ_SUBMIT_DATE DESC
+            ) D2
+        <![CDATA[
+        WHERE ROWNUM <= #{page} * #{amount}
+        ) D3 WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
 
-    <select id="getTotal" resultType="_int"></select>
+    <select id="countQuizNoTotal" resultType="_int">
+        SELECT COUNT(MYQUIZ_CORRECT) FROM TBL_MY_QUIZ
+        WHERE USER_NUMBER = #{userNumber} AND MYQUIZ_CORRECT = 0
+    </select>
+
+
+
 </mapper>
-
-
 
 
 

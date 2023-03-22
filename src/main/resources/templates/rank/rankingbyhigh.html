@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랭킹</title>
+    <link rel="stylesheet" href="../../css/board/contestList.css">
+    <link rel="stylesheet" href="../../css/main/header.css">
+    <link rel="stylesheet" href="../../css/main/footer.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+
+</head>
+<body>
+<!-- header 작성 -->
+<header>
+    <div class="headWrapper">
+        <div class="navigation_wrap">
+            <div class="navigation_left">
+                <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
+            </div>
+            <div class="navigation_right">
+                <ul class="menu">
+                    <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                    <li><a th:href="@{/board/contestList}">대회</a></li>
+                    <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                    <li><a th:href="@{/board/boardList}">게시판</a></li>
+                </ul>
+            </div>
+            <div class="login">
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
+                    </span>
+                <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
+                    </span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="base">
+    <div class="container">
+        <div class="bannerContainer">
+            <div class="banner">
+                <div class="bannerContent">
+                    <div class="bannerImageContainer">
+                        <img src="../../img/main/ranking.png" alt="랭킹" class="bannerImage">
+                    </div>
+                    <div class="bannerTextContainer">
+                        <div>
+                            <span class="title">랭킹</span>
+                            <span class="description">야! 너도 1등 할 수 있어!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mainContainer" style="height: 290px;">
+            <div class="mainContent">
+                <div class="leftSideContainer">
+                    <ul class="leftSide ranking">
+                        <li><a href="#" class="allRanking">전체 랭킹</a></li>
+                        <li>
+                            <hr style="margin-top: 12px; border-top: 2px dashed rgb(222, 222, 222);">
+                            <a class="elementary">초등학생 랭킹</a><br>
+                            <a class="middle">중학생 랭킹</a><br>
+                            <a class="high">고등학생 랭킹</a><br>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="problemContainer">
+                    <div class="problemList">
+                        <div class="problem">
+                            <div class="problemTableWrap">
+                                <!-- <input type="checkbox">범위 -->
+                                <!-- 기간(년/월/주) 넣어야합니다  -->
+                                <table> <!-- style="width: 900px;margin-left: 36px;"> -->
+                                    <thead  class="tableHeader"> <!-- style="margin-bottom: 20px;"> -->
+                                    <tr>
+                                        <th>등수</th>
+                                        <th>이름</th>
+                                        <th>닉네임</th>
+                                        <th>초/중/고</th>
+                                        <th>맞은 문제 갯수</th>
+                                        <th>틀린 문제 갯수</th>
+                                        <th>포인트 점수</th>
+                                        <th>정답률</th>
+                                    </tr>
+                                    <hr>
+                                    </thead>
+                                    <tbody style="text-align: center;" th:each="ranking:${rankings}">
+                                    <tr th:object="${ranking}">
+                                        <td th:text="*{userRanking}"></td>
+                                        <td th:text="*{userName}"></td>
+                                        <td th:text="*{userNickname}"></td>
+                                        <td th:text="*{userGrade}"></td>
+                                        <td th:text="*{userCorrectCount}"></td>
+                                        <td th:text="*{userWrongCount}"></td>
+                                        <td th:text="*{userPoint}"></td>
+                                        <td th:text="*{userRanking}"></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<footer class="mainFooter">-->
+<!--    <div class="footer_wrap">-->
+<!--        <div class="footer_content">-->
+<!--            <ul class="footer_list_top">-->
+<!--                <li class="list_style top_font">-->
+<!--                    <span>(미정)소개</span>-->
+<!--                </li>-->
+<!--                <li class="list_style top_font">-->
+<!--                    <span>이용약관</span>-->
+<!--                </li>-->
+<!--                <li class="list_style top_font">-->
+<!--                    <span>개인정보처리방침</span>-->
+<!--                </li>-->
+<!--                <li class="list_style top_font">-->
+<!--                    <span>출제 문의</span>-->
+<!--                </li>-->
+<!--                <li class="list_style top_font">-->
+<!--                    <span>광고 문의</span>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--            <ul class="footer_list_middle">-->
+<!--                <li class="list_style">-->
+<!--                    <span class="middle_font">팀명 : 핫식스</span>-->
+<!--                </li>-->
+<!--                <li class="list_style">-->
+<!--                    <span class="middle_font">프로젝트명 : 미정</span>-->
+<!--                </li>-->
+<!--                <li class="list_style">-->
+<!--                    <span class="middle_font">프로젝트 깃허브</span>-->
+<!--                </li>-->
+<!--                <li class="list_style">-->
+<!--                    <span class="middle_font">팀장 : 고진혁</span>-->
+<!--                </li>-->
+<!--                <li class="list_style">-->
+<!--                    <span class="middle_font">팀원 : 김효범 도희정 황영택</span>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--            <div class="footer_bottom">-->
+<!--                @ 2022 Hot6. All rights reserved.-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</footer>-->
+</body>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script th:inline="javascript">
+
+    let boardNumber = [[${boardNumber}]];
+    let $pages = $("a.changePage");
+    let queryString = [[${pagination.criteria.queryString}]];
+
+
+    $("a.elementary").on("click", function(e){
+        e.preventDefault();
+
+        location.href = "/rank/rankingBycho";
+    });
+
+
+
+
+
+
+</script>
+</html>

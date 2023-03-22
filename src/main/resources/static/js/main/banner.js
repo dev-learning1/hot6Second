@@ -7,6 +7,7 @@ var buttonCheck = true;
 var numberButtonCheck = true;
 var temp = btns[count];
 
+
 // const bannerDiv = document.querySelector("div.banner div");
 // bannerDiv.classList.add("banner_img");
 

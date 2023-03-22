@@ -1,178 +1,98 @@
 <!DOCTYPE html>
-<html lang="kor">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>관리자 페이지</title>
-        <link href="../../css/admin/styles2.css" rel="stylesheet" />
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>관리자 페이지</title>
+    <link href="../../css/admin/styles2.css" rel="stylesheet" />
 
-    </head>
-    <body class="body-container">
-        <nav class="topnav navbar-dark bg-dark">
-            <!-- logo 이름-->
-            <a class="logo" href="adm_main.html">로고가 들어갑니다</a>      
+</head>
+<body class="body-container">
+<nav class="topnav navbar-dark bg-dark">
+    <!-- logo 이름-->
+    <a class="logo" href="/admin/adm_main">로고가 들어갑니다</a>
+</nav>
+<div id="sideNav">
+    <div id="sideNav_nav">
+        <nav class="sb-sidenav sb-sidenav-dark">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="menu-title">문제 리스트</div>
+                    <a class="nav-link" href="/admin/adm_todayList">
+                        오늘의 문제
+                    </a>
+                    <a class="nav-link" href="/admin/adm_contestList">
+                        대회 문제
+                    </a>
+                    <div class="menu-title">회원 정보</div>
+                    <a class="nav-link" href="/admin/adm_userList">
+                        회원 목록
+                    </a>
+                    <a class="nav-link" href="/admin/adm_boardList">
+                        작성 게시글
+                    </a>
+                    <a class="nav-link" href="/admin/adm_inquiryList">
+                        문의글
+                    </a>
+                </div>
+            </div>
         </nav>
-        <div id="sideNav">
-            <div id="sideNav_nav">
-                <nav class="sb-sidenav sb-sidenav-dark">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="menu-title">문제 리스트</div>
-                            <a class="nav-link" href="adm_todayList.html">
-                                오늘의 문제
-                            </a>
-                            <a class="nav-link" href="adm_contestList.html">
-                                대회 문제
-                            </a>
-                            <div class="menu-title">회원 정보</div>
-                            <a class="nav-link" href="adm_userList.html">
-                                회원 목록
-                            </a>
-                            <a class="nav-link" href="adm_boardList.html">
-                                작성 게시글
-                            </a>
-                            <a class="nav-link" href="adm_inquiryList.html">
-                                문의글
-                            </a>
-                           
-                            <div class="menu-title">통계</div>
-                            <a class="nav-link" href="charts.html">
-                                사용자 통계
-                            </a>
-                        </div>
+    </div>
+    <div id="main_content">
+        <main>
+            <div class="main_padding">
+                <h1 class="main-header">대회 문제</h1>
+
+
+                <div class="card main-margin">
+                    <div>
+                        <table id = user_table class="type09">
+                            <thead>
+                            <tr>
+                                <th class="no">번호</th>
+                                <th>대회명</th>
+                                <th>작성자</th>
+                                <th class="date">일시</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="board:${boards}">
+                                <tr th:object="${board}">
+                                    <td class="no">1</td>
+                                    <td><a href="adm_contestDetail.html" th:text="*{quizTitle}">제1회 전국추리대회</a></td>
+                                    <td th:text="*{userName}">이것도 받아야됨</td>
+                                    <td th:text="*{quizRegisterDate}">2022-11-30</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </table>
                     </div>
-                </nav>
-            </div>
-            <div id="main_content">
-                <main>
-                    <div class="main_padding">
-                        <h1 class="main-header">대회 문제</h1>
-                  
-                       
-                        <div class="card main-margin">
-                            <div>
-                                <table id = user_table class="type09">
-                                    <thead>
-                                        <tr>
-                                          <th class="no">번호</th>
-                                          <th>대회명</th>
-                                          <th>주최기관</th>
-                                          <th>작성자</th>
-                                          <th class="end">접수 마감일</th>
-                                          <th class="date">일시</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr>
-                                            <td class="no">1</td>
-                                            <td><a href="adm_contestDetail.html">제1회 전국추리대회</a></td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">2</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">3</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">4</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">5</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">6</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">7</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">8</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">9</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no">10</td>
-                                            <td>제1회 전국추리대회</td>
-                                            <td>청와대</td>
-                                            <td>VIP</td>
-                                            <td>2022-11-19</td>
-                                            <td>2022-11-30</td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="page_wrap">
-                            <div class="page_nation">
-                               <a class="arrow pprev" href="#"></a>
-                               <a class="arrow prev" href="#"></a>
-                               <a href="#" class="active">1</a>
-                               <a href="#">2</a>
-                               <a href="#">3</a>
-                               <a href="#">4</a>
-                               <a href="#">5</a>
-                               <a href="#">6</a>
-                               <a href="#">7</a>
-                               <a href="#">8</a>
-                               <a href="#">9</a>
-                               <a href="#">10</a>
-                               <a class="arrow next" href="#"></a>
-                               <a class="arrow nnext" href="#"></a>
-                            </div>
-                         </div>
+                </div>
+                <div class="page_wrap">
+                    <div class="page_nation">
+                        <a class="arrow pprev" href="#"></a>
+                        <a class="arrow prev" href="#"></a>
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">7</a>
+                        <a href="#">8</a>
+                        <a href="#">9</a>
+                        <a href="#">10</a>
+                        <a class="arrow next" href="#"></a>
+                        <a class="arrow nnext" href="#"></a>
                     </div>
-                </main>
+                </div>
             </div>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-    </body>
+        </main>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+</body>
 </html>

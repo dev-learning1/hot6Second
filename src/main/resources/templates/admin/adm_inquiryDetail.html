@@ -1,130 +1,152 @@
 <!DOCTYPE html>
-<html lang="kor">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>관리자 페이지</title>
-        <link href="../../css/admin/styles2.css" rel="stylesheet" />
-    </head>
-    <body class="body-container">
-        <nav class="topnav navbar-dark bg-dark">
-            <!-- logo 이름-->
-            <a class="logo" href="adm_main.html">로고가 들어갑니다</a>      
-        </nav>
-        <div id="sideNav">
-            <div id="sideNav_nav">
-                <nav class="sb-sidenav sb-sidenav-dark">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="menu-title">문제 리스트</div>
-                            <a class="nav-link" href="adm_todayList.html">
-                                오늘의 문제
-                            </a>
-                            <a class="nav-link" href="adm_contestList.html">
-                                대회 문제
-                            </a>
-                            <div class="menu-title">회원 정보</div>
-                            <a class="nav-link" href="adm_userList.html">
-                                회원 목록
-                            </a>
-                            <a class="nav-link" href="adm_boardList.html">
-                                작성 게시글
-                            </a>
-                            <a class="nav-link" href="adm_inquiryList.html">
-                                문의글
-                            </a>
-                           
-                            <div class="menu-title">통계</div>
-                            <a class="nav-link" href="charts.html">
-                                사용자 통계
-                            </a>
-                        </div>
-                    </div>
-                </nav>
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>관리자 페이지</title>
+    <link href="../../css/admin/styles2.css" rel="stylesheet" />
+</head>
+<body class="body-container">
+<nav class="topnav navbar-dark bg-dark">
+    <!-- logo 이름-->
+    <a class="logo" href="/admin/adm_main">로고가 들어갑니다</a>
+</nav>
+<div id="sideNav">
+    <div id="sideNav_nav">
+        <nav class="sb-sidenav sb-sidenav-dark">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="menu-title">문제 리스트</div>
+                    <a class="nav-link" href="/admin/adm_todayList">
+                        오늘의 문제
+                    </a>
+                    <a class="nav-link" href="/admin/adm_contestList">
+                        대회 문제
+                    </a>
+                    <div class="menu-title">회원 정보</div>
+                    <a class="nav-link" href="/admin/adm_userList">
+                        회원 목록
+                    </a>
+                    <a class="nav-link" href="/admin/adm_boardList">
+                        작성 게시글
+                    </a>
+                    <a class="nav-link" href="/admin/adm_inquiryList">
+                        문의글
+                    </a>
+                </div>
             </div>
-            <div id="main_content">
-                <main>
-                    <div class="main_padding">
-                        <div>
-                            <h1 class="main-header">문의글</h1>
-                        </div>
-                        <div class="card main-margin">
-                           
-                            <div class="boardView">
-                                <!-- head -->
-                                <div class="head">
-                                    <h2 class="title">아하 사이트가 너무 안이쁜데 어캐하죠?</h2>
-                                    <div class="article" data-brl-use="PH">
-                                        <strong>등록자</strong>
-                                        <span>user2</span>
+        </nav>
+    </div>
+    <div id="main_content">
+        <main>
+            <div class="main_padding">
+                <div>
+                    <h1 class="main-header">문의글</h1>
+                </div>
+                <div class="card main-margin">
+                    <th:block th:each="board:${boards}">
+                        <div class="boardView"  th:object="${board}">
+                            <!-- head -->
 
-                                        <strong>작성일</strong>
-                                        <span>2022-11-20</span>
-                                    </div>
+                            <div class="head">
+                                <h2 class="title" th:text="*{boardTitle}"></h2>
+                                <div class="article" data-brl-use="PH">
+                                    <strong>등록자</strong>
+                                    <span  th:text="*{userName}">user2</span>
+
+                                    <strong>작성일</strong>
+                                    <span th:text="*{boardDate}">2022-11-20</span>
                                 </div>
-                                <!-- //head -->
-            
-                                <!-- body -->
-                                <div class="body" data-brl-use="PH">
-                                    <div class="cont">
-                                        <div style="text-align: justify;"><br>
-                                            <div>
-                                                ㅈㄱㄴ
-                                            </div>
+                            </div>
+                            <!-- //head -->
+
+                            <!-- body -->
+                            <div class="body" data-brl-use="PH">
+                                <div class="cont">
+                                    <div style="text-align: justify;"><br>
+                                        <div th:text="*{boardContent}">
+                                            ㅈㄱㄴ
                                         </div>
                                     </div>
                                 </div>
-                                <!-- //body -->
-                                    
-                                <!-- page -->
-
-
-                                <div class="page" data-brl-use="PH">
-
-                                    <div class="boardView article" data-brl-use="PH">
-                                        <strong>등록자</strong>
-                                        <span style="margin-left:-50px;">admin</span>
-                                        <strong style="padding-left: 30px;">작성일</strong>
-                                        <span style="margin-left:-50px;">2022/11/20 13:23:12</span>
-                                    </div>
-
-                                    <div style="height:150px">해당 부분은 어쩔 수 없는 것으로 확인되었습니다</div>
-                                    <div class="boardView article" data-brl-use="PH">
-                                        <strong>등록자</strong>
-                                        <span style="margin-left:-50px;">user2</span>
-                                        <strong style="padding-left: 30px;">작성일</strong>
-                                        <span style="margin-left:-50px;">2022/11/20 13:26:12</span>
-                                    </div>
-
-                                    <div style="height:150px">감사합니다;;</div>
-
-
-                                    <div id="form-commentInfo" style="margin-top : 40px">
-                                        
-                                        <div id="comment-count">답변 <span id="count">1</span></div>
-                                        <input id="comment-input" placeholder="답변을 입력해 주세요.">
-                                        <button id="submit">등록</button>
-                                    </div>
-                                    
-                                    <div>
-                                        <strong>이전글</strong>
-                                            <a href="#">22/11/19 오늘의 문제</a>
-                                    </div>
-                                    <div>
-                                        <strong class="next">다음글</strong>
-                                                <span>다음글이 없습니다.</span>
-                                    </div>
-                                </div>
-                                <!-- //page -->
                             </div>
+                    </th:block>
+                    <!-- //body -->
+
+                    <!-- page -->
+
+
+                    <div class="page" data-brl-use="PH">
+                        <th:block th:if="${replys == 0}">
+                            <div>등록한 답변이 존재하지 않습니다</div>
+                        </th:block>
+
+
+                        <th:block th:if = "${replys != 0}" th:each="reply:${replys}">
+                            <div class="boardView article" data-brl-use="PH" th:object="${reply}">
+                                <strong>등록자</strong>
+                                <span style="margin-left:-50px;" th:text="*{replyWriter}">admin</span>
+                                <strong style="padding-left: 30px;">작성일</strong>
+                                <span style="margin-left:-50px;" th:text="*{replyRegisterDate}">2022/11/20 13:23:12</span>
+                            </div>
+
+                            <div style="height:150px" th:text="${reply.replyContent}"></div>
+                        </th:block>
+
+                        <div id="form-commentInfo" style="margin-top : 40px">
+
+                            <div id="comment-count">답변 <span id="count" th:text="${count}">1</span></div>
+                            <input id="comment-input" placeholder="답변을 입력해 주세요.">
+                            <button id="submit">등록</button>
                         </div>
-                        <a href="adm_todayList.html"><input type="button" value="목록으로"></a>
-                </main>
+                        <th:block th:if = "${before != 0}" th:each="before:${before}">
+                            <div th:object = "${before}">
+                                <strong>이전글</strong>
+                                <a th:href="*{boardNumber}" class="read" th:text="*{boardTitle}">22/11/19 오늘의 문제</a>
+                            </div>
+                        </th:block>
+                        <th:block th:if = "${after != 0}" th:each="after:${after}">
+                            <div th:object = "${after}">
+                                <strong class="next">다음글</strong>
+                                <a th:href="*{boardNumber}" class="read" th:text="*{boardTitle}">22/11/19 오늘의 문제</a>
+                            </div>
+                    </div>
+                    <!-- //page -->
+                </div>
             </div>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-    </body>
+            <a th:href="adm_inquiryList"><input type="button" value="목록으로"></a>
+        </main>
+    </div>
+</div>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script th:inline="javascript">
+    let boardNumber = [[${boardNumber}]];
+    let $pages = $("a.changePage");
+
+    const $read = $("a.read");
+
+    if(boardNumber != null){
+        alert(boardNumber + "번 게시글이 등록되었습니다.");
+    }
+
+    $("a.write").on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/write";
+    });
+
+    $pages.on("click", function(e){
+        e.preventDefault();
+        $(document.pageForm.page).val($(this).attr("href"));
+        document.pageForm.submit();
+    });
+
+    $read.on("click", function(e){
+        e.preventDefault();
+        location.href = "/admin/adm_inquiryDetail" +"?boardNumber=" + $(this).attr("href");
+    });
+
+
+</script>
+</body>
 </html>

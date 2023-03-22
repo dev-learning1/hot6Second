@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>관리자 페이지</title>
+    <link href="../../css/admin/styles2.css" rel="stylesheet" />
+    
+
+    <style>
+        input[type='text']{"border:0 solid black"}
+        textarea {
+            resize: none;
+        }
+        .line{
+            border-bottom: 1px solid #ff8b77;
+        }
+    </style>
+</head>
+<body class="body-container">
+<nav class="topnav navbar-dark bg-dark">
+    <!-- logo 이름-->
+    <a class="logo" href="/admin/adm_main">로고가 들어갑니다</a>
+</nav>
+<div id="sideNav">
+    <div id="sideNav_nav">
+        <nav class="sb-sidenav sb-sidenav-dark">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="menu-title">문제 리스트</div>
+                    <a class="nav-link" href="/admin/adm_todayList">
+                        오늘의 문제
+                    </a>
+                    <a class="nav-link" href="/admin/adm_contestList">
+                        대회 문제
+                    </a>
+                    <div class="menu-title">회원 정보</div>
+                    <a class="nav-link" href="/admin/adm_userList">
+                        회원 목록
+                    </a>
+                    <a class="nav-link" href="/admin/adm_boardList">
+                        작성 게시글
+                    </a>
+                    <a class="nav-link" href="/admin/adm_inquiryList">
+                        문의글
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="main_content">
+        <main>
+            <div class="main_padding">
+                <div class="header_container">
+                    <h1 class="main-header">게시글 등록</h1>
+                </div>
+                <form method="post" th:action="@{/admin/write}" id="writeForm" th:object="${quiz}" enctype="multipart/form-data">
+                    <div class="card main-margin">
+                        <table border="1" width=500>
+                            <tr>
+                                <th colspan="10">
+                                    오늘의 문제 등록
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>제목</td>
+                                <td colspan="3">
+                                    <input th:field = "*{quizTitle}" readonly
+                                           type="text" placeholder="제목을 입력하세요."
+                                           maxlength=20
+                                           style="width:90%" >
+                                </td>
+                                <td style="width: 20%">번호</td>
+                                <td colspan="2">
+                                    <input th:field = "*{quizList}" type="text" readonly placeholder="번호를 입력하세요." maxlength=20>
+                                </td>
+                                <td>상세번호</td>
+                                <td colspan="2">
+                                    <input th:field = "*{quizListTitle}"type="text" readonly placeholder="상세번호를 입력하세요." maxlength=20>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" height=400>
+                                    <textarea th:field = "*{quizContent}" readonly placeholder="내용을 입력하세요." style="width: 100%; height: 100%"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="1">유형</td>
+                                <td colspan="9" style="position: relative; left: 3%; text-align: left">
+                                    <input th:field = "*{quizType}"type="radio" name="quiz_type" value="1" readonly>주관식
+                                    <input th:field = "*{quizType}"type="radio" name="quiz_type" value="2" readonly>객관식
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 15%">답1</td>
+                                <td>
+                                    <input th:field = "*{quizOne}"type="text" readonly placeholder="정답1" width="5%">
+                                </td>
+                                <td >답2</td>
+                                <td>
+                                    <input th:field = "*{quizTwo}" type="text" readonly placeholder="정답2" width="5%">
+                                </td>
+                                <td style="width: 10%">답3</td>
+                                <td>
+                                    <input th:field = "*{quizThree}" type="text" readonly placeholder="정답3" width="15%">
+                                </td>
+                                <td style="width: 10%">답4</td>
+                                <td>
+                                    <input th:field = "*{quizFour}"  type="text" readonly placeholder="정답4" width="5%">
+                                </td>
+                                <td style="width: 10%">답5</td>
+                                <td>
+                                    <input th:field = "*{quizFive}" type="text" readonly placeholder="정답5" width="5%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10">
+                                    <button><a class="delete" th:href="*{quizNumber}">삭제</a></button>
+                                    <button><a class="modify" th:href="*{quizNumber}">수정</a> </button>
+                                    <a href="adm_todayList"><input type="button" value="목록으로"></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+<script th:inline="javascript">
+    let boardNumber = [[${boardNumber}]];
+    let $pages = $("a.changePage");
+
+    const $read = $("a.delete");
+    const $modify = $("a.modify");
+    if(boardNumber != null){
+        alert(boardNumber + "번 게시글이 등록되었습니다.");
+    }
+
+    $("a.write").on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/write";
+    });
+
+    $pages.on("click", function(e){
+        e.preventDefault();
+        $(document.pageForm.page).val($(this).attr("href"));
+        document.pageForm.submit();
+    });
+
+    $read.on("click", function(e){
+        e.preventDefault();
+        location.href = "/admin/deleteToday" +"?quizNumber=" + $(this).attr("href");
+    });
+
+    $modify.on("click", function(e){
+        e.preventDefault();
+        location.href = "/admin/adm_todayDetail" +"?quizNumber=" + $(this).attr("href");
+    });
+</script>
+</body>
+</html>

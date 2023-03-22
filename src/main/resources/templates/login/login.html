@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>회원가입</title>
-    
+
     <link href="https://hangeul.pstatic.net/hangeul_static/css/NanumJungHagSaeng.css" rel="stylesheet">
     <!-- header css -->
 
@@ -18,54 +18,57 @@
     <link >
 </head>
 <body>
-    <div id="layout">
-        <div class="layoutDefault">
-            <main class="layoutDefaultView">
-                <div class="main">
-                    <div class="mainLeft">
-                        <a href=""> <!-- 메인 페이지 경로 추가 -->
-                            <img src="../../img/main/logo.jpg" class="logoIcon"> <!-- 핫식스 로고 -->
-                                                      
-                            <h3 class="mainLeft_title" style="font-family: 'Pretendard-Regular';">궁금할 땐, 핫식스!</h3>
-                        </a>
-                    </div>
-                    <div class="mainScreen">
-                        <div class="mainScreen_body">
-                            <div class="homeScreen">
-                                <div class="homeScreen_inner">
-                                    <div class="homeScreen_desktop"></div>
-                                    <div class="homeScreen_mobile">
-                                        <!-- 반응형 웹 부분 -->
-                                    </div>
-                                    <div class="homeScreen_btns">
-                                        <button class="btns" id="btnkakao" style="font-size: 13px; font-weight: 540px;">
-                                            
-                                                <img src="../../img/login/kakao.png" style="margin-bottom: 3px;
-                                                height: 22px;
-                                                width: 22px;
-                                                margin-right: 6px;
-                                                ">
+<div id="layout">
+    <div class="layoutDefault">
+        <main class="layoutDefaultView">
+            <div class="main">
+                <div class="mainLeft">
+                    <a th:href="@{/main/main}"> <!-- 메인 페이지 경로 추가 -->
 
-                                            카카오로 시작하기
-                                        </button>
-                                        <button id="btnnaver" class="btns" >
-                                            <a href="../login/join.html" >학생 회원으로 로그인</a>
-                                        </button>
-                                        <button class="btns" id="btnapple">
-                                            <a href="../login/joinCompany.html">기업/학교 회원으로 로그인</a>
-                                        </button>
-                                        <div class="btnBottom">
-                                            카카오 로그인으로 연동이 가능합니다.
-                                            
-                                        </div>
+
+                        <h3 class="mainLeft_title" style="font-family: 'Pretendard-Regular';">궁금할 땐, 핫식스!</h3>
+                    </a>
+                </div>
+                <div class="mainScreen">
+                    <div class="mainScreen_body">
+                        <div class="homeScreen">
+                            <div class="homeScreen_inner">
+                                <div class="homeScreen_desktop"></div>
+                                <div class="homeScreen_mobile">
+                                    <!-- 반응형 웹 부분 -->
+                                </div>
+                                <div class="homeScreen_btns">
+                                    <button class="btns" id="btnkakao" style="font-size: 16px; font-weight: bold;">
+                                        로그인하기
+                                    </button>
+                                    <input type="button" id="studentJoin" class="btns" value="학생 회원으로 회원가입">
+                                    <input type="button" class="btns" id="organJoin" value="기업/학교 회원으로 회원가입">
+                                    <div class="btnBottom">
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
+</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script>
+    $("input#studentJoin").on("click", function(){
+        location.href = "/login/join";
+    });
+
+    $("input#organJoin").on("click", function(){
+        location.href = "/login/joinCompany";
+    });
+
+    $("button#btnkakao").on("click", function(){
+        location.href = "/login/logincheck";
+    });
+</script>
+
 </html>
