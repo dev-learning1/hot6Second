@@ -39,8 +39,11 @@ public class QuizDAO {
         return quizMapper.selectList(quizList);
     }
 
-    // 전체 조회 findByListAll
-    public List<QuizVO> findByListAll(Criteria criteria){ return quizMapper.selectListAll(criteria); }
+    // 오늘의 문제 전체 조회 findByListAll
+    public List<QuizVO> findByListAll(Criteria criteria, String quizTheme){ return quizMapper.selectListAll(criteria, quizTheme); }
+
+    // 대회 전체 조회 findByListAll
+    public List<QuizVO> findByContestListAll(Criteria criteria){ return quizMapper.selectContestListAll(criteria); }
 
     // 전체 조회 findByIdAll
     public List<QuizVO> findByIdAll(Criteria criteria){ return quizMapper.selectAll(criteria); }
@@ -50,9 +53,9 @@ public class QuizDAO {
         return quizMapper.getTotal();
     }
 
-    // 개수 findCountListAll
-    public int findCountListAll(){
-        return quizMapper.getListTotalAdm();
+    // 리스트 개수 findCountListAll
+    public int findCountListAll(String quizTheme){
+        return quizMapper.getListTotal(quizTheme);
     }
 
     // Admin 오늘의 문제 insert

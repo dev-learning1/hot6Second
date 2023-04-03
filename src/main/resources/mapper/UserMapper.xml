@@ -23,6 +23,18 @@
         WHERE USER_EMAIL = #{userEmail}
     </select>
 
+    <select id="selectUserType" resultType="String">
+        SELECT USER_TYPE
+        FROM TBL_USER
+        WHERE USER_EMAIL = #{userEmail}
+    </select>
+
+    <select id="selectUserNickname" resultType="String">
+        SELECT USER_NICKNAME
+        FROM TBL_USER
+        WHERE USER_EMAIL = #{userEmail}
+    </select>
+
     <update id="updateUser">
         UPDATE TBL_USER
         SET USER_NICKNAME = #{userNickname}, USER_SCHOOL = #{userSchool}, USER_MSG = #{userMsg}, USER_PHONENUM = #{userPhonenum}

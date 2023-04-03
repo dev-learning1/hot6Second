@@ -21,12 +21,14 @@ public interface QuizService {
     //    리스트 조회
     public List<QuizVO> showList(Long quizList);
     //    리스트 전체 조회
-    public List<QuizVO> showListAll(Criteria criteria);
+    public List<QuizVO> showListAll(Criteria criteria, String quizTheme);
+    //    리스트 전체 조회
+    public List<QuizVO> showContestListAll(Criteria criteria);
     //    전체 조회
     public List<QuizVO> showAll(Criteria criteria);
     //    전체 개수
     public int getTotal();
     //    전체 리스트 개수
-    public int getListTotal();
+    public int getListTotal(String quizTheme);
 
 }

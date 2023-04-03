@@ -238,7 +238,29 @@ table{
     text-align: center;
 }
 
-.pagerList button{
+.pagerList a{
+    color: #7d7d7d;
+}
+
+.pagerList>code{
+    border-radius: 3px;
+    color: #0206af !important;
+    border-color: #0206af;
+    border-width: 1px;
+}
+
+.pagerList code{
+    margin: auto;
+    background: none;
+    color: #7d7d7d;
+    vertical-align: middle;
+    /*width: 26px;*/
+    /*height: 26px;*/
+    margin-right: 15px;
+    padding: 0.25rem 0.55rem;
+}
+
+/*.pagerList button{
     margin: auto;
     background: none;
     color: #7d7d7d;
@@ -254,7 +276,7 @@ table{
     color: #0206af;
     border-color: #0206af;
     border-width: 1px;
-}
+}*/
 
 .pagerList img{
     width: 14px;

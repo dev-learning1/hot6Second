@@ -20,7 +20,7 @@ public class MainController {
     private final CommunityBoardService communityBoardService;
 
     @GetMapping("/main")
-    public void main(Long boardNumber, Model model, @SessionAttribute(name="userEmail", required = false) String userEmail) {
+    public void main(Long boardNumber, Model model, @SessionAttribute(name="userEmail", required = false) String userEmail, @SessionAttribute(name="userNickname", required = false) String userNickname) {
         model.addAttribute("boards", communityBoardService.showAllMain());
         // 랭킹
         model.addAttribute("rankingC", rankingService.showAllBy("elementary"));
@@ -28,6 +28,7 @@ public class MainController {
         model.addAttribute("rankingK", rankingService.showAllBy("high"));
 
         model.addAttribute("userEmail", userEmail);
+        model.addAttribute("userNickname", userNickname);
         }
 
     // 오늘의 문제 페이지 이동

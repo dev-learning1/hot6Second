@@ -10,16 +10,16 @@ public class Criteria {
     private int page;
     private int amount;
 
-    public com.hot6.web.spring.domain.vo.Criteria create(int page, int amount) {
+    public Criteria create(int page, int amount) {
         this.page = page;
         this.amount = amount;
         return this;
     }
 
     public String getQueryString(){
-        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("");
-//                .queryParam("page", this.page)
-//                .queryParam("amount", this.amount);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+                .queryParam("page", this.page)
+                .queryParam("amount", this.amount);
         return builder.toUriString();
     }
 }

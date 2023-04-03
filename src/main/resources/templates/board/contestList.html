@@ -22,25 +22,28 @@
     <div class="headWrapper">
         <div class="navigation_wrap">
             <div class="navigation_left">
-                <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+                <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
             </div>
             <div class="navigation_right">
                 <ul class="menu">
-                    <li><a href="/board/problemList">오늘의 문제</a></li>
-                    <li><a href="/board/contestList">대회</a></li>
-                    <li><a href="javascript:void(0)">랭킹</a></li>
-                    <li><a href="/board/boardList">게시판</a></li>
+                    <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                    <li><a th:href="@{/board/contestList}">대회</a></li>
+                    <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                    <li><a th:href="@{/board/boardList}">게시판</a></li>
                 </ul>
             </div>
             <div class="login">
-                            <span class="loginYet">
-                                <a href="javascript:void(0)" class="btn_login" style="display: none;">로그인 / 회원가입</a>
-                            </span>
-                <span class="loginOk">
-                        <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                        <a href="javascript:void(0)" class="loginOk_font">문의하기</a>
-                        <a href="javascript:void(0)" class="btn_login">로그아웃</a>
-                        </span>
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
+                    </span>
+                <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userNickname}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
+                    </span>
             </div>
         </div>
     </div>
@@ -70,7 +73,7 @@
             <div class="mainContent">
                 <div class="leftSideContainer">
                     <ul class="leftSide">
-                        <li><a href="#">홈</a></li>
+                        <li><a th:href="@{/main/main}">홈</a></li>
                         <li>
                             <hr style="margin-top: 12px; border-top: 2px dashed rgb(222, 222, 222);">
                             <a class="todayProblems" href="/board/problemList">오늘의 문제</a><br>
@@ -79,7 +82,7 @@
                     </ul>
                 </div>
                 <div class="problemContainer">
-                    <button type="button" class="contestBtn"> <!--style="display: none"--> 대회 문제 출제하기</button>
+                    <button th:if="${session.userType} == '02'" type="button" class="contestBtn"> <!--style="display: none"--> 대회 문제 출제하기</button>
                     <div class="problemList">
                         <div class="problem">
                             <div class="problemTableWrap">
@@ -110,8 +113,8 @@
                                             <td class="finishDate" th:text="*{quizFinishDate}">
 
                                             </td>
-                                            <td class="contestCondition">
-                                                진행 전
+                                            <td class="quizCondition" th:text="*{quizCondition}">
+<!--                                                <span id="contestCondition">진행전</span>-->
                                             </td>
                                         </tr>
                                     </th:block>
@@ -193,10 +196,8 @@
 </body>
 <script th:inline="javascript">
     let $pages = $("a.changePage");
-    let queryString = [[${pagination.criteria.queryString}]];
     var $quizFinishDate = $("td.finishDate")
     var date = new Date();
-    // var quizBackColor = document.getElementsByClassName("todayProblem")
 
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
@@ -206,6 +207,7 @@
     var second = date.getSeconds();  // 초
 
     const $detail = $("a.detail");
+    var $quizCondition = $("td.quizCondition")
 
     if ((month + "").length < 2) {
         month = "0" + month;
@@ -227,19 +229,22 @@
         }
     })
 
+    $quizCondition.each(function (i, td) {
+        console.log($(this).text());
+        if ($(this).text() == 0) {
+            $(this).text("진행 전");
+        } else if ($(this).text() == 1) {
+            $(this).text("진행 중");
+        } else {
+            $(this).text("종료");
+        }
+    })
 
     $detail.on("click", function (e) {
         e.preventDefault();
-        location.href = "/board/problemDetail" + queryString + "?quizList=" + $(this).attr("href");
+        location.href = "/board/problemDetail" + "?quizList=" + $(this).attr("href");
     });
 
-    // $quizList.each(function (i, td) {
-    //     if (i!=0) {
-    //         if (($(this).text() == $quizList.slice(i - 1, i).text()) && ($quizRegisterDate.slice(i, i+1).text() == $quizRegisterDate.slice(i - 1, i).text())) {
-    //             $(this).closest("tr").remove();
-    //         }
-    //     }
-    // })
 
     $pages.on("click", function (e) {
         e.preventDefault();

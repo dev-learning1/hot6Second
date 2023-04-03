@@ -15,25 +15,28 @@
     <div class="headWrapper">
         <div class="navigation_wrap">
             <div class="navigation_left">
-                <a href="javascript:void(0)" class="navigation_logo">QUIZ</a>
+                <a th:href="@{/main/main}" class="navigation_logo">HOT6</a>
             </div>
             <div class="navigation_right">
                 <ul class="menu">
-                    <li><a href="javascript:void(0)">오늘의 문제</a></li>
-                    <li><a href="javascript:void(0)">대회</a></li>
-                    <li><a href="javascript:void(0)">랭킹</a></li>
-                    <li><a href="javascript:void(0)">게시판</a></li>
+                    <li><a th:href="@{/board/problemList}">오늘의 문제</a></li>
+                    <li><a th:href="@{/board/contestList}">대회</a></li>
+                    <li><a th:href="@{/rank/ranking}">랭킹</a></li>
+                    <li><a th:href="@{/board/boardList}">게시판</a></li>
                 </ul>
             </div>
             <div class="login">
-                            <span class="loginYet">
-                                <a href="javascript:void(0)" class="btn_login">로그인 / 회원가입</a>
-                            </span>
-                <span class="loginOk" style="display: none;">
-                                <a href="javascript:void(0)" class="loginOk_font">유저아이디</a>
-                                <a href="javascript:void(0)" class="loginOk_font">설정</a>
-                                <a href="javascript:void(0)" class="btn_login">로그아웃</a>
-                            </span>
+                    <span th:if="${session.userEmail} == null" class="loginYet">
+                        <a th:href="@{/login/login}" class="btn_login">로그인 / 회원가입</a>
+                    </span>
+                <span class="loginOk" th:unless="${session.userEmail} == null">
+                        <a th:if="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
+                        <a th:unless="${session.userEmail} == 'admin@naver.com'"
+                           th:href="@{/mypage/myPageMain}" th:text="${userNickname}" class="loginOk_font"></a>
+                        <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
+                        <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
+                    </span>
             </div>
         </div>
     </div>
@@ -50,6 +53,7 @@
                             <div class="categoryContainer">
                                 <label class="categoryLabel">대회 LEVEL</label>
                                 <div class="categoryBox">
+                                    <div class="category listTitle">
                                     <select class="categorySelect" th:field="*{quizLevel}">
                                         <option th:value="elementLevel" >초등학교</option>
                                         <option th:value="midLevel" >중학교</option>
@@ -57,63 +61,75 @@
                                     </select>
                                     <input type="text" name="category" class="categoryInput" th:field="*{quizListTitle}"
                                            placeholder="대회 이름을 작성해주세요.">
+                                    </div>
+                                    <div class="contestDate">
+                                        <p>시작날짜<br><input id="startDate" type="datetime-local"></p>
+                                        <p>끝나는 날짜<br><input id="endDate" type="datetime-local"></p>
+                                        <!-- js에서 수정된 값을 필드에 저장하기 위해 필요 -->
+                                        <input type="hidden" id="quizStartDate" name="quizStartDate" th:value="*{quizStartDate}">
+                                        <input type="hidden" id="quizFinishDate" name="quizFinishDate" th:value="*{quizFinishDate}">
+                                        <input type="hidden" id="quizCondition" name="quizCondition" th:value="*{quizCondition}">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="textBox">
-                                <header class="titleContainer">
-                                    <input type="text" name="title" th:field="*{quizTitle}" class="titleInput"
-                                           placeholder="문제 타이틀 작성">
-                                    <span>(0/80자)</span>
-                                </header>
-                                <div class="textContainer">
-                                    <div class="mainText">
+                            <div id="textBoxContainer">
+                                <div class="textBox 0">
+                                    <header class="titleContainer">
+                                        <input type="text" name="title" th:field="*{quizTitle}" class="titleInput"
+                                               placeholder="문제 타이틀 작성">
+                                        <span>(0/80자)</span>
+                                    </header>
+                                    <div class="textContainer">
+                                        <div class="mainText">
                                             <textarea class="question" cols="30" rows="10" th:field="*{quizContent}"
                                                       placeholder="문제 작성 해주시기 바랍니다"></textarea>
-                                    </div>
-                                    <div class="divCheckType">
-                                        <div class="check_title">문제 유형을 선택해주세요.</div>
-                                        <div class="checkTypeBar">
-                                            <input type="radio" name="problem" id="multiple choice"
-                                                   th:field="*{quizType}" value="0" onclick="showDivAnswer(this)"/>
-                                            <label for="multiple choice">객관식</label>
-                                            &nbsp;
-                                            <input type="radio" name="problem" id="short form"
-                                                   th:field="*{quizType}" value="1" onclick="showDivAnswer(this)"/>
-                                            <label for="short form">주관식</label>
+                                            <textarea class="commentary" cols="30" rows="10" th:field="*{quizCommentary}"
+                                                      placeholder="해설 작성 해주시기 바랍니다"></textarea>
                                         </div>
-                                    </div>
-                                    <div class="divAnswer">
-                                        <div class="answer-multiple" style="display: none;">
-                                            <div class="check_title">4지선다 작성해주시기 바랍니다.</div>
-                                            <div class="check_title">첫 번째 박스에 정답을 입력해주세요.</div>
-                                            <input class="keyword" th:field="*{quizOne}" type="text"
-                                                   placeholder="정답">
-                                            <input class="keyword" th:field="*{quizTwo}" type="text"
-                                                   placeholder="답1">
-                                            <input class="keyword" th:field="*{quizThree}" type="text"
-                                                   placeholder="답2">
-                                            <input class="keyword" th:field="*{quizFour}" type="text"
-                                                   placeholder="답3">
-                                            <input class="keyword" th:field="*{quizFive}" type="text"
-                                                   placeholder="답4">
+                                        <div class="divCheckType">
+                                            <div class="check_title">문제 유형을 선택해주세요.</div>
+                                            <div class="checkTypeBar">
+                                                <input type="radio" name="problem" id="multiple choice"
+                                                       th:field="*{quizType}" value="0" onclick="showDivAnswer(this)"/>
+                                                <label for="multiple choice">객관식</label>
+                                                &nbsp;
+                                                <input type="radio" name="problem" id="short form"
+                                                       th:field="*{quizType}" value="1" onclick="showDivAnswer(this)"/>
+                                                <label for="short form">주관식</label>
+                                            </div>
                                         </div>
-                                        <div class="answer-short" style="display: none">
-                                            <div class="check_title">핵심 키워드를 작성해주세요.</div>
-                                            <input class="keyword" th:field="*{quizOne}" type="text"
-                                                   placeholder="키워드">
-                                            <input class="keyword" th:field="*{quizTwo}" type="text"
-                                                   placeholder="키워드">
-                                            <input class="keyword" th:field="*{quizThree}" type="text"
-                                                   placeholder="키워드">
-                                            <input class="keyword" th:field="*{quizFour}" type="text"
-                                                   placeholder="키워드">
-                                            <input class="keyword" th:field="*{quizFive}" type="text"
-                                                   placeholder="키워드">
+                                        <div class="divAnswer">
+                                            <div class="answer-multiple" style="display: none">
+                                                <div class="check_title">4지선다 작성해주시기 바랍니다.</div>
+                                                <div class="check_title">첫 번째 박스에 정답을 입력해주세요.</div>
+                                                <input class="keyword" th:field="*{quizOne}" type="text"
+                                                       placeholder="정답"/>
+                                                <input class="keyword" th:field="*{quizTwo}" type="text"
+                                                       placeholder="답1"/>
+                                                <input class="keyword" th:field="*{quizThree}" type="text"
+                                                       placeholder="답2"/>
+                                                <input class="keyword" th:field="*{quizFour}" type="text"
+                                                       placeholder="답3"/>
+                                                <input class="keyword" th:field="*{quizFive}" type="text"
+                                                       placeholder="답4"/>
+                                            </div>
+                                            <div class="answer-short" style="display: none">
+                                                <div class="check_title">핵심 키워드를 작성해주세요.</div>
+                                                <input class="keyword" th:field="*{quizOne}" type="text"
+                                                       placeholder="키워드">
+                                                <input class="keyword" th:field="*{quizTwo}" type="text"
+                                                       placeholder="키워드">
+                                                <input class="keyword" th:field="*{quizThree}" type="text"
+                                                       placeholder="키워드">
+                                                <input class="keyword" th:field="*{quizFour}" type="text"
+                                                       placeholder="키워드">
+                                                <input class="keyword" th:field="*{quizFive}" type="text"
+                                                       placeholder="키워드">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="textBoxContainer"></div>
                             <div class="plusProblem">
                                 <button type="button" name="register" class="btnPlus" id="plusProblem">문제 추가</button>
                             </div>
@@ -130,8 +146,8 @@
                             </div>
                             <div class="noticeContent">
                                 <ul>
-                                    <li>대회 문제는 최대 10 문제까지 가능합니다</li>
-                                    <li>객관식은 5지선다형 입니다.</li>
+                                    <li>대회 문제는 최대 5 문제까지 가능합니다</li>
+                                    <li>객관식은 4지선다형 입니다.</li>
                                     <li>주관식 답변의 경우 키워드를 지정해주시기 바랍니다.</li>
                                     <li>키워드 지정은 5개 입니다.</li>
                                 </ul>
@@ -191,15 +207,81 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <!--<script src="../../js/main/contestWrite.js"></script>-->
 <script th:inline="javascript">
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
+        const hours = ('0' + date.getHours()).slice(-2);
+        const minutes = ('0' + date.getMinutes()).slice(-2);
+        const seconds = ('0' + date.getSeconds()).slice(-2);
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    function dateCompare(startFormattedDatetime, endFormattedDatetime){
+        // 오늘의 날짜와 시간
+        const Datenow = new Date();
+        const now = Datenow.toISOString().replace('T', ' ').slice(0, 19);
+        console.log("now: " + now);
+
+        // 입력된 날짜와 시간이 오늘의 날짜와 시간 이전인지, 이후인지, 같은지 비교
+        if (now < startFormattedDatetime) {
+            document.getElementById('quizCondition').value = 0;
+            console.log("StartDate is later than Now Input.");
+        } else {
+            document.getElementById('quizCondition').value = 1;
+            if (now > endFormattedDatetime){
+                document.getElementById('quizCondition').value = 2;
+                console.log("Now is later than EndDate.");
+            }
+            console.log("Now Input is later than StartDate.");
+        }
+    }
+
+    /* 문제 시작,끝 날짜 형식 수정*/
+    $(document).ready(function (){
+        let startFormattedDatetime = null;
+        let endFormattedDatetime = null;
+
+        const startDatetimeLocalInput = document.querySelector('#startDate');
+        startDatetimeLocalInput.addEventListener('change', function (e) {
+            const datetimeLocalValue = e.target.value;
+            const startDatetime = new Date(datetimeLocalValue);
+            startFormattedDatetime = formatDate(startDatetime);
+            document.getElementById('quizStartDate').value = startFormattedDatetime;
+
+            console.log("startDAte: " + startFormattedDatetime);
+            console.log("fieldStartDate: " + document.getElementById('quizStartDate').value);
+
+            if (document.getElementById('quizStartDate').value!=null && document.getElementById('quizFinishDate').value!=null){
+                dateCompare(startFormattedDatetime, endFormattedDatetime);
+            }
+        });
+
+        const endDatetimeLocalInput = document.querySelector('#endDate');
+        endDatetimeLocalInput.addEventListener('change', function (e) {
+            const endDatetimeLocalValue = e.target.value;
+            const endDatetime = new Date(endDatetimeLocalValue);
+            endFormattedDatetime = formatDate(endDatetime);
+            document.getElementById('quizFinishDate').value = endFormattedDatetime;
+
+            console.log("endDate: " + endFormattedDatetime);
+            console.log("fieldEndDate: " + document.getElementById('quizFinishDate').value);
+
+            if (document.getElementById('quizStartDate').value!=null && document.getElementById('quizFinishDate').value!=null){
+                dateCompare(startFormattedDatetime, endFormattedDatetime);
+            }
+        });
+    });
 
     var count = 0;
 
     // 버튼 클릭 이벤트 감지
     document.getElementById('plusProblem').addEventListener('click', function(e) {
         e.preventDefault();
+        count++;
+
         // HTML 코드 생성
         let answerShortHtml = `
-        <div class="textBox">
             <header class="titleContainer">
                 <input type="text" name="title" th:field="*{quizTitle}" class="titleInput"
                        placeholder="문제 타이틀 작성">
@@ -252,33 +334,66 @@
                     </div>
                 </div>
             </div>
-        </div>
     `;
         // HTML 코드 추가
         let divPlus = document.createElement('div');
+        divPlus.className = "textBox " + count;
         divPlus.innerHTML = answerShortHtml;
+        // id, for값을 바꿔주지 않으면, label을 클릭했을 때 가장 첫번째 input태그와 매핑이 된다.
+        //  querySelector()을 사용할 때, #을 포함하는 ID selector를 사용하면 #기호가 ID로 해석되어 오류가 발생할 수 있습니다. 이 경우 ID 선택자를 지정하려면 \\을 사용하여 이스케이프 해야합니다.
+        divPlus.querySelector('#multiple\\ choice').setAttribute('name', 'problem '+ count);    // divPlus는 Element객체이기 때문에 querySelector 사용해야함
+        divPlus.querySelector('#multiple\\ choice').setAttribute('id', 'multiple choice '+ count);    // divPlus는 Element객체이기 때문에 querySelector 사용해야함
+        divPlus.querySelectorAll('label')[0].setAttribute('for', 'multiple choice '+ count);
+        divPlus.querySelector('#short\\ form').setAttribute('name', 'problem '+ count);
+        divPlus.querySelector('#short\\ form').setAttribute('id', 'short form '+ count);
+        divPlus.querySelectorAll('label')[1].setAttribute('for', 'short form '+ count);
         document.getElementById('textBoxContainer').appendChild(divPlus);
-        count++;
+
     });
 
-
-
-    // $(this).val(): undefined 나옴
-    function showDivAnswer(element){
-        let divAnswer = element.id.split(" ")[0];
-        console.log("div." + divAnswer);
-
-        if("div.answer-" + divAnswer == "div.answer-multiple") {
-            $("div.answer-multiple").show();
-            $("div.answer-short").hide();
-        }
-        if("div.answer-" + divAnswer == "div.answer-short") {
-            $("div.answer-multiple").hide();
-            $("div.answer-short").show();
-        }
+    // DIV태그의 class이름이 'textBox'일 때까지 재귀
+    function getParentDiv(element) {
+        return element.parentElement.classList.contains('textBox') ? element.parentElement : getParentDiv(element.parentElement);
     }
 
+    // $(this).val(): undefined 나옴
+    // display: none/block 으로 하여도 화면에만 안보일 뿐, 값은 넘겨주기 때문에 input값을 disabled 해주어야함
+    function showDivAnswer(element){
+        let divAnswer = element.id.split(" ")[0];
+        parentDiv = getParentDiv(element);
+        console.log(parentDiv);
 
+        const inputs = parentDiv.querySelectorAll('.keyword');
+
+        inputs.forEach(input => { // input 요소들 활성화
+            input.disabled = false;
+        });
+
+        if("div.answer-" + divAnswer == "div.answer-multiple") {
+            const hiddenDiv = parentDiv.querySelector('.answer-short'); // 숨겨진 div 요소 선택. DOM 객체
+            const hiddeninputs = hiddenDiv.querySelectorAll('input'); // 하위 input 요소들 선택
+
+            console.log($(hiddenDiv));
+            $(hiddenDiv).hide();    //  .hide()는 jQuery 라이브러리에서 제공하는 메소드. jQuery 객체여야 사용가능
+            hiddeninputs.forEach(input => { // 하위 input 요소들 비활성화
+                input.disabled = true;
+            });
+
+            $(parentDiv.querySelectorAll('.answer-multiple')).show();    // .show()는 jQuery 라이브러리에서 제공하는 메소드. jQuery 객체여야 사용가능
+
+        }
+        if("div.answer-" + divAnswer == "div.answer-short") {
+            const hiddenDiv = parentDiv.querySelector('.answer-multiple'); // 숨겨진 div 요소 선택
+            const hiddeninputs = hiddenDiv.querySelectorAll('input'); // 하위 input 요소들 선택
+
+            $(hiddenDiv).hide();    // $("div.answer-multiple")[count]
+            hiddeninputs.forEach(input => { // 하위 input 요소들 비활성화
+                input.disabled = true;
+            });
+
+            $(parentDiv.querySelectorAll('.answer-short')).show();
+        }
+    }
 
     function register(){
         var quizList = [];
@@ -323,6 +438,8 @@
         if (count != 0) {
             e.preventDefault();
             register();
+        } else{
+            document.querySelector('#writeForm').submit();
         }
     });
 

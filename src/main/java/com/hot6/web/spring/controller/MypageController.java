@@ -108,6 +108,7 @@ public class MypageController {
 //        model.addAttribute("userInfo", userService.getUserInfo(userEmail));
         model.addAttribute("userInfo", userService.showUser(userNumber));
         model.addAttribute("userEmail", userEmail);
+        model.addAttribute("userNickname", userService.getUserNickname(userEmail));
         model.addAttribute("userInquiryCount", inquiryBoardService.showInquiryCount(userNumber));
         model.addAttribute("userCorrectCount", myQuizService.getUserQuizOkTotal(userNumber));
         model.addAttribute("userWrongCount", myQuizService.getUserQuizNoTotal(userNumber));

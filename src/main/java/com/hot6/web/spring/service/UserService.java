@@ -46,6 +46,12 @@ public class UserService {
     // 유저 number 가쟈오기
     public long getUserNumber(String userEmail){return userDAO.getUserNumber(userEmail);}
 
+    // 유저 type 가쟈오기
+    public String getUserType(String userEmail){return userDAO.getUserType(userEmail);}
+
+    // 유저 nickname 가쟈오기
+    public String getUserNickname(String userEmail){return userDAO.getUserNickname(userEmail);}
+
     // 정보 수정
     @Transactional(rollbackFor = Exception.class)
     public void modifyUser(UserDTO userDTO){

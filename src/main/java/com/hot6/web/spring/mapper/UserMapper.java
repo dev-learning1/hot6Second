@@ -33,6 +33,12 @@ public interface UserMapper {
     // 유저 number 가져오기
     public long selectUserNumber(String userEmail);
 
+    // 유저 type 가져오기
+    public String selectUserType(String userEmail);
+
+    // 유저 nickname 가져오기
+    public String selectUserNickname(String userEmail);
+
     // 정보 수정
     public void updateUser(UserDTO userDTO);
 

@@ -20,8 +20,11 @@ public interface QuizMapper {
     //    문제 리스트 조회
     public List<QuizVO> selectList(Long quizList);
 
-    //    문제 리스트 전체 조회
-    public List<QuizVO> selectListAll(Criteria criteria);
+    //    문제 오늘의 문제 리스트 전체 조회
+    public List<QuizVO> selectListAll(Criteria criteria, String quizTheme);
+
+    //    문제 대회 리스트 전체 조회
+    public List<QuizVO> selectContestListAll(Criteria criteria);
 
     //    문제 전체 조회
     public List<QuizVO> selectAll(Criteria criteria);
@@ -31,6 +34,9 @@ public interface QuizMapper {
 
     //    문제 전체 갯수
     public int getTotal();
+
+    //    문제 리스트 갯수
+    public int getListTotal(String quizTheme);
 
 
     // 오늘의 문제 등록

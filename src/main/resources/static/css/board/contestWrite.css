@@ -112,12 +112,18 @@ input, button{
     font-weight: 500;
     margin-bottom: 0.5rem;
     border-color: #e0e6f0;
-    height: 70px;
     font-family: inherit;
     line-height: inherit;
     background-color: #fff;
     position: relative;
     display: flex;
+    flex-direction: column;
+}
+/* height: 70px; */
+
+.listTitle{
+    display: flex;
+    flex-direction: row;
 }
 
 .categorySelect{
@@ -146,6 +152,16 @@ input, button{
     align-items: baseline;
     width: 100%;
     font-size: 17px;
+}
+
+.contestDate{
+    display: flex;
+    justify-content: center;
+}
+
+.contestDate p {
+    width: 50%;
+    text-align: left;
 }
 
 .textBox{
@@ -205,10 +221,15 @@ input, button{
     margin-bottom: 20px;
 }
 
-.question{
+.question, .commentary{
     margin: 0 0 12.5px;
     margin-bottom: 0;
     min-height: auto;
+}
+
+.commentary, .contestDate{
+    padding: 0.75rem 0;
+    border-top: 1px solid #f3f5f9;
 }
 
 .length{
@@ -384,7 +405,7 @@ input[class="keyword"] {
     border-radius: 8px;
 }
 
-.question {
+.question, .commentary {
     width: 100%;
     height: 240px;
     resize: none;

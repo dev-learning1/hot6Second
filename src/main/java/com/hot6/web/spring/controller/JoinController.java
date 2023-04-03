@@ -56,6 +56,10 @@ public class JoinController {
         if(userService.checkUser(userVO) == 1){
             session.setAttribute("userEmail", userVO.getUserEmail());
             session.setAttribute("userNumber", userService.getUserNumber(userVO.getUserEmail()));
+            session.setAttribute("userType", userService.getUserType(userVO.getUserEmail()));
+            session.setAttribute("userNickname", userService.getUserNickname(userVO.getUserEmail()));
+            System.out.println("userEmail: " + userVO.getUserEmail());
+            System.out.println("userType: " + userVO.getUserType());
             return new RedirectView("/main/main");
         }else{
             redirectAttributes.addFlashAttribute("error", "error");

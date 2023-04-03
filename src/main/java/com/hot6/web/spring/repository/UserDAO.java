@@ -52,6 +52,12 @@ public class UserDAO {
     // 유저 number 가져오기
     public long getUserNumber(String userEmail){return userMapper.selectUserNumber(userEmail);}
 
+    // 유저 type 가져오기
+    public String getUserType(String userEmail){return userMapper.selectUserType(userEmail);}
+
+    // 유저 nickname 가져오기
+    public String getUserNickname(String userEmail){return userMapper.selectUserNickname(userEmail);}
+
     // admin 유저 전체 조회
     public List<UserVO> findAllUser(Criteria criteria){ return  userMapper.selectAllUser(criteria);}
 

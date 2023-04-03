@@ -43,10 +43,16 @@ public class TodayQuizService implements QuizService {
     @Override
     public List<QuizVO> showList(Long quizList) { return quizDAO.findByList(quizList); }
 
-    //    글 리스트 전체 조회
+    //    오늘의 문제 리스트 전체 조회
     @Override
-    public List<QuizVO> showListAll(Criteria criteria) {
-        return quizDAO.findByListAll(criteria);
+    public List<QuizVO> showListAll(Criteria criteria, String quizTheme){
+        return quizDAO.findByListAll(criteria, quizTheme);
+    }
+
+    //    대회글 리스트 전체 조회
+    @Override
+    public List<QuizVO> showContestListAll(Criteria criteria){
+        return quizDAO.findByContestListAll(criteria);
     }
 
     //    글 전체 조회
@@ -61,5 +67,5 @@ public class TodayQuizService implements QuizService {
 
     //    전체 리스트 개수
     @Override
-    public int getListTotal(){ return quizDAO.findCountListAll(); }
+    public int getListTotal(String quizTheme){ return quizDAO.findCountListAll(quizTheme); }
 }
