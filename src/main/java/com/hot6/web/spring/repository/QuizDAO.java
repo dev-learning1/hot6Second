@@ -35,7 +35,7 @@ public class QuizDAO {
     }
 
     // 조회 findByList
-    public List<QuizVO> findByList(Long quizList){
+    public List<QuizDTO> findByList(Long quizList){
         return quizMapper.selectList(quizList);
     }
 
@@ -56,6 +56,11 @@ public class QuizDAO {
     // 리스트 개수 findCountListAll
     public int findCountListAll(String quizTheme){
         return quizMapper.getListTotal(quizTheme);
+    }
+
+    // 최신 리스트 번호 조회
+    public Long findRecentListNumber() {
+        return quizMapper.getRecentListNumber();
     }
 
     // Admin 오늘의 문제 insert

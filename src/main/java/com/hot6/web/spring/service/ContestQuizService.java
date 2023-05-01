@@ -3,6 +3,7 @@ package com.hot6.web.spring.service;
 
 import com.hot6.web.spring.domain.vo.BoardVO;
 import com.hot6.web.spring.domain.vo.Criteria;
+import com.hot6.web.spring.domain.vo.QuizDTO;
 import com.hot6.web.spring.domain.vo.QuizVO;
 import com.hot6.web.spring.repository.FileDAO;
 import com.hot6.web.spring.repository.QuizDAO;
@@ -40,7 +41,7 @@ public class ContestQuizService implements QuizService {
 
     //    대회글 리스트 조회
     @Override
-    public List<QuizVO> showList(Long quizList) { return quizDAO.findByList(quizList); }
+    public List<QuizDTO> showList(Long quizList) { return quizDAO.findByList(quizList); }
 
     //    오늘의 문제 리스트 전체 조회
     @Override
@@ -49,6 +50,8 @@ public class ContestQuizService implements QuizService {
     }
 
     //    대회글 리스트 전체 조회
+    //    진행 전, 진행 중은 QUIZ_FINISH_DATE 오름차순으로
+    //    종료는 QUIZ_FINISH_DATE 내림차순으로 정렬
     @Override
     public List<QuizVO> showContestListAll(Criteria criteria){
         return quizDAO.findByContestListAll(criteria);
@@ -67,4 +70,9 @@ public class ContestQuizService implements QuizService {
     //    전체 리스트 개수
     @Override
     public int getListTotal(String quizTheme){ return quizDAO.findCountListAll(quizTheme); }
+
+    // 최신 리스트 번호 조회
+    public Long getRecentListNumber(){
+        return quizDAO.findRecentListNumber();
+    }
 }

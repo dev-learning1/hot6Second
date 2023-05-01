@@ -2,6 +2,7 @@ package com.hot6.web.spring.service;
 
 
 import com.hot6.web.spring.domain.vo.Criteria;
+import com.hot6.web.spring.domain.vo.QuizDTO;
 import com.hot6.web.spring.domain.vo.QuizVO;
 import com.hot6.web.spring.repository.FileDAO;
 import com.hot6.web.spring.repository.QuizDAO;
@@ -41,7 +42,7 @@ public class TodayQuizService implements QuizService {
 
     //    글 리스트 조회
     @Override
-    public List<QuizVO> showList(Long quizList) { return quizDAO.findByList(quizList); }
+    public List<QuizDTO> showList(Long quizList) { return quizDAO.findByList(quizList); }
 
     //    오늘의 문제 리스트 전체 조회
     @Override

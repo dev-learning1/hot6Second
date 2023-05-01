@@ -75,6 +75,11 @@ public class UserService {
         });
     }
 
+    // 유저 점수 정보 수정
+    public void modifyUserPoint(UserDTO userDTO){
+        userDAO.modifyUserPoint(userDTO);
+    }
+
     // 특정 유저 정보 가져오기
     public UserVO getUserInfo(String userEmail){return userDAO.getUserInfo(userEmail);}
 

@@ -44,6 +44,11 @@ public class UserDAO {
         System.out.println("8");
     }
 
+    // 정보 수정
+    public void modifyUserPoint(UserDTO userDTO){
+        userMapper.updateUserPoint(userDTO);
+    }
+
     // 특정 유저 정보 가져오기
     public UserVO getUserInfo(String userEmail){
         return userMapper.getInfo(userEmail);

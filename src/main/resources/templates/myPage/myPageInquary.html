@@ -87,7 +87,7 @@
                         <a th:if="${session.userEmail} == 'admin@naver.com'"
                            th:href="@{/admin/adm_todayList}" th:text="${userEmail}" class="loginOk_font"></a>
                         <a th:unless="${session.userEmail} == 'admin@naver.com'"
-                           th:href="@{/mypage/myPageMain}" th:text="${userEmail}" class="loginOk_font"></a>
+                           th:href="@{/mypage/myPageMain}" th:text="${userNickname}" class="loginOk_font"></a>
                         <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
                         <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
                     </span>

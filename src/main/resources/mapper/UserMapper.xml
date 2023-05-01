@@ -37,7 +37,13 @@
 
     <update id="updateUser">
         UPDATE TBL_USER
-        SET USER_NICKNAME = #{userNickname}, USER_SCHOOL = #{userSchool}, USER_MSG = #{userMsg}, USER_PHONENUM = #{userPhonenum}
+        SET USER_NICKNAME = #{userNickname}, USER_SCHOOL = #{userSchool}, USER_MSG = #{userMsg}, USER_PHONENUM = #{userPhonenum},
+        WHERE USER_EMAIL = #{userEmail}
+    </update>
+
+    <update id="updateUserPoint">
+        UPDATE TBL_USER
+        SET USER_WRONG_COUNT = #{userWrongCount}, USER_CORRECT_COUNT = #{userCorrectCount}, USER_POINT = #{userPoint}
         WHERE USER_EMAIL = #{userEmail}
     </update>
 

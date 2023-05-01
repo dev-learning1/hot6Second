@@ -6,6 +6,7 @@ import com.hot6.web.spring.service.MyQuizService;
 import com.hot6.web.spring.service.QuizService;
 import com.hot6.web.spring.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -57,26 +60,87 @@ public class TodayQuizController {
     // 오늘의 문제 상세조회 이동
     @GetMapping("/problemDetail")
     public void problemDetail(Long quizList, Criteria criteria, Model model, @SessionAttribute(name="userEmail", required = false) String userEmail, @SessionAttribute(name="userNickname", required = false) String userNickname) {
-        model.addAttribute("todayQuizList", quizService.showList(quizList));
-        model.addAttribute("myQuiz", new MyQuizVO());
+        List<QuizDTO> quizDTOs = quizService.showList(quizList);
+
+        model.addAttribute("todayQuizList", quizDTOs);
         model.addAttribute("userEmail", userEmail);
         model.addAttribute("userNickname", userNickname);
     }
 
-    @PostMapping("/problemDetail")
-    public RedirectView problemDetail(MyQuizVO myQuizVO, @SessionAttribute(name="userEmail", required = false) String userEmail, @RequestParam(name = "quizList") Long quizList, @RequestParam(name = "quizNumber") Long quizNumber, RedirectAttributes redirectAttributes) {
-        System.out.println("quizList: " +quizList);
-        myQuizVO.setUserNumber(userService.getUserNumber(userEmail));
-        myQuizVO.setQuizNumber(quizNumber);
 
-        myQuizService.register(myQuizVO);
-//        myQuizService.modify(myQuizVO.getQuizNumber(), myQuizVO.getUserNumber());
+    @PostMapping("/problemDetail")
+    public void problemDetail(@RequestBody MyQuizVO myQuiz, @SessionAttribute(name="userEmail", required = false) String userEmail) {
+
+        QuizVO quizVO = quizService.show(myQuiz.getQuizNumber());
+        UserVO userVO = userService.getUserInfo(userEmail);
+        Long userCorrectCount = userVO.getUserCorrectCount();
+        Long userWrongCount = userVO.getUserWrongCount();
+        String userAns = myQuiz.getMyQuizUserAnsOne();
+        int count = 0;
+        Long correct = 0L;
+        Long userPoint = userVO.getUserPoint();
+
+        // 객관식 3점
+        // 주관식 키워드 개수로 점수 측정. 모든 키워드 포함하면 5점
+
+        // 객관식
+        if(quizVO.getQuizType().equals("0")){
+            correct = userAns.equals(quizVO.getQuizOne()) ? 1L:0L;
+            if(correct.equals(1L)) {
+                userCorrectCount += 1;
+                userPoint += 3;
+            } else{userWrongCount+=1;}
+        }
+        // 주관식
+        if(quizVO.getQuizType().equals("1")){
+            List<String> keywordList = new ArrayList<>();
+            if (quizVO.getQuizOne() != null) keywordList.add(quizVO.getQuizOne());
+            if (quizVO.getQuizTwo() != null) keywordList.add(quizVO.getQuizTwo());
+            if (quizVO.getQuizThree() != null) keywordList.add(quizVO.getQuizThree());
+            if (quizVO.getQuizFour() != null) keywordList.add(quizVO.getQuizFour());
+            if (quizVO.getQuizFive() != null) keywordList.add(quizVO.getQuizFive());
+            String[] keywords = keywordList.toArray(new String[0]);
+
+            for (String keyword : keywords) {
+                if (userAns.contains(keyword)) {
+                    count++;
+                }
+            }
+            correct = count == keywords.length ? 1L:0L;
+            if(correct.equals(1L)){
+                userCorrectCount += 1;
+                userPoint += 5;
+            } else {
+                userWrongCount+=1;
+                userPoint += count;
+            }
+        }
+
+        myQuiz.setUserNumber(userService.getUserNumber(userEmail));
+        myQuiz.setMyQuizCorrect(correct);
+        myQuizService.register(myQuiz);
+
+
+        UserDTO userDTO = new UserDTO();
+        // userDTO에 값을 복사
+        userVO.setUserPoint(userPoint);
+        userVO.setUserWrongCount(userWrongCount);
+        userVO.setUserCorrectCount(userCorrectCount);
+        BeanUtils.copyProperties(userVO, userDTO);
+        userService.modifyUserPoint(userDTO);
+    }
+
+    // 정답지 페이지 이동
+    @GetMapping("/problemDetailOk")
+    public RedirectView problemDetailOk(RedirectAttributes redirectAttributes, @RequestParam Long quizList) {
+
 
         redirectAttributes.addAttribute("quizList", quizList);
         return new RedirectView("/board/problemAnswer");
     }
 
-    // 대회 문제 작성 페이지 이동
+
+    /// 대회 문제 작성 페이지 이동
     @GetMapping("/contestWrite")
     public void contestWrite(Model model, @SessionAttribute(name="userEmail", required = false) String userEmail, @SessionAttribute(name="userNickname", required = false) String userNickname) {
         model.addAttribute("userEmail", userEmail);
@@ -84,32 +148,21 @@ public class TodayQuizController {
         model.addAttribute("contestQuizList", new QuizVO());
     }
 
-//, @RequestParam(name = "quizStartDate") String quizStartDate, @RequestParam(name = "quizFinishDate") String quizFinishDate
     @PostMapping("/contestWrite")
-    public RedirectView contestWrite(QuizVO quizVO, @SessionAttribute(name="userEmail", required = false) String userEmail, RedirectAttributes redirectAttributes) {
+    public void contestWrite(@RequestBody QuizVO quizVO, @SessionAttribute(name="userEmail", required = false) String userEmail) {
         quizVO.setQuizTheme("1");
+        quizVO.setQuizList(contestQuizService.getRecentListNumber()+1L);
         quizVO.setUserNumber(userService.getUserNumber(userEmail));
-//        quizVO.setQuizStartDate(quizStartDate);
-//        quizVO.setQuizFinishDate(quizFinishDate);
-        System.out.println("getQuizStartDate: " + quizVO.getQuizStartDate());
-        System.out.println("getQuizFinishDate: " + quizVO.getQuizFinishDate());
         contestQuizService.register(quizVO);
 
-        System.out.println("contestWrite");
-        System.out.println("quizvo: "+ quizVO);
 
-        redirectAttributes.addAttribute("quizList", quizVO.getQuizList());
-        return new RedirectView("/board/contestList");
     }
 
-    @PostMapping("/contestWriteAll")
-    public RedirectView contestWrite(@RequestBody List<QuizVO> quizList, RedirectAttributes redirectAttributes) {
-        System.out.println("contestWriteAll");
-        for (QuizVO quizVO : quizList) {
-            quizVO.setQuizTheme("1");
-            contestQuizService.register(quizVO);
-        }
+    @GetMapping("/contestWriteOk")
+    public RedirectView contestWriteOk(RedirectAttributes redirectAttributes) {
 
+
+        redirectAttributes.addAttribute("quizList", contestQuizService.getRecentListNumber());
         return new RedirectView("/board/contestList");
     }
 

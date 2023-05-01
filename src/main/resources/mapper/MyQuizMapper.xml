@@ -5,8 +5,8 @@
         <selectKey keyProperty="myQuizNumber" order="BEFORE" resultType="long">
             SELECT SEQ_MYQUIZ.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO TBL_MY_QUIZ(MYQUIZ_NUMBER, USER_NUMBER, QUIZ_NUMBER, MYQUIZ_USERANS_ONE)
-        VALUES(#{myQuizNumber}, #{userNumber}, #{quizNumber}, #{myQuizUserAnsOne})
+        INSERT INTO TBL_MY_QUIZ(MYQUIZ_NUMBER, USER_NUMBER, QUIZ_NUMBER, MYQUIZ_USERANS_ONE, MYQUIZ_CORRECT)
+        VALUES(#{myQuizNumber}, #{userNumber}, #{quizNumber}, #{myQuizUserAnsOne}, #{myQuizCorrect})
     </insert>
 
     <update id="update">

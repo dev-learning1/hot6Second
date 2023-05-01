@@ -48,4 +48,11 @@ public class ReplyController {
     public ReplyVO show(@PathVariable Long replyNumber){
         return replyService.show(replyNumber);
     }
+
+    // 댓글 수 조회
+    @GetMapping("/count")
+    @ResponseBody
+    public int count(@RequestParam Long boardNumber){
+        return replyService.count(boardNumber);
+    }
 }

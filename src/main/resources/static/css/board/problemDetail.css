@@ -15,7 +15,14 @@ body {
     /* min-height: 100%; */
     position: relative;
     background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+/* header-base-footer 영역 나누기*/
+/*display: flex;
+flex-direction: column;
+min-height: 100vh;*/
 
 * {
     box-sizing: border-box;
@@ -23,20 +30,23 @@ body {
 }
 
 .base{
+    flex: 1;
     /* height: auto !important; */
     margin-top: 0;
     transition: margin-top .25s cubic-bezier(.77,.2,.05,1);
     background: #fafafa;
 }
+/* header-base-footer 영역 나누기*/
+/* flex: 1 */
 
 .container{
     width: 100%;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 1rem;
-    margin-bottom: 3rem;
-    padding-top: 85px;
-    padding-bottom: 210px;
+    /*margin-top: 1rem;*/
+    /*margin-bottom: 3rem;*/
+    /*padding-top: 25px;*/
+    padding: 25px;
     overflow-x: hidden;
     padding-right: 210px;
     padding-left: 210px;

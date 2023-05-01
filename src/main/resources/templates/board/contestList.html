@@ -69,7 +69,7 @@
         </div>
 
         <!-- 목록 10개일 경우 height: 732 -->
-        <div class="mainContainer" style="height: 732px;">
+        <div class="mainContainer">
             <div class="mainContent">
                 <div class="leftSideContainer">
                     <ul class="leftSide">
@@ -98,7 +98,7 @@
                                     </thead>
                                     <tbody>
                                     <th:block th:each="contestQuiz:${contestQuizs}" th:object="${contestQuiz}">
-                                        <tr th:if="*{quizTheme}==1">   <!--class="notFinish"-->
+                                        <tr th:if="*{quizTheme}==1" class="listRow">   <!--class="notFinish"-->
                                             <td class="quizList" th:text="*{quizList}">
 
                                             </td>
@@ -113,7 +113,7 @@
                                             <td class="finishDate" th:text="*{quizFinishDate}">
 
                                             </td>
-                                            <td class="quizCondition" th:text="*{quizCondition}">
+                                            <td class="quizCondition">
 <!--                                                <span id="contestCondition">진행전</span>-->
                                             </td>
                                         </tr>
@@ -196,7 +196,6 @@
 </body>
 <script th:inline="javascript">
     let $pages = $("a.changePage");
-    var $quizFinishDate = $("td.finishDate")
     var date = new Date();
 
     var year = date.getFullYear();
@@ -219,26 +218,35 @@
         hour = "0" + hour;
     }
 
+    // 오늘 날짜
     var dateTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
     console.log(dateTime);
 
-    $quizFinishDate.each(function (i, td) {
-        console.log($(this).text());
-        if ($(this).text() > dateTime) {
-            $(this).closest("tr").css("background-color", "rgb(120, 226, 198)");
-        }
-    })
+    var listRows = document.querySelectorAll("tr.listRow");
 
-    $quizCondition.each(function (i, td) {
-        console.log($(this).text());
-        if ($(this).text() == 0) {
-            $(this).text("진행 전");
-        } else if ($(this).text() == 1) {
-            $(this).text("진행 중");
-        } else {
-            $(this).text("종료");
+    listRows.forEach(function(row) {
+        // 시작 날짜 가져오기
+        var start = row.querySelector(".startDate").innerText;
+
+        // 끝나는 날짜 가져오기
+        var end = row.querySelector(".finishDate").innerText;
+
+        // 상태 가져오기
+        var condition = row.querySelector(".quizCondition");
+
+        if(start > dateTime){
+            condition.textContent = "진행 전";
+            row.style.backgroundColor = "rgb(120, 226, 198)";
         }
-    })
+
+        // 시작 날짜가 오늘 이후이고, 끝나는 날짜가 오늘 이전이면 백그라운드 색 변경
+        else if (start <= dateTime && end >= dateTime) {
+            condition.textContent = "진행중";
+            row.style.backgroundColor = "rgb(120, 226, 198)";
+        }
+
+        else { condition.textContent = "종료"; }
+    });
 
     $detail.on("click", function (e) {
         e.preventDefault();

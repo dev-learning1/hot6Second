@@ -43,6 +43,7 @@ public class MypageController {
         criteriaDTO.setUserNumber(userNumber);
         model.addAttribute("userInfo", userService.showUser(userNumber));
         model.addAttribute("userEmail", userEmail);
+        model.addAttribute("userNickname", userService.getUserNickname(userEmail));
         model.addAttribute("userQuizNos",myQuizService.findUserQuizNo(criteriaDTO));
         model.addAttribute("pagination",new PageDTO().createPageDTO(criteria, myQuizService.getUserQuizNoTotal(userNumber)));
         model.addAttribute("userInquiryCount", inquiryBoardService.showInquiryCount(userNumber));
@@ -62,6 +63,7 @@ public class MypageController {
         criteriaDTO.setUserNumber(userNumber);
         model.addAttribute("userInfo", userService.showUser(userNumber));
         model.addAttribute("userEmail", userEmail);
+        model.addAttribute("userNickname", userService.getUserNickname(userEmail));
         model.addAttribute("userQuizOks",myQuizService.findUserQuizOk(criteriaDTO));
         model.addAttribute("pagination",new PageDTO().createPageDTO(criteria, myQuizService.getUserQuizOkTotal(userNumber)));
         model.addAttribute("userInquiryCount", inquiryBoardService.showInquiryCount(userNumber));
@@ -88,6 +90,7 @@ public class MypageController {
         }
         model.addAttribute("userInfo", userService.showUser(userNumber));
         model.addAttribute("userEmail", userEmail);
+        model.addAttribute("userNickname", userService.getUserNickname(userEmail));
 //        model.addAttribute("boards", inquiryBoardService.findUserInquiry(userEmail));
 
         criteriaDTO.setUserNumber(userNumber);

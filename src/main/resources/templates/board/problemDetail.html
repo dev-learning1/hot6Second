@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
         });
     </script>
 </head>
-<body style="height: 100%;">
+<body>
 <!-- header 작성 -->
 <header>
     <div class="headWrapper">
@@ -30,6 +30,7 @@
                     <li><a th:href="@{/board/contestList}">대회</a></li>
                     <li><a th:href="@{/rank/ranking}">랭킹</a></li>
                     <li><a th:href="@{/board/boardList}">게시판</a></li>
+                </ul>
             </div>
             <div class="login">
                     <span th:if="${session.userEmail} == null" class="loginYet">
@@ -48,58 +49,56 @@
     </div>
 </header>
 
-<div class="base" style="min-height: 100%; margin: -85px 0 -210px;">
-    <div class="container">
-        <form method="post" th:action="@{/board/problemDetail}" id="writeForm" enctype="multipart/form-data">
+<div class="base">
+    <div class="container" id="container-wrapper">
+        <form method="post" th:action="@{/board/problemDetail}" id="writeForm">
+
             <th:block th:each="todayQuiz:${todayQuizList}">
                 <div class="mainbox" th:object="${todayQuiz}" style="margin-bottom: 12px;">
                     <div class="mainboxHeader box">
                         <div>
-                            <!-- 대회일때는 span태그안에 글자가 "대회"가 되도록 변경 -->
-                            <!-- a태그에 링크도 대회목록 url로 변경 -->
+
                             <a class="category" th:text="*{quizTheme}==0 ? '오늘의 문제' : '대회'"></a>
                         </div>
                         <h2 class="title" th:text="*{quizTitle}">제 572회 추리퀴즈 - [ 나지막한 콧노래 ]</h2>
                         <div class="questionInfo">
                             <span class="questionTime" th:text="*{quizRegisterDate}">2022.02.03</span>
                             <input type="hidden" name="quizList" th:value="*{quizList}">     <!--컨트롤러에 값 넘겨주기위해-->
-                            <input type="hidden" name="quizNumber" th:value="*{quizNumber}">   <!--컨트롤러에 값 넘겨주기위해-->
-                            <!--                            <div class="questionFile">-->
-                            <!--                                첨부파일-->
-                            <!--                                <a href="#">첨부된 파일</a>-->
-                            <!--                            </div>-->
+                            <input type="hidden" name="quizNumber" th:value="*{quizNumber}" class="quizNumberCount">   <!--컨트롤러에 값 넘겨주기위해-->
+
                         </div>
                         <hr>
                     </div>
                     <div class="mainboxBody box" th:text="*{quizContent}"></div>
                     <div class="answerbox box">
-                        <!--                        <div class="answerSheet" th:each="quiz : ${quizList}">-->
                         <div class="answerSheet">
-                            <!--                            <p>나의 행선지는 서점과 영화관 중 무엇일까?</p>-->
-                            <div th:if="*{quizType}==1" class="short">
-                                <!-- <input type="text" name="answer" placeholder="정답 입력"> -->
-                                <textarea class="question" th:field="${myQuiz.myQuizUserAnsOne}"
-                                          placeholder="정답 입력"></textarea>
+                            <input type="hidden" name="quizType" th:value="*{quizType}" class="quizTypes">
+                            <div th:if="*{quizType} == '1'" class="short" >
+
+                                <textarea class="question" placeholder="정답 입력" ></textarea>
                             </div>
-                            <div th:if="*{quizType}==0" class="multiple">
-<!--                                <div  class="multiple">-->
+                            <div th:if="*{quizType} == '0'" class="multiple">
+
                                 <div th:if="*{quizTwo}!=null">
-                                    <input type="radio" th:field="${myQuiz.myQuizUserAnsOne}" th:id="*{quizNumber + quizTwo}" th:name="*{quizNumber}" th:value="*{quizTwo}">
+                                    <!--                                    <input type="radio" name="quizNumber" th:id="*{quizNumber + quizTwo}" th:value="*{quizTwo}">-->
+                                    <input type="radio" th:id="*{quizNumber + quizTwo}" th:name="*{quizNumber}" th:value="*{quizTwo}">
                                     <label th:for="*{quizNumber + quizTwo}" th:text="'① ' + *{quizTwo}">① 건물 관리인</label>
                                 </div>
                                 <div th:if="*{quizThree}!=null">
-                                    <input type="radio" th:field="${myQuiz.myQuizUserAnsOne}" th:id="*{quizNumber + quizThree}" th:name="*{quizNumber}" th:value="*{quizThree}">
+                                    <!--                                    <input type="radio" name="quizNumber" th:id="*{quizNumber + quizThree}" th:value="*{quizThree}">-->
+                                    <input type="radio" th:id="*{quizNumber + quizThree}" th:name="*{quizNumber}" th:value="*{quizThree}">
                                     <label th:for="*{quizNumber + quizThree}" th:text="'② ' + *{quizThree}">② 동업자</label>
                                 </div>
                                 <div th:if="*{quizFour}!=null">
-                                    <input type="radio" th:field="${myQuiz.myQuizUserAnsOne}" th:id="*{quizNumber + quizFour}" th:name="*{quizNumber}" th:value="*{quizFour}">
+                                    <!--                                    <input type="radio" name="quizNumber" th:id="*{quizNumber + quizFour}" th:value="*{quizFour}">-->
+                                    <input type="radio" th:id="*{quizNumber + quizFour}" th:name="*{quizNumber}" th:value="*{quizFour}">
                                     <label th:for="*{quizNumber + quizFour}" th:text="'③ ' + *{quizFour}">③ 부인</label>
                                 </div>
                                 <div th:if="*{quizFive}!=null">
-                                    <input type="radio" th:field="${myQuiz.myQuizUserAnsOne}" th:id="*{quizNumber + quizFive}" th:name="*{quizNumber}" th:value="*{quizFive}">
+                                    <!--                                    <input type="radio" name="quizNumber" th:id="*{quizNumber + quizFive}" th:value="*{quizFive}">-->
+                                    <input type="radio" th:id="*{quizNumber + quizFive}" th:name="*{quizNumber}" th:value="*{quizFive}">
                                     <label th:for="*{quizNumber + quizFive}" th:text="'④ ' + *{quizFive}">④ 친구A</label>
                                 </div>
-<!--                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -154,27 +153,66 @@
 </footer>
 </body>
 <script th:inline="javascript">
+    function answer(){
+        let counts = document.querySelectorAll('.quizNumberCount');
+        let quizTypes = document.querySelectorAll('.quizTypes');
+        let answerTextareas = document.querySelectorAll('textarea.question');
+        let shorts = document.querySelectorAll('input[type="radio"]');
 
 
-    // $(document).ready(function () {
-    //     console.log("ready");
-    //     let count = 0;
-    //     var divMuls = document.querySelectorAll("div.multiple");
-    //     var divShorts = document.querySelectorAll("div.short");
-    //
-    //     for (var j = 0; j < divMuls.length; j++) {
-    //         var inputs = divMuls[j].querySelectorAll("input");
-    //         for (var i = 0; i < inputs.length; i++) {
-    //             inputs[i].setAttribute("name", "myQuizUserAnsOne " + count);
-    //         }
-    //         count++;
-    //     }
-    //
-    //     for (var i=0; i<divShorts.length; i++){
-    //         divShorts[i].querySelector("textarea").setAttribute("name", "myQuizUserAnsOne " + count);
-    //         count++;
-    //     }
-    //
-    // });
+
+        let answerList = [];
+
+        for(let i = 0; i< shorts.length; i++){
+            let answer = shorts[i];
+            if(answer.checked){
+                let answerValue = answer.value;
+                answerList.push(answerValue);
+            }
+        }
+        for(let i = 0; i < answerTextareas.length; i++) {
+            let answer = answerTextareas[i];
+            let answerValue = answer.value;
+            answerList.push(answerValue);
+        }
+
+        for(let i = 0; i< counts.length; i++){
+
+            let MyQuizVO = {
+                quizNumber: counts[i].value,
+                myQuizUserAnsOne: answerList[i],
+            };
+
+            $.ajax({
+                url: "/board/problemDetail",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(MyQuizVO),
+                success: function(response) {
+                    console.log("들어옴2");
+                    // 요청이 성공적으로 완료된 후 실행될 코드 작성
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // 요청이 실패한 경우 실행될 코드 작성
+                }
+            });
+        }
+
+
+        console.log(answerList);
+
+
+    }
+    document.querySelector('.btnAnswer').addEventListener('click', function(e) {
+        e.preventDefault();
+
+        answer();
+        let quizList = document.querySelectorAll('input[name=quizList]')[0].value;;
+        window.location.href =  "/board/problemDetailOk" + "?quizList=" + quizList;
+
+    });
+
+
+
 </script>
 </html>

@@ -36,7 +36,7 @@
                            th:href="@{/mypage/myPageMain}" th:text="${userNickname}" class="loginOk_font"></a>
                         <a th:href="@{/mypage/ask}" class="loginOk_font">문의하기</a>
                         <a th:href="@{/login/logout}" class="btn_login">로그아웃</a>
-                    </span>
+                </span>
             </div>
         </div>
     </div>
@@ -52,15 +52,15 @@
                               id="writeForm" enctype="multipart/form-data">
                             <div class="categoryContainer">
                                 <label class="categoryLabel">대회 LEVEL</label>
-                                <div class="categoryBox">
+                                <div class="categoryBox first">
                                     <div class="category listTitle">
-                                    <select class="categorySelect" th:field="*{quizLevel}">
-                                        <option th:value="elementLevel" >초등학교</option>
-                                        <option th:value="midLevel" >중학교</option>
-                                        <option th:value="highLevel" >고등학교</option>
-                                    </select>
-                                    <input type="text" name="category" class="categoryInput" th:field="*{quizListTitle}"
-                                           placeholder="대회 이름을 작성해주세요.">
+                                        <select class="categorySelect" name="QuizVO.quizLevel" th:field="*{quizLevel}">
+                                            <option th:value="elementLevel" >초등학교</option>
+                                            <option th:value="midLevel" >중학교</option>
+                                            <option th:value="highLevel" >고등학교</option>
+                                        </select>
+                                        <input type="text" name="QuizVO.quizListTitle" class="categoryInput" th:field="*{quizListTitle}"
+                                               placeholder="대회 이름을 작성해주세요.">
                                     </div>
                                     <div class="contestDate">
                                         <p>시작날짜<br><input id="startDate" type="datetime-local"></p>
@@ -68,73 +68,27 @@
                                         <!-- js에서 수정된 값을 필드에 저장하기 위해 필요 -->
                                         <input type="hidden" id="quizStartDate" name="quizStartDate" th:value="*{quizStartDate}">
                                         <input type="hidden" id="quizFinishDate" name="quizFinishDate" th:value="*{quizFinishDate}">
-                                        <input type="hidden" id="quizCondition" name="quizCondition" th:value="*{quizCondition}">
                                     </div>
                                 </div>
+                                <div class="categoryBox">
+                                    <label for="mcq">객관식:</label>
+                                    <input type="number" id="mcq" name="mcq"><br><br>
+                                    <label for="saq">주관식:</label>
+                                    <input type="number" id="saq" name="saq"><br><br>
+                                </div>
+
                             </div>
-                            <div id="textBoxContainer">
-                                <div class="textBox 0">
-                                    <header class="titleContainer">
-                                        <input type="text" name="title" th:field="*{quizTitle}" class="titleInput"
-                                               placeholder="문제 타이틀 작성">
-                                        <span>(0/80자)</span>
-                                    </header>
-                                    <div class="textContainer">
-                                        <div class="mainText">
-                                            <textarea class="question" cols="30" rows="10" th:field="*{quizContent}"
-                                                      placeholder="문제 작성 해주시기 바랍니다"></textarea>
-                                            <textarea class="commentary" cols="30" rows="10" th:field="*{quizCommentary}"
-                                                      placeholder="해설 작성 해주시기 바랍니다"></textarea>
-                                        </div>
-                                        <div class="divCheckType">
-                                            <div class="check_title">문제 유형을 선택해주세요.</div>
-                                            <div class="checkTypeBar">
-                                                <input type="radio" name="problem" id="multiple choice"
-                                                       th:field="*{quizType}" value="0" onclick="showDivAnswer(this)"/>
-                                                <label for="multiple choice">객관식</label>
-                                                &nbsp;
-                                                <input type="radio" name="problem" id="short form"
-                                                       th:field="*{quizType}" value="1" onclick="showDivAnswer(this)"/>
-                                                <label for="short form">주관식</label>
-                                            </div>
-                                        </div>
-                                        <div class="divAnswer">
-                                            <div class="answer-multiple" style="display: none">
-                                                <div class="check_title">4지선다 작성해주시기 바랍니다.</div>
-                                                <div class="check_title">첫 번째 박스에 정답을 입력해주세요.</div>
-                                                <input class="keyword" th:field="*{quizOne}" type="text"
-                                                       placeholder="정답"/>
-                                                <input class="keyword" th:field="*{quizTwo}" type="text"
-                                                       placeholder="답1"/>
-                                                <input class="keyword" th:field="*{quizThree}" type="text"
-                                                       placeholder="답2"/>
-                                                <input class="keyword" th:field="*{quizFour}" type="text"
-                                                       placeholder="답3"/>
-                                                <input class="keyword" th:field="*{quizFive}" type="text"
-                                                       placeholder="답4"/>
-                                            </div>
-                                            <div class="answer-short" style="display: none">
-                                                <div class="check_title">핵심 키워드를 작성해주세요.</div>
-                                                <input class="keyword" th:field="*{quizOne}" type="text"
-                                                       placeholder="키워드">
-                                                <input class="keyword" th:field="*{quizTwo}" type="text"
-                                                       placeholder="키워드">
-                                                <input class="keyword" th:field="*{quizThree}" type="text"
-                                                       placeholder="키워드">
-                                                <input class="keyword" th:field="*{quizFour}" type="text"
-                                                       placeholder="키워드">
-                                                <input class="keyword" th:field="*{quizFive}" type="text"
-                                                       placeholder="키워드">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="multiple">
+
+                            </div>
+                            <div id="essay">
+
                             </div>
                             <div class="plusProblem">
                                 <button type="button" name="register" class="btnPlus" id="plusProblem">문제 추가</button>
                             </div>
                             <div class="qstFooter">
-                                <button type="submit" name="register" class="btnRegister">대회 등록</button>
+                                <button type="submit" name="register" class="btnRegister" id="submitBtn">대회 등록</button>
                             </div>
                         </form>
                     </div>
@@ -206,7 +160,17 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <!--<script src="../../js/main/contestWrite.js"></script>-->
+
 <script th:inline="javascript">
+
+    let number = 0;
+    var count = 0;
+
+    const mcqInput = document.getElementById("mcq");
+    const saqInput = document.getElementById("saq");
+    const selectElement = document.querySelector('.categorySelect');
+    let recentContestListNumber = 0;
+
     function formatDate(date) {
         const year = date.getFullYear();
         const month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -215,26 +179,6 @@
         const minutes = ('0' + date.getMinutes()).slice(-2);
         const seconds = ('0' + date.getSeconds()).slice(-2);
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    }
-
-    function dateCompare(startFormattedDatetime, endFormattedDatetime){
-        // 오늘의 날짜와 시간
-        const Datenow = new Date();
-        const now = Datenow.toISOString().replace('T', ' ').slice(0, 19);
-        console.log("now: " + now);
-
-        // 입력된 날짜와 시간이 오늘의 날짜와 시간 이전인지, 이후인지, 같은지 비교
-        if (now < startFormattedDatetime) {
-            document.getElementById('quizCondition').value = 0;
-            console.log("StartDate is later than Now Input.");
-        } else {
-            document.getElementById('quizCondition').value = 1;
-            if (now > endFormattedDatetime){
-                document.getElementById('quizCondition').value = 2;
-                console.log("Now is later than EndDate.");
-            }
-            console.log("Now Input is later than StartDate.");
-        }
     }
 
     /* 문제 시작,끝 날짜 형식 수정*/
@@ -252,9 +196,9 @@
             console.log("startDAte: " + startFormattedDatetime);
             console.log("fieldStartDate: " + document.getElementById('quizStartDate').value);
 
-            if (document.getElementById('quizStartDate').value!=null && document.getElementById('quizFinishDate').value!=null){
-                dateCompare(startFormattedDatetime, endFormattedDatetime);
-            }
+            // if (document.getElementById('quizStartDate').value!=null && document.getElementById('quizFinishDate').value!=null){
+            //     dateCompare(startFormattedDatetime, endFormattedDatetime);
+            // }
         });
 
         const endDatetimeLocalInput = document.querySelector('#endDate');
@@ -267,180 +211,173 @@
             console.log("endDate: " + endFormattedDatetime);
             console.log("fieldEndDate: " + document.getElementById('quizFinishDate').value);
 
-            if (document.getElementById('quizStartDate').value!=null && document.getElementById('quizFinishDate').value!=null){
-                dateCompare(startFormattedDatetime, endFormattedDatetime);
-            }
+            // if (document.getElementById('quizStartDate').value!=null && document.getElementById('quizFinishDate').value!=null){
+            //     dateCompare(startFormattedDatetime, endFormattedDatetime);
+            // }
         });
     });
 
-    var count = 0;
-
     // 버튼 클릭 이벤트 감지
     document.getElementById('plusProblem').addEventListener('click', function(e) {
+
         e.preventDefault();
-        count++;
+
+        const total = parseInt(mcqInput.value) + parseInt(saqInput.value);
+        if (total > 5) {
+            alert('입력된 값의 합이 5를 초과합니다. 다시 입력해주세요.');
+            return;
+        }
 
         // HTML 코드 생성
-        let answerShortHtml = `
+        document.getElementById("multiple").style.display = "block";
+        document.getElementById('essay').style.display = "block";
+        document.getElementById('submitBtn').style.display = "block";
+
+
+        for(let i = 0; i< mcqInput.value; i++){
+            // HTML 코드 추가
+            let answerShortHtml = `
+        <div class="categoryType" value="0">객관식 문제 ${i+1}</div>
+        <div class="textBox">
             <header class="titleContainer">
-                <input type="text" name="title" th:field="*{quizTitle}" class="titleInput"
+                <input type="text" name="QuizVO[${number}].quizTitle" th:field="*{quizTitle}" class="titleInput"
                        placeholder="문제 타이틀 작성">
                 <span>(0/80자)</span>
             </header>
             <div class="textContainer">
                 <div class="mainText">
-                        <textarea class="question" cols="30" rows="10" th:field="*{quizContent}"
+                        <textarea class="question" cols="30" rows="10" name="QuizVO[${number}].quizContent"
                                   placeholder="문제 작성 해주시기 바랍니다"></textarea>
+                        <textarea class="commentary" cols="30" rows="10" name="QuizVO[${number}].quizCommentary"
+                                  placeholder="해설 작성 해주시기 바랍니다"></textarea>
                 </div>
-                <div class="divCheckType">
-                    <div class="check_title">문제 유형을 선택해주세요.</div>
-                    <div class="checkTypeBar">
-                        <input type="radio" name="problem" id="multiple choice"
-                               th:field="*{quizType}" value="0" onclick="showDivAnswer(this)"/>
-                        <label for="multiple choice">객관식</label>
-                        &nbsp;
-                        <input type="radio" name="problem" id="short form"
-                               th:field="*{quizType}" value="1" onclick="showDivAnswer(this)"/>
-                        <label for="short form">주관식</label>
-                    </div>
-                </div>
+                <input class="checkType" name="QuizVO[${number}].quizType" value="0" style="display: none"/>
+
                 <div class="divAnswer">
                     <div class="answer-multiple" style="display: none;">
                         <div class="check_title">4지선다 작성해주시기 바랍니다.</div>
                         <div class="check_title">첫 번째 박스에 정답을 입력해주세요.</div>
-                        <input class="keyword" th:field="*{quizOne}" type="text"
-                               placeholder="정답">
-                        <input class="keyword" th:field="*{quizTwo}" type="text"
-                               placeholder="답1">
-                        <input class="keyword" th:field="*{quizThree}" type="text"
-                               placeholder="답2">
-                        <input class="keyword" th:field="*{quizFour}" type="text"
-                               placeholder="답3">
-                        <input class="keyword" th:field="*{quizFive}" type="text"
-                               placeholder="답4">
+                        <input class="keyword" name="QuizVO[${number}].quizOne" type="text" placeholder="정답">
+                        <input class="keyword" name="QuizVO[${number}].quizTwo" type="text" placeholder="보기1">
+                        <input class="keyword" name="QuizVO[${number}].quizThree" type="text" placeholder="보기2">
+                        <input class="keyword" name="QuizVO[${number}].quizFour" type="text" placeholder="보기3">
+                        <input class="keyword" name="QuizVO[${number}].quizFive" type="text" placeholder="보기4">
+
                     </div>
-                    <div class="answer-short" style="display: none">
-                        <div class="check_title">핵심 키워드를 작성해주세요.</div>
-                        <input class="keyword" th:field="*{quizOne}" type="text"
-                               placeholder="키워드">
-                        <input class="keyword" th:field="*{quizTwo}" type="text"
-                               placeholder="키워드">
-                        <input class="keyword" th:field="*{quizThree}" type="text"
-                               placeholder="키워드">
-                        <input class="keyword" th:field="*{quizFour}" type="text"
-                               placeholder="키워드">
-                        <input class="keyword" th:field="*{quizFive}" type="text"
-                               placeholder="키워드">
-                    </div>
+
                 </div>
             </div>
+        </div>
     `;
-        // HTML 코드 추가
-        let divPlus = document.createElement('div');
-        divPlus.className = "textBox " + count;
-        divPlus.innerHTML = answerShortHtml;
-        // id, for값을 바꿔주지 않으면, label을 클릭했을 때 가장 첫번째 input태그와 매핑이 된다.
-        //  querySelector()을 사용할 때, #을 포함하는 ID selector를 사용하면 #기호가 ID로 해석되어 오류가 발생할 수 있습니다. 이 경우 ID 선택자를 지정하려면 \\을 사용하여 이스케이프 해야합니다.
-        divPlus.querySelector('#multiple\\ choice').setAttribute('name', 'problem '+ count);    // divPlus는 Element객체이기 때문에 querySelector 사용해야함
-        divPlus.querySelector('#multiple\\ choice').setAttribute('id', 'multiple choice '+ count);    // divPlus는 Element객체이기 때문에 querySelector 사용해야함
-        divPlus.querySelectorAll('label')[0].setAttribute('for', 'multiple choice '+ count);
-        divPlus.querySelector('#short\\ form').setAttribute('name', 'problem '+ count);
-        divPlus.querySelector('#short\\ form').setAttribute('id', 'short form '+ count);
-        divPlus.querySelectorAll('label')[1].setAttribute('for', 'short form '+ count);
-        document.getElementById('textBoxContainer').appendChild(divPlus);
+            let divPlus = document.createElement('div');
+            divPlus.innerHTML = answerShortHtml;
+            document.getElementById('multiple').appendChild(divPlus);
+            $("div.answer-multiple").show();
+            number++;
+        }
 
+        for(let i = 0; i< saqInput.value; i++){
+            // HTML 코드 추가
+            let answerShortHtml = `
+        <div class="categoryType" value="1">주관식 문제 ${i+1}</div>
+        <div class="textBox">
+            <header class="titleContainer">
+                <input type="text" name="QuizVO[${number}].quizTitle"  class="titleInput"
+                       placeholder="문제 타이틀 작성">
+                <span>(0/80자)</span>
+            </header>
+            <div class="textContainer">
+                <div class="mainText">
+                        <textarea class="question" cols="30" rows="10" name="QuizVO[${number}].quizContent"
+                                  placeholder="문제 작성 해주시기 바랍니다"></textarea>
+                        <textarea class="commentary" cols="30" rows="10" name="QuizVO[${number}].quizCommentary"
+                                  placeholder="해설 작성 해주시기 바랍니다"></textarea>
+                </div>
+                <input class="checkType" name="QuizVO[${number}].quizType" value="1" style="display: none"/>
+
+                <div class="divAnswer">
+                    <div class="answer-short" style="display: none">
+                        <div class="check_title">핵심 키워드를 작성해주세요.</div>
+                        <input class="keyword" name="QuizVO[${number}].quizOne" type="text"
+                               placeholder="키워드">
+                        <input class="keyword" name="QuizVO[${number}].quizTwo" type="text"
+                               placeholder="키워드">
+                        <input class="keyword" name="QuizVO[${number}].quizThree" type="text"
+                               placeholder="키워드">
+                        <input class="keyword" name="QuizVO[${number}].quizFour" type="text"
+                               placeholder="키워드">
+                        <input class="keyword" name="QuizVO[${number}].quizFive" type="text"
+                               placeholder="키워드">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    `;
+            let divPlus = document.createElement('div');
+            divPlus.innerHTML = answerShortHtml;
+            document.getElementById('essay').appendChild(divPlus);
+            $("div.answer-short").show();
+            number++
+
+        }
+
+
+        document.getElementById('plusProblem').style.display = "none";
     });
 
-    // DIV태그의 class이름이 'textBox'일 때까지 재귀
-    function getParentDiv(element) {
-        return element.parentElement.classList.contains('textBox') ? element.parentElement : getParentDiv(element.parentElement);
-    }
-
-    // $(this).val(): undefined 나옴
-    // display: none/block 으로 하여도 화면에만 안보일 뿐, 값은 넘겨주기 때문에 input값을 disabled 해주어야함
-    function showDivAnswer(element){
-        let divAnswer = element.id.split(" ")[0];
-        parentDiv = getParentDiv(element);
-        console.log(parentDiv);
-
-        const inputs = parentDiv.querySelectorAll('.keyword');
-
-        inputs.forEach(input => { // input 요소들 활성화
-            input.disabled = false;
-        });
-
-        if("div.answer-" + divAnswer == "div.answer-multiple") {
-            const hiddenDiv = parentDiv.querySelector('.answer-short'); // 숨겨진 div 요소 선택. DOM 객체
-            const hiddeninputs = hiddenDiv.querySelectorAll('input'); // 하위 input 요소들 선택
-
-            console.log($(hiddenDiv));
-            $(hiddenDiv).hide();    //  .hide()는 jQuery 라이브러리에서 제공하는 메소드. jQuery 객체여야 사용가능
-            hiddeninputs.forEach(input => { // 하위 input 요소들 비활성화
-                input.disabled = true;
-            });
-
-            $(parentDiv.querySelectorAll('.answer-multiple')).show();    // .show()는 jQuery 라이브러리에서 제공하는 메소드. jQuery 객체여야 사용가능
-
-        }
-        if("div.answer-" + divAnswer == "div.answer-short") {
-            const hiddenDiv = parentDiv.querySelector('.answer-multiple'); // 숨겨진 div 요소 선택
-            const hiddeninputs = hiddenDiv.querySelectorAll('input'); // 하위 input 요소들 선택
-
-            $(hiddenDiv).hide();    // $("div.answer-multiple")[count]
-            hiddeninputs.forEach(input => { // 하위 input 요소들 비활성화
-                input.disabled = true;
-            });
-
-            $(parentDiv.querySelectorAll('.answer-short')).show();
-        }
-    }
 
     function register(){
-        var quizList = [];
-        var quizLevel = document.getElementsByClassName("categorySelect");
-        var quizListTitle = document.getElementsByClassName("categoryInput");
-        var quizTitles = document.getElementsByClassName("titleInput");
-        var quizContents = document.getElementsByClassName("question");
-        var quizTypes = document.getElementsByClassName("checkType");
-        var quizOnes = document.getElementsByClassName("quiz1");
-        var quizTwos = document.getElementsByClassName("quiz2");
-        var quizThrees = document.getElementsByClassName("quiz3");
-        var quizFours = document.getElementsByClassName("quiz4");
-        var quizFives = document.getElementsByClassName("quiz5");
 
+        for(var i = 0; i< number; i++){
+            console.log("들어옴");
 
-        for (var i = 0; i < quizTitles.length; i++) {
-            var quizVO = {
-                "quizLevel" : quizLevel[0].value,
-                "quizListTitle" : quizListTitle[0].value,
-                "quizTitle": quizTitles[i].value,
-                "quizContent": quizContents[i].value,
-                "quizType": quizTypes[i].value,
-                "quizOne": quizOnes[i].value,
-                "quizTwo": quizTwos[i].value,
-                "quizThree": quizThrees[i].value,
-                "quizFour": quizFours[i].value,
-                "quizFive": quizFives[i].value
+            let QuizVO = {
+                quizLevel: selectElement.options[selectElement.selectedIndex].value,
+                quizListTitle: document.querySelector('.categoryInput').value,
+                quizStartDate: document.getElementById('quizStartDate').value,
+                quizFinishDate: document.getElementById('quizFinishDate').value,
+                quizTitle: document.querySelector('input[name="QuizVO[' + i + '].quizTitle"]').value,
+                quizContent: document.querySelector('textarea[name="QuizVO[' + i + '].quizContent"]').value,
+                quizCommentary: document.querySelector('textarea[name="QuizVO[' + i + '].quizCommentary"]').value,
+                quizType: document.querySelector('input[name="QuizVO[' + i + '].quizType"]').value,
+                quizOne: document.querySelector('input[name="QuizVO[' + i + '].quizOne"]').value,
+                quizTwo: document.querySelector('input[name="QuizVO[' + i + '].quizTwo"]').value,
+                quizThree: document.querySelector('input[name="QuizVO[' + i + '].quizThree"]').value,
+                quizFour: document.querySelector('input[name="QuizVO[' + i + '].quizFour"]').value,
+                quizFive: document.querySelector('input[name="QuizVO[' + i + '].quizFive"]').value,
             };
-            quizList.push(quizVO);
+            // ajax 요청
+            console.log("들어옴1");
+            $.ajax({
+                url: "/board/contestWrite",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(QuizVO),
+                success: function(response) {
+                    console.log("들어옴2");
+                    // 요청이 성공적으로 완료된 후 실행될 코드 작성
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // 요청이 실패한 경우 실행될 코드 작성
+                }
+            });
+
+            console.log("들어옴3");
         }
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/board/contestWriteAll");
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.send(JSON.stringify(quizList));
 
-        console.log(quizList);
+
     }
 
 
     document.querySelector('.btnRegister').addEventListener('click', function(e) {
-        if (count != 0) {
-            e.preventDefault();
-            register();
-        } else{
-            document.querySelector('#writeForm').submit();
-        }
+        e.preventDefault();
+
+        register();
+        alert("문제 등록이 완료되었습니다");
+        window.location.href = "/board/contestWriteOk";
+
     });
 
 

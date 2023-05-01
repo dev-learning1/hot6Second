@@ -1,5 +1,6 @@
 package com.hot6.web.spring.controller;
 
+import com.hot6.web.spring.domain.vo.QuizDTO;
 import com.hot6.web.spring.domain.vo.QuizVO;
 import com.hot6.web.spring.service.ContestQuizService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class ContestWriteController {
 
     //    전체 조회
     @GetMapping("/{quizList}")
-    public List<QuizVO> list(@PathVariable("quizList") Long quizList){
+    public List<QuizDTO> list(@PathVariable("quizList") Long quizList){
         return contestQuizService.showList(quizList);
     }
 

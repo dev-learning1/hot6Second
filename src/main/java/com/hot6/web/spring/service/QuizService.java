@@ -2,6 +2,7 @@ package com.hot6.web.spring.service;
 
 
 import com.hot6.web.spring.domain.vo.Criteria;
+import com.hot6.web.spring.domain.vo.QuizDTO;
 import com.hot6.web.spring.domain.vo.QuizVO;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public interface QuizService {
     //    문제 조회
     public QuizVO show(Long quizNumber);
     //    리스트 조회
-    public List<QuizVO> showList(Long quizList);
+    public List<QuizDTO> showList(Long quizList);
     //    리스트 전체 조회
     public List<QuizVO> showListAll(Criteria criteria, String quizTheme);
     //    리스트 전체 조회

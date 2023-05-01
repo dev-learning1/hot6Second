@@ -10,6 +10,7 @@ import com.hot6.web.spring.service.CommunityBoardService;
 import com.hot6.web.spring.service.ReplyService;
 import com.hot6.web.spring.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,24 +34,41 @@ public class BoardController {
         if(criteria.getPage() == 0){
             criteria.create(1, 10);
         }
+
+
         model.addAttribute("boards", communityBoardService.showAll(criteria));
         model.addAttribute("pagination",new PageDTO().createPageDTO(criteria, communityBoardService.getTotal()));
 
     }
 
 
-    @GetMapping("/boardList/{boardType}")
-    public void bordListBy(Model model, @PathVariable String boardType) {
-        model.addAttribute("boards", communityBoardService.showAllBy(boardType));
+    @GetMapping("/boardListBy")
+    @ResponseBody
+    public ResponseEntity<String> boardListBy(@RequestParam String boardType) {
 
+        List<BoardDTO> boardList = communityBoardService.showAllBy(boardType);
+        String htmlData = "";
+
+        for (BoardDTO board : boardList) {
+            htmlData += "<article><aside>" + board.getQuizList() + "-" + board.getQuizNumber() + "</aside>"
+                    + "<div class='questionContent'><div class='questionTitle' style='display: flex; justify-content: space-between;'>"
+                    + "<a class='boardDetail' href='" + board.getBoardNumber() + "'>" + board.getBoardTitle() + "</a>"
+                    + "<div class='boardWriter'>" + board.getUserNickName() + "</div></div>"
+                    + "<div class='questionOption'><div class='questionIcons'>"
+                    + "<span>" + board.getBoardReport() + "</span></div>"
+                    + "<span class='questionTime'>" + board.getBoardDate() + "</span></div></div></article>";
+        }
+
+        return ResponseEntity.ok(htmlData);
     }
+
 
 
 
     // 게시글 등록
     @GetMapping("/boardWrite")
     public void boardWrite(Model model){
-         model.addAttribute("board", new BoardVO());
+        model.addAttribute("board", new BoardVO());
     }
 
 
@@ -64,6 +82,7 @@ public class BoardController {
     // 게시글 상세 조회
     @GetMapping("/boardDetail")
     public void boardDetail(Long boardNumber, Criteria criteria, Model model){
+        model.addAttribute("replyCount", replyService.count(boardNumber));
         model.addAttribute("board", communityBoardService.show(boardNumber));
     }
     // 게시글 수정
