@@ -235,6 +235,7 @@
 
 
         for(let i = 0; i< mcqInput.value; i++){
+            console.log("객 " + i, number);
             // HTML 코드 추가
             let answerShortHtml = `
         <div class="categoryType" value="0">객관식 문제 ${i+1}</div>
@@ -277,6 +278,7 @@
         }
 
         for(let i = 0; i< saqInput.value; i++){
+            console.log("주 " + i,number);
             // HTML 코드 추가
             let answerShortHtml = `
         <div class="categoryType" value="1">주관식 문제 ${i+1}</div>
@@ -326,11 +328,9 @@
         document.getElementById('plusProblem').style.display = "none";
     });
 
-
     function register(){
 
         for(var i = 0; i< number; i++){
-            console.log("들어옴");
 
             let QuizVO = {
                 quizLevel: selectElement.options[selectElement.selectedIndex].value,

@@ -61,6 +61,7 @@ public class TodayQuizController {
     @GetMapping("/problemDetail")
     public void problemDetail(Long quizList, Criteria criteria, Model model, @SessionAttribute(name="userEmail", required = false) String userEmail, @SessionAttribute(name="userNickname", required = false) String userNickname) {
         List<QuizDTO> quizDTOs = quizService.showList(quizList);
+        System.out.println("quizDTOs : " + quizDTOs);
 
         model.addAttribute("todayQuizList", quizDTOs);
         model.addAttribute("userEmail", userEmail);

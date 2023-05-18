@@ -20,14 +20,14 @@ public class RankingController {
 
     // 랭킹 페이지 이동
     @GetMapping("/ranking")
-    public void ranking(Model model, @SessionAttribute(name="userEmail", required = false) String userEmail) {
+    public void ranking(Model model, @SessionAttribute(name="userEmail", required = false) String userEmail, @SessionAttribute(name="userNickname", required = false) String userNickname) {
         List<RankingDTO> rankingDTOS = rankingService.showAll();
         for (RankingDTO rankingDTO : rankingDTOS) {
             rankingDTO.calculateCorrectPercent();
         }
         model.addAttribute("rankings", rankingDTOS);
         model.addAttribute("userEmail", userEmail);
-        model.addAttribute("userNickname", userService.getUserNickname(userEmail));
+        model.addAttribute("userNickname", userNickname);
     }
 
     @GetMapping("/rankingBy")

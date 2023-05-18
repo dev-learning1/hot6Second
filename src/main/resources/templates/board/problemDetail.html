@@ -153,18 +153,18 @@
 </footer>
 </body>
 <script th:inline="javascript">
+    var userEmail =[[${userEmail}]];
+
     function answer(){
         let counts = document.querySelectorAll('.quizNumberCount');
         let quizTypes = document.querySelectorAll('.quizTypes');
         let answerTextareas = document.querySelectorAll('textarea.question');
-        let shorts = document.querySelectorAll('input[type="radio"]');
-
-
+        let multiples = document.querySelectorAll('input[type="radio"]');
 
         let answerList = [];
 
-        for(let i = 0; i< shorts.length; i++){
-            let answer = shorts[i];
+        for(let i = 0; i< multiples.length; i++){
+            let answer = multiples[i];
             if(answer.checked){
                 let answerValue = answer.value;
                 answerList.push(answerValue);
@@ -205,7 +205,10 @@
     }
     document.querySelector('.btnAnswer').addEventListener('click', function(e) {
         e.preventDefault();
-
+        if(userEmail==null){
+            location.href = "/login/login";
+            return;
+        }
         answer();
         let quizList = document.querySelectorAll('input[name=quizList]')[0].value;;
         window.location.href =  "/board/problemDetailOk" + "?quizList=" + quizList;

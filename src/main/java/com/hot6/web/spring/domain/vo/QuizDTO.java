@@ -31,7 +31,7 @@ public class QuizDTO {
     private String quizStartDate;
     //    문제 끝나는 날짜
     private String quizFinishDate;
-    //    문제 제출 날짜
+    //    문제 제출 날짜(마이페이지에서 문제 조회할 때 사용)
     private String myQuizSubmitDate;
     //    문제 테마(오늘의문제(0), 대회(1))
     private String quizTheme;
@@ -51,43 +51,43 @@ public class QuizDTO {
     //   문제 해설
     private String quizCommentary;
 
-    //   내 문제 답안(주관식)
-    private String quizAnsOne;
-    //   내 문제 답안2
-    private String quizAnsTwo;
-    //   내 문제 답안3
-    private String quizAnsThree;
-    //   내 문제 답안4
-    private String quizAnsFour;
-    //   내 문제 답안5
-    private String quizAnsFive;
+//    //   내 문제 답안(주관식)
+//    private String quizAnsOne;
+//    //   내 문제 답안2
+//    private String quizAnsTwo;
+//    //   내 문제 답안3
+//    private String quizAnsThree;
+//    //   내 문제 답안4
+//    private String quizAnsFour;
+//    //   내 문제 답안5
+//    private String quizAnsFive;
     //    유저 번호
     @NonNull
     private Long userNumber;
     //   문제 난이도
     private String quizLevel;
 
-    private String myQuizUserAnsOne;
-    private String quizNumber_myQuizUserAnsOne;
-    private QuizVO quizVO;
-    private List<QuizDTO> quizDTOS;
-    private String userEmail;
-    private String userNickName;
-
-    public String getAnsOne(QuizVO quizVO){
-        if(quizVO.getQuizOne() != null){
-            this.myQuizUserAnsOne = quizVO.getQuizOne();
-        } else if(quizVO.getQuizTwo() != null){
-            this.myQuizUserAnsOne = quizVO.getQuizTwo();
-        } else if(quizVO.getQuizThree() != null){
-            this.myQuizUserAnsOne = quizVO.getQuizThree();
-        }else if(quizVO.getQuizFour() != null){
-            this.myQuizUserAnsOne = quizVO.getQuizFour();
-        }else if(quizVO.getQuizFive() != null){
-            this.myQuizUserAnsOne = quizVO.getQuizFive();
-        }
-        return this.myQuizUserAnsOne;
-    };
+//    private String myQuizUserAnsOne;
+//    private String quizNumber_myQuizUserAnsOne;
+//    private QuizVO quizVO;
+//    private List<QuizDTO> quizDTOS;
+//    private String userEmail;
+//    private String userNickName;
+//
+//    public String getAnsOne(QuizVO quizVO){
+//        if(quizVO.getQuizOne() != null){
+//            this.myQuizUserAnsOne = quizVO.getQuizOne();
+//        } else if(quizVO.getQuizTwo() != null){
+//            this.myQuizUserAnsOne = quizVO.getQuizTwo();
+//        } else if(quizVO.getQuizThree() != null){
+//            this.myQuizUserAnsOne = quizVO.getQuizThree();
+//        }else if(quizVO.getQuizFour() != null){
+//            this.myQuizUserAnsOne = quizVO.getQuizFour();
+//        }else if(quizVO.getQuizFive() != null){
+//            this.myQuizUserAnsOne = quizVO.getQuizFive();
+//        }
+//        return this.myQuizUserAnsOne;
+//    };
 //    public String getAnsOne(){
 //        if(quizVO.getQuizOne() != null){
 //            this.myQuizUserAnsOne = quizVO.getQuizOne();

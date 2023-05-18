@@ -55,7 +55,7 @@ public class QuizVO {
     //   문제 난이도
     private String quizLevel;
 
-    private List<QuizVO> quizVOs;
+//    private List<QuizVO> quizVOs;
 
 
     public void create(String quizTitle, String quizContent, String quizListTitle, String quizTheme, String quizType, @NonNull String quizOne, String quizTwo, @NonNull Long userNumber, String quizLevel) {
